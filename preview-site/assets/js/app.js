@@ -126,8 +126,9 @@
     const title = v.title_es || (a.craft_es + " · " + a.name);
     const titleEn = v.title_en || (a.craft_en + " — " + a.name);
     const place = v.place_es || a.place_es || a.region_es || "";
-    const youtubeUrl = v.videoId ? `https://www.youtube.com/watch?v=${v.videoId}` : `https://www.youtube.com/@obrasdelpais/search?query=${encodeURIComponent(a.name || title)}`;
-    const thumb = v.videoId ? `https://i.ytimg.com/vi/${v.videoId}/maxresdefault.jpg` : null;
+    const vid = v.videoId || a.videoId;
+    const youtubeUrl = vid ? `https://www.youtube.com/watch?v=${vid}` : `https://www.youtube.com/@obrasdelpais/search?query=${encodeURIComponent(a.name || title)}`;
+    const thumb = a.image || (vid ? `https://i.ytimg.com/vi/${vid}/maxresdefault.jpg` : null);
     return `
     <article class="doc-band reveal" data-region="${(a.region_es||'').toLowerCase()}" data-craft="${slugCraft(a.craft_es||'')}">
       <a class="doc-band__media" href="${youtubeUrl}" target="_blank" rel="noopener" aria-label="Ver en YouTube">
@@ -258,11 +259,14 @@
     return "Otros";
   }
   function artisanCardHTML(a) {
+    const photo = a.image
+      ? `<img src="${a.image}" alt="${escapeHTML(a.name)}" loading="lazy">`
+      : `<div class="ph"></div>`;
     return `
     <a class="artisan-card reveal" href="/artesano.html?slug=${encodeURIComponent(a.slug)}" data-craft="${simpleCraft(a.craft_es)}" data-region="${(a.region_es||'').toLowerCase()}">
       <div class="artisan-card__photo">
         <span class="artisan-card__no">Doc · ${String(a.n).padStart(2,'0')}</span>
-        <div class="ph"></div>
+        ${photo}
       </div>
       <div class="artisan-card__body">
         <h3 class="artisan-card__name">${escapeHTML(a.name)}</h3>
@@ -287,17 +291,21 @@
     });
   }
   function artisanDetailHTML(a, v) {
-    const youtubeUrl = v?.videoId
-      ? `https://www.youtube.com/watch?v=${v.videoId}`
+    const vid = v?.videoId || a.videoId;
+    const youtubeUrl = vid
+      ? `https://www.youtube.com/watch?v=${vid}`
       : `https://www.youtube.com/@obrasdelpais/search?query=${encodeURIComponent(a.name)}`;
+    const heroImg = a.image ? `<img src="${a.image}" alt="${escapeHTML(a.name)}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.55;mix-blend-mode:luminosity;">` : "";
     return `
-    <section class="page-intro">
-      <div class="page-intro__wrap">
-        <span class="page-intro__crumb"><a href="/directorio.html" class="link-inline">Directorio</a> · Doc ${String(a.n).padStart(2,'0')} · ${escapeHTML(a.region_es||'')}</span>
+    <section class="page-intro" style="position:relative;overflow:hidden;">
+      ${heroImg}
+      <div class="page-intro__wrap" style="position:relative;z-index:1;">
+        <span class="page-intro__crumb"><a href="/directorio.html" class="link-inline" style="color:inherit;">Directorio</a> · Doc ${String(a.n).padStart(2,'0')} · ${escapeHTML(a.region_es||'')}</span>
         <h1 class="page-intro__title">${escapeHTML(a.name)}</h1>
         <p class="script" style="font-size:2.4rem;color:var(--ochre-soft);line-height:1;margin-block:0.5rem;" data-lang="es">${escapeHTML(a.craft_es)}</p>
         <p class="script" style="font-size:2.4rem;color:var(--ochre-soft);line-height:1;margin-block:0.5rem;" data-lang="en">${escapeHTML(a.craft_en)}</p>
         ${a.place_es ? `<span class="page-intro__crumb">${escapeHTML(a.place_es)}</span>` : ""}
+        ${a.description ? `<p class="page-intro__lede" style="margin-top:1.5rem;">${escapeHTML(a.description)}</p>` : ""}
       </div>
     </section>
     <section class="section">
@@ -314,8 +322,8 @@
             </div>
           </div>
           <div>
-            <a class="doc-band__media" href="${youtubeUrl}" target="_blank" rel="noopener" style="display:block;border-radius:8px;overflow:hidden;">
-              ${v?.videoId ? `<img src="https://i.ytimg.com/vi/${v.videoId}/maxresdefault.jpg" alt="">` : `<div class="ph" style="aspect-ratio:16/10;"></div>`}
+            <a class="doc-band__media" href="${youtubeUrl}" target="_blank" rel="noopener" style="display:block;border-radius:8px;overflow:hidden;position:relative;">
+              ${vid ? `<img src="https://i.ytimg.com/vi/${vid}/maxresdefault.jpg" alt="" style="width:100%;display:block;">` : (a.image ? `<img src="${a.image}" alt="" style="width:100%;display:block;">` : `<div class="ph" style="aspect-ratio:16/10;"></div>`)}
               <span class="play-pill" style="position:absolute;left:12px;bottom:12px;">Ver en YouTube ↗</span>
             </a>
             <div class="mt-5">

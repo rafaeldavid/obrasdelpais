@@ -11,6 +11,11 @@
 # Legacy original Ghost theme (kept locally for reference, not in repo)
 Obras del País - Website/
 
+# Don't ship the full image library inside the Ghost theme bundle — those should
+# go to Ghost's media library. preview-site/assets/img/library/ is the canonical
+# archive (mirrored here for the static preview only).
+obras-del-pais-theme/assets/img/library/
+
 # Editor / OS
 .vscode/
 .idea/
