@@ -2,6 +2,8 @@
 
 > 👋 **¿Eres Isaak (o cualquier persona nueva en el proyecto)?** Empieza por **[`START_HERE.md`](START_HERE.md)** — guía paso a paso para Mac y Windows, instalar Claude Code, conectarte a GitHub, y terminar el sitio.
 
+> 🏁 **v0.1.0 milestone — Preview is live and feature-complete** at https://obrasdelpais.info/. Pending Isaak review + four content decisions (EIN, ATH Móvil handle, Stripe Y/N, newsletter destination) before Ghost theme upload to production. See [`HANDOVER.md`](HANDOVER.md) §Milestones and §What's next for the full status.
+
 Editorial-style rebuild of [obrasdelpais.com](https://www.obrasdelpais.com/), a Puerto Rican 501(c)(3) that documents artisans through micro-documentaries.
 
 | Where | What |

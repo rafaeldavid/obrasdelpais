@@ -1,6 +1,27 @@
 # Obras del País — Project Handover
 
-> Last updated: **2026-04-27**, after commit `dfa4243`. This file is the field manual for picking up where we left off. The high-level on-ramp is `README.md`.
+> Last updated: **2026-04-27**, after commit `9f0a5ec` (tag `v0.1.0`). This file is the field manual for picking up where we left off. The high-level on-ramp is `README.md`.
+
+---
+
+## 🏁 Milestones
+
+### v0.1.0 — Preview milestone (2026-04-27)
+
+The full preview is **live, mobile-ready, and feature-complete** at https://obrasdelpais.info/ pending the four content decisions in §Pending below. This is the right state to hand to Isaak for production review and Ghost-theme upload.
+
+Headline numbers:
+- **12 pages** built (homepage, mapa, documentales, directorio, single-artisan, quienes-somos, donar, noticias, lengua-de-señas, preguntas-frecuentes, contactanos, 404).
+- **38 artisans** pre-loaded with image, videoId, description, municipio.
+- **27 municipios** highlighted on the interactive PR map with municipal flags from Wikimedia Commons.
+- **All 38 documentary YouTube IDs** wired; titles + thumbnails pull live via `youtube.com/oembed`.
+- **2 services wired**: PayPal donate ($15/mo prefill), Cloudflare Worker for feedback + artisan-lead capture.
+- **Bilingual** ES/EN throughout, JS toggle, Spanish canonical.
+- **Mobile audit** complete against WCAG 2.1 AA + Apple HIG + Material + iOS Safari gotchas — menu refactored to compact dropdown, all touch targets ≥ 44×44, safe-area insets honored, mobile keyboard hints on every form.
+
+What's still required to go to production: see §Pending. None of those block reading or testing the preview.
+
+---
 
 ---
 
@@ -17,26 +38,48 @@
 
 ## Where we are
 
-### ✅ Done
+### ✅ Done (as of v0.1.0)
 
 | Area | Status |
 |---|---|
-| Information architecture (11 pages) | Built — index, documentales, directorio, artesano, quienes-somos, donar, noticias, lengua-de-senas, preguntas-frecuentes, contactanos, 404 |
-| Design system (CSS) | Tokens, type scale, components, dark/paper/ochre palette — all in `preview-site/assets/css/style.css` |
-| JS runtime | Lang toggle (ES/EN), mobile nav, header condense, reveal-on-scroll (with idempotent `observeReveal` for dynamic content), JSON loaders, YouTube oembed cache |
-| 38 artisans pre-loaded | Names, craft (es/en), slug, region, place, ASL flag, videoId, image_cdn, description in `assets/data/artisans.json` |
+| Information architecture (12 pages) | Built — index, mapa, documentales, directorio, artesano, quienes-somos, donar, noticias, lengua-de-senas, preguntas-frecuentes, contactanos, 404 |
+| Design system (CSS) | Tokens, type scale, components, dark/paper/ochre palette — all in `preview-site/assets/css/style.css` (~1500 lines) |
+| JS runtime | Lang toggle (ES/EN), mobile compact-dropdown nav, header condense, reveal-on-scroll (with idempotent `observeReveal` for dynamic content), JSON loaders, YouTube oembed cache, feedback + lead modals |
+| 38 artisans pre-loaded | Names, craft (es/en), slug, region, place, ASL flag, videoId, image_cdn, description, **municipio + municipio_slug** in `assets/data/artisans.json` |
 | 38 YouTube video IDs | All in `videos.json`. Documentaries page enriches with live YouTube titles via oembed at runtime |
+| **Interactive PR map** | `mapa.html` + `map.js` + CC-licensed PR municipalities SVG (78 + 4 islands). 27 munis highlighted in ochre with hover/tap tooltips, click reveals detail panel. Aspect ratio cropped from the source SVG to fill the inhabited area only. Compact archive grid below with municipal flags from Wikimedia Commons. |
+| **Municipal flags** | All 27 munis with documented artisans now display their official flag. URLs embed Special:FilePath?width=200 from Wikimedia — no repo binaries, browsers fetch from Wikimedia CDN. |
+| **Feedback + lead capture** | Cloudflare Worker at `obras-del-pais-feedback.rafaeldf2.workers.dev` accepts POST /feedback with `type=feedback\|lead`, sanitizes, appends a row to `data/feedback.csv` via GitHub Contents API. Floating bottom-right button on every page opens the feedback modal; CTA on `/mapa.html` opens the lead modal for artisan tips. |
 | 711 images scraped from live site | In `archive-library/` with manifest at `preview-site/assets/data/images.json` (tagged by source page + position) |
-| Real ODP logo + 256/64 favicons | Sourced from the live Ghost site |
+| Real ODP logo + favicons | Black tree-and-island logo composed onto white circle for legibility on dark browser tabs. 32, 64, 180, 256px sizes. |
 | Bilingual content | All UI + most copy. Toggle persists to localStorage |
 | Loading + error states | On directory grid + artisan profile (no more silent blanks) |
 | Page-intro background photos | All interior pages |
-| Donate page conversion structure | Form-first hero, three payment rails, unit economics, Padrino tier, social proof, FAQ, repeat ask |
+| Donate page conversion structure | Form-first hero, three payment rails, unit economics, Padrino tier, social proof, FAQ, repeat ask. **PayPal URL pre-fills $15 USD** so the donor lands at the suggested amount. |
 | Artisan profile pages | JS-rendered from `artisans.json`, `?slug=...` query, hero photo + video + "Encuéntrame" outreach block |
 | Documentaries filters | Free-text search, region pills, oficio/material pills (auto-built), LSPR-only toggle, live counter, clear-all |
 | News cards | 9 entries with real cover images from Ghost CDN, each linking out to the live obrasdelpais.com post |
 | Ghost theme | Full handlebars port. `routes.yaml`, `default.hbs`, `home.hbs`, page-{slug}.hbs templates, partials, locales (es/en) |
 | Custom theme settings | `homepage_hero_image`, `paypal_donate_url`, `ath_movil_business`, `ein_visible`, `ein_value`, `youtube_channel_handle`, `show_chat_widget` |
+| **Mobile audit** | WCAG 2.5.5 / Apple HIG / Material / iOS Safari gotchas. Compact dropdown menu (was a buggy fullscreen drawer), 44×44 touch targets on every pill/toggle, safe-area-inset for notched devices, env() padding on header/footer/feedback button, input font-size 16px to prevent iOS zoom, `inputmode`/`autocomplete`/`enterkeyhint` on every form, dead PDF links neutralized. Header gradient replaces mix-blend-mode (iOS rendering bug). |
+| Custom domain | `obrasdelpais.info` linked to the here.now slug. SSL active, DNS verified. Both URLs resolve to the same site. |
+| GitHub repo | Public at https://github.com/rafaeldavid/obrasdelpais. 9 commits since initial. README + HANDOVER + START_HERE all current. |
+
+### 🎯 What's next — prioritized
+
+These are the concrete moves to make after v0.1.0. Each is independently shippable.
+
+| Priority | Task | Owner | Notes |
+|---|---|---|---|
+| **P0** | Stakeholder review of the live preview | Isaak / Rafael | Walk every page on real iPhone + Android. The mobile audit covered known checklists; real-device feel is the gate. |
+| **P0** | Confirm the four pending values | Isaak | EIN, ATH Móvil exact name, Stripe Y/N, newsletter wiring choice. See §Pending. |
+| **P1** | Ghost theme upload to obrasdelpais.com | Isaak | Theme is `.zip`-ready in `obras-del-pais-theme/`. See `START_HERE.md` step 7. Ghost(Pro) admin → Settings → Design → Themes → Upload + activate, then create 7 pages with matching slugs. |
+| **P1** | Configure PayPal monthly default | Rafael / Isaak | The button URL pre-fills $15 amount, but the **monthly-vs-one-time toggle** has to be set in PayPal admin on hosted button `97XWVQV6YQT6C`. Two paths in §Pending #4. |
+| **P2** | Fill the 13 FAQ guide PDFs | Lourdes / Isaak | Currently the cards are aria-disabled placeholders. Drop PDFs into Ghost Files (or a separate hosting) and re-link in `preguntas-frecuentes.html` / Ghost page content. |
+| **P2** | Real photography in the hero rotation | Lourdes / Isaak | `curated.json.hero_rotation` already lists 12 candidate URLs. To enable: add a small JS rotation (~30 lines) that swaps the `.hero__bg img` once per page load. |
+| **P3** | Curator tagging of the 711-image library | Lourdes | Audit panel laid out 5 categories (`hands-on-black`, `workshop-process`, `portrait-environmental`, `community-and-screenings`, `finished-piece-still-life`). Manual sort into folders unlocks future image-essay surfaces. |
+
+---
 
 ### 🔧 Pending — needs human input or a decision
 
