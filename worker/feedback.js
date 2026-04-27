@@ -25,7 +25,8 @@ const MAX_LANG = 5;
 const MAX_UA = 200;
 const RATE_LIMIT_PER_HOUR = 10; // per IP
 
-const CSV_HEADER = "timestamp,page,lang,message,email,user_agent,country\n";
+const CSV_HEADER = "timestamp,type,page,lang,message,email,user_agent,country\n";
+const ALLOWED_TYPES = ["feedback", "lead"];
 
 const corsHeaders = (origin) => ({
   "Access-Control-Allow-Origin": origin || "*",
@@ -160,13 +161,15 @@ export default {
     }
 
     const ts = new Date().toISOString();
+    const rawType = String(body.type || "feedback").toLowerCase();
+    const type = ALLOWED_TYPES.includes(rawType) ? rawType : "feedback";
     const page = String(body.page || "").slice(0, MAX_PAGE);
     const lang = String(body.lang || "").slice(0, MAX_LANG);
     const email = String(body.email || "").trim().slice(0, MAX_EMAIL);
     const ua = (request.headers.get("User-Agent") || "").slice(0, MAX_UA);
     const country = request.cf && request.cf.country ? request.cf.country : "";
 
-    const row = [ts, page, lang, message, email, ua, country].map(csvEscape).join(",") + "\n";
+    const row = [ts, type, page, lang, message, email, ua, country].map(csvEscape).join(",") + "\n";
 
     // Append with conflict retry (in case two writes race)
     let lastError = null;
@@ -174,8 +177,8 @@ export default {
       try {
         const { sha, content } = await ghFetchFile(env);
         const next = (content.endsWith("\n") ? content : content + "\n") + row;
-        const safeMessage = (message.split("\n")[0] || "feedback").slice(0, 60).replace(/[`<>]/g, "");
-        const res = await ghCommitFile(env, sha, next, `feedback: ${safeMessage}`);
+        const safeMessage = (message.split("\n")[0] || type).slice(0, 60).replace(/[`<>]/g, "");
+        const res = await ghCommitFile(env, sha, next, `${type}: ${safeMessage}`);
         if (res.ok) return json({ ok: true }, 200, origin);
         if (res.status === 409 || res.status === 422) {
           // sha mismatch — refetch and retry
