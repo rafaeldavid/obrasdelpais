@@ -1,18 +1,19 @@
 #!/usr/bin/env python3
 """
-For each artisan, scrape the full live obrasdelpais.com profile page and
-write a per-slug JSON file with the rich body content, gallery, and any
-contact info we can find.
+For each artisan, scrape the live obrasdelpais.com profile page and extract:
+- narrative paragraphs (the artisan's story / what makes their craft worth
+  documenting), with boilerplate (copyright, viewing instructions,
+  not-selling notice, social-follow CTA) removed
+- a structured contact block (phone, email, Instagram, Facebook,
+  especialidad, talleres availability, time-per-piece, catalogue link)
+  parsed out of the emoji-separated paragraph
+- gallery image URLs
 
-Output: preview-site/assets/data/artisans/<slug>.json
-- body_es:  cleaned HTML of the article body (paragraphs + headings)
-- gallery:  list of image URLs (Ghost CDN), excluding the cover and logo
-- phone:    Puerto Rico phone number if mentioned
-- timeline: production-time string if mentioned (rough heuristic)
+Output: preview-site/assets/data/artisans/<slug>.json (mirrored to theme)
 
 Run: python3 scripts/enrich-artisans.py
 """
-import json, re, pathlib, urllib.request, urllib.parse, html as html_lib, time
+import json, re, pathlib, urllib.request, time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from html.parser import HTMLParser
 
@@ -26,39 +27,58 @@ THEME_ART_DIR.mkdir(parents=True, exist_ok=True)
 
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
 
-PHONE_RE = re.compile(r"\b7\d{2}[\s\-\.]?\d{3}[\s\-\.]?\d{4}\b")
-EMAIL_RE = re.compile(r"\b[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}\b", re.I)
-IG_RE = re.compile(r"(?:instagram\.com/|@)([a-z0-9_.]{2,30})", re.I)
-TIMELINE_RE = re.compile(
-    r"\b(\d+(?:\s*(?:a|–|-)\s*\d+)?)\s*(meses|mes|d[ií]as|dia|d[íi]a|semanas|semana|horas|hora)\b",
-    re.I
-)
+# Patterns that flag a paragraph as boilerplate (same across every artisan page).
+BOILERPLATE_PATTERNS = [
+    re.compile(r"Duraci[óo]n\s*:\s*\d+\s*minutos?", re.I),
+    re.compile(r"Recomendamos ver", re.I),
+    re.compile(r"derechos? de autor", re.I),
+    re.compile(r"no est[áa] permitido descargar", re.I),
+    re.compile(r"compartir de otra manera|coordinar talleres, comun[íi]cate", re.I),
+    re.compile(r"Obras del Pa[íi]s no\s+(vende|est[áa])", re.I),
+    re.compile(r"Si deseas colaborar", re.I),
+    re.compile(r"Agradecemos y fomentamos que compartas", re.I),
+    re.compile(r"S[íi]guenos en\s+Instagram", re.I),
+    re.compile(r"¿Te quedaste con ganas", re.I),
+    re.compile(r"NOTA\s*:\s*Obras del Pa[íi]s", re.I),
+    re.compile(r"piensa en un artesano boricua", re.I),
+    re.compile(r"Transforma tu clase con este documental", re.I),
+    re.compile(r"Plan de Lecci[óo]n", re.I),
+    re.compile(r"interpretaci[óo]n en Lengua de Se[ñn]as", re.I),
+    re.compile(r"vocabulario en lengua de se[ñn]as", re.I),
+    re.compile(r"al taller de\s+\w+\s+y\s+\w+\b", re.I),  # "al taller de Rafael y Rosa..." sometimes lifted into intro
+]
 
-# Ghost wraps post content in <section class="post-content gh-content"> or similar.
-# We extract that block, then prune nav/comments/share-block/etc.
-POST_CONTENT_RE = re.compile(
-    r'<section[^>]*class="[^"]*\bgh-content\b[^"]*"[^>]*>(.+?)</section>',
-    re.I | re.S
-)
-ARTICLE_RE = re.compile(r"<article[^>]*>(.+?)</article>", re.I | re.S)
-
-# Ghost CDN image base
-GHOST_CDN = "https://storage.ghost.io"
-
-
-def fetch(url, timeout=25):
-    req = urllib.request.Request(url, headers={"User-Agent": UA})
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        return r.read().decode("utf-8", errors="ignore")
+# Emoji-keyed structured fields. Pattern: emoji + label + colon + value.
+FIELD_PATTERNS = {
+    "phone":         re.compile(r"(?:📞|☎)[\s ]*(?:Tel[ée]fono\s*:?\s*)?([\d\s\-\.\(\)]{7,20})", re.I),
+    "email":         re.compile(r"(?:📧|✉)[\s ]*(?:Email\s*:?\s*|Correo\s*:?\s*)?([a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,})", re.I),
+    "instagram":     re.compile(r"(?:🌅|📷|📸|💜)[\s ]*Instagram\s*:?\s*([a-z0-9_.]{2,32})", re.I),
+    "facebook":      re.compile(r"(?:👥|📘|💙)[\s ]*Facebook\s*:?\s*([a-z0-9_. ]{2,60})", re.I),
+    "especialidad":  re.compile(r"(?:🎭|🎨|🛠|🪵|🏺|🧵)[\s ]*Especialidad\s*:?\s*([^📍📞📧🌅👥🎭📖🛠⏳⏱🕒📅🌐💬🇵🇷📺🤟🎥]+?)(?=📍|📞|📧|🌅|👥|🎭|📖|🛠|⏳|⏱|🕒|📅|🌐|💬|🇵🇷|$)", re.I | re.S),
+    "talleres":      re.compile(r"(?:🛠️?|🎓|🪚)[\s ]*TALLERES\s*:?\s*([^📍📞📧🌅👥🎭📖🛠⏳⏱🕒📅🌐💬🇵🇷📺🤟🎥]+?)(?=📍|📞|📧|🌅|👥|🎭|📖|🛠|⏳|⏱|🕒|📅|🌐|💬|🇵🇷|$)", re.I | re.S),
+    "timeline":      re.compile(r"(?:⏳|⏱|🕒)[\s ]*([^📍📞📧🌅👥🎭📖🛠⏳⏱🕒📅🌐💬🇵🇷📺🤟🎥]+?)(?=📍|📞|📧|🌅|👥|🎭|📖|🛠|⏳|⏱|🕒|📅|🌐|💬|🇵🇷|$)", re.I | re.S),
+}
+CATALOG_HREF_RE = re.compile(r"📖[^<]*<a[^>]+href=\"([^\"]+)\"", re.I)
 
 
 class TagStripper(HTMLParser):
-    """Plain-text extractor for body text (used for phone/timeline regex)."""
     def __init__(self):
         super().__init__()
         self.text = []
+        self.in_skip = 0
+    def handle_starttag(self, tag, attrs):
+        if tag in ("script", "style"):
+            self.in_skip += 1
+    def handle_endtag(self, tag):
+        if tag in ("script", "style") and self.in_skip:
+            self.in_skip -= 1
     def handle_data(self, d):
-        self.text.append(d)
+        if not self.in_skip:
+            self.text.append(d)
+    def handle_entityref(self, name):
+        # &nbsp; -> regular space; rest passthrough is fine
+        if name == "nbsp":
+            self.text.append(" ")
 
 
 def strip_tags(s):
@@ -67,96 +87,140 @@ def strip_tags(s):
     return "".join(p.text)
 
 
-def clean_body(html):
-    """Trim Ghost cruft from a body chunk: nav/share/related/footer/promo."""
-    # Drop entire <figure class="kg-card kg-bookmark-card"> blocks (related-link cards)
-    html = re.sub(r"<figure[^>]*kg-bookmark-card[^>]*>.+?</figure>", "", html, flags=re.S | re.I)
-    # Drop kg-button-card
-    html = re.sub(r"<div[^>]*kg-button-card[^>]*>.+?</div>", "", html, flags=re.S | re.I)
-    # Drop iframe wrappers (we link out to YouTube on our side)
-    html = re.sub(r"<iframe[^>]*>.*?</iframe>", "", html, flags=re.S | re.I)
-    # Drop empty paragraphs
-    html = re.sub(r"<p>\s*</p>", "", html, flags=re.I)
-    # Drop QR-code download blocks (heuristic — they say "QR" or "código")
-    html = re.sub(
-        r'<figure[^>]*>(?:(?!</figure>).)*?(?:QR|c[oó]digo)(?:(?!</figure>).)*?</figure>',
-        "", html, flags=re.S | re.I
+def fetch(url, timeout=25):
+    req = urllib.request.Request(url, headers={"User-Agent": UA})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return r.read().decode("utf-8", errors="ignore")
+
+
+def is_boilerplate(text):
+    return any(p.search(text) for p in BOILERPLATE_PATTERNS)
+
+
+def extract_post_wrap(html):
+    m = re.search(
+        r'<div[^>]*class="post-wrap[^"]*"[^>]*>(.+?)(?:<footer|<div class="prev-next)',
+        html, re.S
     )
-    return html.strip()
+    if not m:
+        return ""
+    body = m.group(1)
+    # drop the featured-image header so we don't capture the title twice
+    body = re.sub(
+        r'<div class="section-featured[^"]*"[^>]*>.+?(?=<div class="section-content)',
+        '', body, flags=re.S
+    )
+    return body
 
 
-def extract_body(page_html):
-    m = POST_CONTENT_RE.search(page_html)
-    if m:
-        return clean_body(m.group(1))
-    m = ARTICLE_RE.search(page_html)
-    if m:
-        return clean_body(m.group(1))
-    return ""
-
-
-def extract_images(body_html, cover_url):
-    urls = re.findall(r'<img[^>]+src="([^"]+)"', body_html)
-    out = []
-    seen = set()
-    for u in urls:
-        if "ODP-Logo" in u or "favicon" in u or "/avatar" in u:
+def extract_paragraphs(body):
+    raw = re.findall(r'<p[^>]*>(.+?)</p>', body, re.S)
+    items = []
+    for r in raw:
+        text = strip_tags(r)
+        text = re.sub(r"\s+", " ", text).strip()
+        if not text or len(text) < 12:
             continue
-        # normalize to a stable, large-size URL
+        items.append({"text": text, "html": r})
+    return items
+
+
+def extract_gallery(body, cover_url):
+    urls = re.findall(r'<img[^>]+src="([^"]+)"', body)
+    out, seen = [], set()
+    cover_key = cover_url.split("?")[0] if cover_url else ""
+    for u in urls:
+        if "ODP-Logo" in u or "/avatar" in u or "favicon" in u:
+            continue
         big = re.sub(r"/size/w\d+(h\d+)?/", "/size/w1600/", u)
         key = big.split("?")[0]
-        # skip the cover (we already render it)
-        if cover_url and key == cover_url.split("?")[0]:
+        if cover_key and (key == cover_key or key.endswith(cover_key.rsplit("/", 1)[-1])):
             continue
         if key in seen:
             continue
         seen.add(key)
         out.append(big)
-    return out[:8]  # cap to 8 gallery images per artisan
+    return out[:8]
 
 
-def extract_meta(body_html, page_html):
-    text = strip_tags(body_html + " " + page_html)
-    phones = list(dict.fromkeys(PHONE_RE.findall(text)))
-    emails = [e for e in dict.fromkeys(EMAIL_RE.findall(text))
-              if "obrasdelpais" not in e and "ghost" not in e]
-    igs = [m for m in dict.fromkeys(IG_RE.findall(text))
-           if m.lower() != "obrasdelpais"]
-    tl = TIMELINE_RE.search(text)
-    return {
-        "phone": phones[0] if phones else None,
-        "email": emails[0] if emails else None,
-        "instagram": igs[0] if igs else None,
-        "timeline": tl.group(0) if tl else None,
-    }
+def parse_contact_paragraph(text):
+    """Extract structured fields from the emoji-separated paragraph."""
+    fields = {}
+    for k, pattern in FIELD_PATTERNS.items():
+        m = pattern.search(text)
+        if not m:
+            continue
+        val = m.group(1).strip().rstrip(".,;:")
+        # collapse internal whitespace
+        val = re.sub(r"\s+", " ", val)
+        if val:
+            fields[k] = val
+    return fields
+
+
+def categorize(items):
+    """
+    Return a tuple of:
+      narrative: list of {text, html} — actual story prose
+      contact_p: dict of structured fields parsed from the emoji paragraph
+      catalog_href: url string if a "📖 Accede al catálogo" link was found
+    """
+    narrative = []
+    contact = {}
+    catalog_href = None
+    for it in items:
+        t = it["text"]
+        if is_boilerplate(t):
+            continue
+        # Heuristic for the structured contact paragraph:
+        if re.search(r"📍|📞|📧|🌅|👥|🎭|🛠|Especialidad\s*:", t):
+            contact.update(parse_contact_paragraph(t))
+            cm = CATALOG_HREF_RE.search(it["html"])
+            if cm:
+                catalog_href = cm.group(1)
+            continue
+        # Otherwise it's narrative
+        narrative.append(it["text"])
+    return narrative, contact, catalog_href
 
 
 def enrich_one(artisan):
     slug = artisan["slug"]
     legacy = artisan.get("legacy_slug")
     if not legacy:
-        return slug, None, "no legacy_slug"
+        return slug, "no legacy_slug"
     url = f"https://www.obrasdelpais.com/{legacy}/"
     try:
         page = fetch(url)
     except Exception as e:
-        return slug, None, f"fetch failed: {e}"
-    body = extract_body(page)
+        return slug, f"fetch failed: {e}"
+    body = extract_post_wrap(page)
     if not body:
-        return slug, None, "no body found"
-    cover = artisan.get("image_cdn") or ""
-    gallery = extract_images(body, cover)
-    meta = extract_meta(body, page)
+        return slug, "no post-wrap"
+    items = extract_paragraphs(body)
+    narrative, contact, catalog_href = categorize(items)
+    gallery = extract_gallery(body, artisan.get("image_cdn", ""))
     out = {
         "slug": slug,
         "name": artisan["name"],
-        "body_es": body,
+        "narrative_es": narrative,
+        "phone": contact.get("phone"),
+        "email": contact.get("email"),
+        "instagram": contact.get("instagram"),
+        "facebook": contact.get("facebook"),
+        "especialidad": contact.get("especialidad"),
+        "talleres": contact.get("talleres"),
+        "timeline": contact.get("timeline"),
+        "catalog_url": catalog_href,
         "gallery": gallery,
-        **meta,
     }
-    (ART_DIR / f"{slug}.json").write_text(json.dumps(out, ensure_ascii=False, indent=2) + "\n")
-    (THEME_ART_DIR / f"{slug}.json").write_text(json.dumps(out, ensure_ascii=False, indent=2) + "\n")
-    return slug, len(body), None
+    (ART_DIR / f"{slug}.json").write_text(
+        json.dumps(out, ensure_ascii=False, indent=2) + "\n"
+    )
+    (THEME_ART_DIR / f"{slug}.json").write_text(
+        json.dumps(out, ensure_ascii=False, indent=2) + "\n"
+    )
+    return slug, None
 
 
 def main():
@@ -166,25 +230,35 @@ def main():
     with ThreadPoolExecutor(max_workers=6) as ex:
         futures = {ex.submit(enrich_one, a): a["slug"] for a in artisans}
         for f in as_completed(futures):
-            slug, sz, err = f.result()
+            slug, err = f.result()
             if err:
                 fail.append((slug, err))
                 print(f"  FAIL {slug:46} {err}")
             else:
                 ok += 1
-                print(f"  ok   {slug:46} body={sz} chars")
+                d = json.loads((ART_DIR / f"{slug}.json").read_text())
+                bits = []
+                if d.get("phone"): bits.append("phone")
+                if d.get("email"): bits.append("email")
+                if d.get("instagram"): bits.append("ig")
+                if d.get("facebook"): bits.append("fb")
+                if d.get("especialidad"): bits.append("esp")
+                if d.get("talleres"): bits.append("talleres")
+                if d.get("timeline"): bits.append("time")
+                print(f"  ok   {slug:46} narrative={len(d['narrative_es'])} gallery={len(d['gallery'])} fields=[{','.join(bits)}]")
             time.sleep(0.05)
     print(f"\n{ok} ok, {len(fail)} failed.")
 
-    # Patch artisans.json so the renderer knows which entries have rich bodies
-    enriched_slugs = {p.stem for p in ART_DIR.glob("*.json")}
+    # Mirror the canonical artisans.json with `enriched: true`
+    enriched = {p.stem for p in ART_DIR.glob("*.json")}
     for a in artisans:
-        a["enriched"] = a["slug"] in enriched_slugs
+        a["enriched"] = a["slug"] in enriched
     (PREVIEW / "assets/data/artisans.json").write_text(
         json.dumps(artisans, ensure_ascii=False, indent=2) + "\n"
     )
-    (THEME / "assets/data/artisans.json").write_text((PREVIEW / "assets/data/artisans.json").read_text())
-    print("Updated artisans.json with `enriched` flag.")
+    (THEME / "assets/data/artisans.json").write_text(
+        (PREVIEW / "assets/data/artisans.json").read_text()
+    )
 
 
 if __name__ == "__main__":

@@ -707,11 +707,22 @@
       : `https://www.youtube.com/@obrasdelpais/search?query=${encodeURIComponent(a.name)}`;
     const heroSrc = a.image_cdn || a.image;
     const heroImg = heroSrc ? `<img src="${heroSrc}" alt="${escapeHTML(a.name)}" class="page-intro__bg-img">` : "";
-    const phone = enriched?.phone || null;
-    const phoneClean = phone ? phone.replace(/[^\d]/g, "") : null;
-    const timeline = enriched?.timeline || null;
-    const gallery = (enriched?.gallery || []).slice(0, 8);
+    const e = enriched || {};
+    const phoneClean = e.phone ? e.phone.replace(/[^\d]/g, "") : null;
+    const gallery = (e.gallery || []).slice(0, 8);
+    const narrative = (e.narrative_es || []).slice(0, 6);
     const placeLine = [a.place_es || a.municipio, a.region_es].filter(Boolean).join(" · ");
+
+    const narrativeHTML = narrative.length ? `
+      <section class="section">
+        <div class="wrap wrap--text">
+          <span class="eyebrow" data-lang="es">El oficio en sus palabras</span>
+          <span class="eyebrow" data-lang="en">The craft, in their words</span>
+          <div class="prose mt-5">
+            ${narrative.map(p => `<p>${escapeHTML(p)}</p>`).join("")}
+          </div>
+        </div>
+      </section>` : "";
 
     const galleryHTML = gallery.length ? `
       <section class="section section--paper-warm">
@@ -730,6 +741,45 @@
         </div>
       </section>` : "";
 
+    // Build the structured contact rows from whatever fields the live page exposed
+    const rows = [];
+    if (e.phone) rows.push({
+      lbl_es: "Teléfono", lbl_en: "Phone",
+      val: `<a class="contact-card__val link-inline" href="tel:+1${phoneClean}" style="color:var(--paper);">${escapeHTML(e.phone)}</a>`
+    });
+    if (e.email) rows.push({
+      lbl_es: "Email", lbl_en: "Email",
+      val: `<a class="contact-card__val link-inline" href="mailto:${escapeHTML(e.email)}" style="color:var(--paper);">${escapeHTML(e.email)}</a>`
+    });
+    if (e.instagram) rows.push({
+      lbl_es: "Instagram", lbl_en: "Instagram",
+      val: `<a class="contact-card__val link-inline" href="https://instagram.com/${encodeURIComponent(e.instagram)}" target="_blank" rel="noopener" style="color:var(--paper);">@${escapeHTML(e.instagram)} ↗</a>`
+    });
+    if (e.facebook) rows.push({
+      lbl_es: "Facebook", lbl_en: "Facebook",
+      val: `<a class="contact-card__val link-inline" href="https://facebook.com/${encodeURIComponent(e.facebook.trim())}" target="_blank" rel="noopener" style="color:var(--paper);">${escapeHTML(e.facebook)} ↗</a>`
+    });
+    if (e.especialidad) rows.push({
+      lbl_es: "Especialidad", lbl_en: "Specialty",
+      val: `<span class="contact-card__val" style="font-style:italic;">${escapeHTML(e.especialidad)}</span>`
+    });
+    if (e.talleres) rows.push({
+      lbl_es: "Talleres", lbl_en: "Workshops",
+      val: `<span class="contact-card__val" style="font-size:var(--fs-sm);font-family:var(--font-body);font-style:normal;">${escapeHTML(e.talleres)}</span>`
+    });
+    if (e.timeline) rows.push({
+      lbl_es: "Tiempo por pieza", lbl_en: "Time per piece",
+      val: `<span class="contact-card__val">${escapeHTML(e.timeline)}</span>`
+    });
+    if (e.catalog_url) rows.push({
+      lbl_es: "Catálogo", lbl_en: "Catalog",
+      val: `<a class="contact-card__val link-inline" href="${e.catalog_url}" target="_blank" rel="noopener" style="color:var(--paper);">Ver catálogo ↗</a>`
+    });
+    rows.push({
+      lbl_es: "Vía Obras del País", lbl_en: "Through Obras del País",
+      val: `<a class="contact-card__val link-inline" href="mailto:hola@obrasdelpais.com" style="color:var(--paper);">hola@obrasdelpais.com</a>`
+    });
+
     return `
     <section class="page-intro" style="position:relative;overflow:hidden;">
       ${heroImg}
@@ -742,7 +792,9 @@
       </div>
     </section>
 
-    <section class="section">
+    ${narrativeHTML}
+
+    <section class="section section--paper-warm">
       <div class="wrap">
         <div class="two-col">
           <div>
@@ -751,8 +803,8 @@
             <h2 class="h3 mt-5" data-lang="es">Un retrato filmado en el taller</h2>
             <h2 class="h3 mt-5" data-lang="en">A portrait filmed in the workshop</h2>
             <div class="prose mt-5">
-              <p data-lang="es">Cada documental de Obras del País se filma en el taller del artesano, en su comunidad, en el ritmo de su día. No buscamos un perfil: buscamos un retrato. Las manos cuentan lo que las palabras a veces no alcanzan.</p>
-              <p data-lang="en">Each documentary is filmed in the workshop, in the community, at the pace of the craft. We don't make profiles — we make portraits. Hands say what words sometimes can't.</p>
+              <p data-lang="es">Cada documental se filma en el taller del artesano, en su comunidad, en el ritmo de su día. No buscamos un perfil: buscamos un retrato.</p>
+              <p data-lang="en">Each documentary is filmed in the workshop, in the community, at the pace of the craft. We don't make profiles — we make portraits.</p>
             </div>
             <div class="mt-6">
               <a class="btn btn--clay" href="${youtubeUrl}" target="_blank" rel="noopener">
@@ -776,31 +828,21 @@
       <div class="wrap">
         <div class="contact-card">
           <div>
-            <p class="eyebrow" style="color:var(--ochre-soft);" data-lang="es">Encuéntrame</p>
-            <p class="eyebrow" style="color:var(--ochre-soft);" data-lang="en">Find me</p>
+            <p class="eyebrow" style="color:var(--ochre-soft);" data-lang="es">Encuéntrame directamente</p>
+            <p class="eyebrow" style="color:var(--ochre-soft);" data-lang="en">Reach the artisan directly</p>
             <h3 class="h3 mt-5" style="color:var(--paper);">${escapeHTML(a.name)}</h3>
-            ${placeLine ? `<p class="muted mt-5" style="font-family:var(--font-mono);font-size:var(--fs-xs);letter-spacing:0.16em;text-transform:uppercase;color:var(--ochre-soft);">📍 ${escapeHTML(placeLine)}</p>` : ""}
+            ${placeLine ? `<p class="mt-5" style="font-family:var(--font-mono);font-size:var(--fs-xs);letter-spacing:0.16em;text-transform:uppercase;color:var(--ochre-soft);">📍 ${escapeHTML(placeLine)}</p>` : ""}
           </div>
           <ul class="contact-card__rows">
-            ${phone ? `<li>
-              <span class="contact-card__lbl" data-lang="es">Teléfono</span>
-              <span class="contact-card__lbl" data-lang="en">Phone</span>
-              <a class="contact-card__val link-inline" href="tel:+1${phoneClean}" style="color:var(--paper);">${escapeHTML(phone)}</a>
-            </li>` : ""}
-            ${timeline ? `<li>
-              <span class="contact-card__lbl" data-lang="es">Tiempo por pieza</span>
-              <span class="contact-card__lbl" data-lang="en">Time per piece</span>
-              <span class="contact-card__val">${escapeHTML(timeline)}</span>
-            </li>` : ""}
-            <li>
-              <span class="contact-card__lbl" data-lang="es">Vía Obras del País</span>
-              <span class="contact-card__lbl" data-lang="en">Through Obras del País</span>
-              <a class="contact-card__val link-inline" href="mailto:hola@obrasdelpais.com" style="color:var(--paper);">hola@obrasdelpais.com</a>
-            </li>
+            ${rows.map(r => `<li>
+              <span class="contact-card__lbl" data-lang="es">${r.lbl_es}</span>
+              <span class="contact-card__lbl" data-lang="en">${r.lbl_en}</span>
+              ${r.val}
+            </li>`).join("")}
           </ul>
         </div>
-        <p class="muted mt-6" style="font-size:var(--fs-sm);max-width:60ch;" data-lang="es">${a.name.split(" ")[0]} no vende a través de nuestro sitio. Para comisiones, talleres o visitas al taller, comunícate directamente — o consulta nuestra <a class="link-inline" href="/preguntas-frecuentes.html" style="color:inherit;">guía para contactar adecuadamente</a>.</p>
-        <p class="muted mt-6" style="font-size:var(--fs-sm);max-width:60ch;" data-lang="en">${a.name.split(" ")[0]} doesn't sell through our site. For commissions, workshops, or studio visits, reach out directly — or read our <a class="link-inline" href="/preguntas-frecuentes.html" style="color:inherit;">guide on respectful outreach</a>.</p>
+        <p class="mt-6" style="font-size:var(--fs-sm);max-width:60ch;color:rgba(245,241,234,0.7);" data-lang="es">${a.name.split(" ")[0]} no vende a través de nuestro sitio. Para comisiones, talleres o visitas al taller, comunícate directamente — o consulta nuestra <a class="link-inline" href="/preguntas-frecuentes.html" style="color:inherit;">guía para contactar adecuadamente</a>.</p>
+        <p class="mt-6" style="font-size:var(--fs-sm);max-width:60ch;color:rgba(245,241,234,0.7);" data-lang="en">${a.name.split(" ")[0]} doesn't sell through our site. For commissions, workshops, or studio visits, reach out directly — or read our <a class="link-inline" href="/preguntas-frecuentes.html" style="color:inherit;">guide on respectful outreach</a>.</p>
       </div>
     </section>
 
