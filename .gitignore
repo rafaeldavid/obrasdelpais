@@ -29,3 +29,7 @@ npm-debug.log*
 .env
 .env.local
 .env.*.local
+
+# Wrangler local cache — contains Cloudflare account id + dev cache
+worker/.wrangler/
+**/.wrangler/
