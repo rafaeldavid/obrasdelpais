@@ -28,13 +28,32 @@ A Cloudflare Worker that receives feedback from the website and appends a row to
 
 ## Deploy
 
+### 0) Node ≥ 20 required
+
+Wrangler needs **Node.js 20 or newer**. Check yours:
+
+```bash
+node -v          # must show v20.x or v22.x
+```
+
+If you see v18.x or older, upgrade:
+
+| You have | Fix |
+|---|---|
+| nvm installed (likely if you've ever run `nvm`) | `nvm install 22 && nvm alias default 22` |
+| Homebrew on Mac | `brew install node@22 && brew link --overwrite node@22` |
+| Nothing yet | Download the **LTS installer** from https://nodejs.org/ and run it |
+| Windows | Install [`nvm-windows`](https://github.com/coreybutler/nvm-windows) → `nvm install 22 && nvm use 22`, or use the LTS installer from nodejs.org |
+
+### 1) Wrangler
+
 ```bash
 cd worker
 npm install -g wrangler        # one-time
 wrangler login                 # opens browser, links to your Cloudflare account
 ```
 
-### 1) Create the GitHub PAT
+### 2) Create the GitHub PAT
 
 Go to https://github.com/settings/personal-access-tokens/new and create a **fine-grained** PAT:
 - **Resource owner**: `rafaeldavid` (your account)
@@ -46,14 +65,14 @@ Go to https://github.com/settings/personal-access-tokens/new and create a **fine
 
 Copy the token (starts with `github_pat_…`). You'll only see it once.
 
-### 2) Set the token as a Worker secret
+### 3) Set the token as a Worker secret
 
 ```bash
 wrangler secret put GITHUB_TOKEN
 # paste the github_pat_… token when prompted
 ```
 
-### 3) (Optional) Create a KV namespace for rate limiting
+### 4) (Optional) Create a KV namespace for rate limiting
 
 ```bash
 wrangler kv namespace create RATE_KV
@@ -64,7 +83,7 @@ wrangler kv namespace create RATE_KV
 
 If you skip this, rate limiting is silently disabled — fine for low traffic.
 
-### 4) Deploy
+### 5) Deploy
 
 ```bash
 wrangler deploy
@@ -72,7 +91,7 @@ wrangler deploy
 
 Wrangler prints the deployed URL, typically `https://obras-del-pais-feedback.<your-subdomain>.workers.dev`. Copy that URL.
 
-### 5) Wire it to the front-end
+### 6) Wire it to the front-end
 
 Edit `preview-site/assets/data/feedback-config.json` and set:
 

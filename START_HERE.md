@@ -81,14 +81,15 @@ La primera vez te va a pedir que entres con tu cuenta de Anthropic. Sigue el lin
 
 GitHub es donde está guardado el código del sitio. Para que Claude Code pueda bajarlo y subir tus cambios, necesitas dos cosas:
 
-### 3a) Instala `git` y `gh` (la herramienta de GitHub)
+### 3a) Instala `git`, `gh`, y `Node.js 20+`
 
-Dile a Claude Code que los instale por ti:
+El proyecto necesita varias herramientas. Dile a Claude:
 
-1. Con `claude` corriendo en la Terminal, escribe (en lenguaje natural):
-   > **"Instala git y la herramienta gh de GitHub si no las tengo, y verifica las versiones"**
+> **"Instala git, gh (la herramienta de GitHub), y Node.js versión 22 (LTS) si no los tengo. Verifica las versiones."**
 
-Claude Code va a correr los comandos correctos según tu sistema (`brew install` en Mac, `winget install` en Windows, etc.). Te va a pedir permiso antes de cada paso — solo dile "sí" o "yes".
+Claude corre los comandos correctos según tu sistema (`brew install` en Mac, `winget install` en Windows). Te pide permiso antes de cada paso — dile "sí" o "yes".
+
+> ⚠️ **Importante**: Wrangler (la herramienta para subir el feedback worker en el último paso) requiere **Node.js 20 o más nuevo**. Si tienes Node v18 instalado, Claude lo va a actualizar a v22 antes de continuar.
 
 ### 3b) Inicia sesión en GitHub
 
