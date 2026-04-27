@@ -678,7 +678,10 @@
     const params = new URL(location.href).searchParams;
     const slug = params.get("slug");
     detail.innerHTML = `<section class="page-intro"><div class="page-intro__wrap"><span class="page-intro__crumb">Cargando · loading…</span></div></section>`;
-    Promise.all([loadJSON("/assets/data/artisans.json"), loadJSON("/assets/data/videos.json")]).then(([artisans, videos]) => {
+    Promise.all([
+      loadJSON("/assets/data/artisans.json"),
+      loadJSON("/assets/data/videos.json"),
+    ]).then(async ([artisans, videos]) => {
       if (!artisans || !artisans.length) {
         detail.innerHTML = `<section class="page-intro"><div class="page-intro__wrap"><h1 class="page-intro__title">No pudimos cargar la ficha</h1><p class="page-intro__lede"><a class="link-inline" href="/directorio.html" style="color:inherit;">Volver al directorio</a> · <a class="link-inline" href="/" style="color:inherit;">Inicio</a></p></div></section>`;
         return;
@@ -689,41 +692,73 @@
         return;
       }
       const v = (videos?.videos || []).find(x => x.slug === a.slug);
-      detail.innerHTML = artisanDetailHTML(a, v);
+      // Pull the per-artisan rich content (gallery + phone + timeline) from the
+      // file written by scripts/enrich-artisans.py
+      const enriched = await loadJSON(`/assets/data/artisans/${a.slug}.json`);
+      detail.innerHTML = artisanDetailHTML(a, v, enriched);
       observeReveal(detail);
       applyLang(detectLang());
     });
   }
-  function artisanDetailHTML(a, v) {
+  function artisanDetailHTML(a, v, enriched) {
     const vid = v?.videoId || a.videoId;
     const youtubeUrl = vid
       ? `https://www.youtube.com/watch?v=${vid}`
       : `https://www.youtube.com/@obrasdelpais/search?query=${encodeURIComponent(a.name)}`;
     const heroSrc = a.image_cdn || a.image;
     const heroImg = heroSrc ? `<img src="${heroSrc}" alt="${escapeHTML(a.name)}" class="page-intro__bg-img">` : "";
+    const phone = enriched?.phone || null;
+    const phoneClean = phone ? phone.replace(/[^\d]/g, "") : null;
+    const timeline = enriched?.timeline || null;
+    const gallery = (enriched?.gallery || []).slice(0, 8);
+    const placeLine = [a.place_es || a.municipio, a.region_es].filter(Boolean).join(" · ");
+
+    const galleryHTML = gallery.length ? `
+      <section class="section section--paper-warm">
+        <div class="wrap">
+          <p class="eyebrow" data-lang="es">Galería</p>
+          <p class="eyebrow" data-lang="en">Gallery</p>
+          <h3 class="h3 mt-5" data-lang="es">${gallery.length} imágenes del taller y de la obra</h3>
+          <h3 class="h3 mt-5" data-lang="en">${gallery.length} images from the workshop and the work</h3>
+          <div class="artisan-gallery mt-6">
+            ${gallery.map((url, i) =>
+              `<a class="artisan-gallery__item" href="${url}" target="_blank" rel="noopener">
+                 <img src="${url}" alt="${escapeHTML(a.name + " · imagen " + (i+1))}" loading="lazy">
+               </a>`
+            ).join("")}
+          </div>
+        </div>
+      </section>` : "";
+
     return `
     <section class="page-intro" style="position:relative;overflow:hidden;">
       ${heroImg}
       <div class="page-intro__wrap" style="position:relative;z-index:1;">
-        <span class="page-intro__crumb"><a href="/directorio.html" class="link-inline" style="color:inherit;">Directorio</a> · Doc ${String(a.n).padStart(2,'0')} · ${escapeHTML(a.region_es||'')}</span>
+        <span class="page-intro__crumb"><a href="/directorio.html" class="link-inline" style="color:inherit;">Directorio</a> · Doc ${String(a.n).padStart(2,'0')}${placeLine ? ` · ${escapeHTML(placeLine)}` : ""}</span>
         <h1 class="page-intro__title">${escapeHTML(a.name)}</h1>
         <p class="script" style="font-size:2.4rem;color:var(--ochre-soft);line-height:1;margin-block:0.5rem;" data-lang="es">${escapeHTML(a.craft_es)}</p>
         <p class="script" style="font-size:2.4rem;color:var(--ochre-soft);line-height:1;margin-block:0.5rem;" data-lang="en">${escapeHTML(a.craft_en)}</p>
-        ${a.place_es ? `<span class="page-intro__crumb">${escapeHTML(a.place_es)}</span>` : ""}
-        ${a.description ? `<p class="page-intro__lede" style="margin-top:1.5rem;">${escapeHTML(a.description)}</p>` : ""}
+        ${a.description ? `<p class="page-intro__lede" style="margin-top:1.5rem;" data-lang="es">${escapeHTML(a.description)}</p>` : ""}
       </div>
     </section>
+
     <section class="section">
       <div class="wrap">
         <div class="two-col">
           <div>
-            <span class="eyebrow" data-lang="es">El oficio</span>
-            <span class="eyebrow" data-lang="en">The craft</span>
-            <h2 class="h3 mt-5" data-lang="es">Un retrato del trabajo de las manos</h2>
-            <h2 class="h3 mt-5" data-lang="en">A portrait of the work of the hands</h2>
+            <span class="eyebrow" data-lang="es">El documental</span>
+            <span class="eyebrow" data-lang="en">The documentary</span>
+            <h2 class="h3 mt-5" data-lang="es">Un retrato filmado en el taller</h2>
+            <h2 class="h3 mt-5" data-lang="en">A portrait filmed in the workshop</h2>
             <div class="prose mt-5">
               <p data-lang="es">Cada documental de Obras del País se filma en el taller del artesano, en su comunidad, en el ritmo de su día. No buscamos un perfil: buscamos un retrato. Las manos cuentan lo que las palabras a veces no alcanzan.</p>
-              <p data-lang="en">Each Obras del País documentary is filmed in the artisan's workshop, in their community, at the pace of their day. We don't make profiles — we make portraits. Hands say what words sometimes can't.</p>
+              <p data-lang="en">Each documentary is filmed in the workshop, in the community, at the pace of the craft. We don't make profiles — we make portraits. Hands say what words sometimes can't.</p>
+            </div>
+            <div class="mt-6">
+              <a class="btn btn--clay" href="${youtubeUrl}" target="_blank" rel="noopener">
+                <span data-lang="es">${vid ? "Ver el documental" : "Buscar en YouTube"} ↗</span>
+                <span data-lang="en">${vid ? "Watch the film" : "Search YouTube"} ↗</span>
+              </a>
             </div>
           </div>
           <div>
@@ -731,25 +766,44 @@
               ${vid ? `<img src="https://i.ytimg.com/vi/${vid}/maxresdefault.jpg" alt="" style="width:100%;display:block;">` : (heroSrc ? `<img src="${heroSrc}" alt="" style="width:100%;display:block;">` : `<div class="ph" style="aspect-ratio:16/10;"></div>`)}
               <span class="play-pill" style="position:absolute;left:12px;bottom:12px;">Ver en YouTube ↗</span>
             </a>
-            <div class="mt-5">
-              <a class="btn btn--clay" href="${youtubeUrl}" target="_blank" rel="noopener">
-                <span data-lang="es">Ver el documental</span>
-                <span data-lang="en">Watch the film</span>
-              </a>
-            </div>
           </div>
         </div>
       </div>
     </section>
-    <section class="section section--paper-warm">
+
+    <!-- Contact card -->
+    <section class="section section--tight" style="background:var(--ink);color:var(--paper);">
       <div class="wrap">
-        <span class="eyebrow" data-lang="es">Encuéntrame</span>
-        <span class="eyebrow" data-lang="en">Find me</span>
-        <h3 class="h3 mt-5" data-lang="es">Para comisiones, talleres o visitas al taller</h3>
-        <h3 class="h3 mt-5" data-lang="en">Commissions, workshops, or studio visits</h3>
-        <p class="mt-5 muted" data-lang="es">Cada artesano documentado puede ser contactado directamente. Escríbenos a <a class="link-inline" href="mailto:hola@obrasdelpais.com">hola@obrasdelpais.com</a> y te ponemos en contacto, o visita el directorio y descarga la <a class="link-inline" href="/preguntas-frecuentes.html">guía para contactar adecuadamente</a>.</p>
-        <p class="mt-5 muted" data-lang="en">Every documented artisan can be reached directly. Email <a class="link-inline" href="mailto:hola@obrasdelpais.com">hola@obrasdelpais.com</a> and we'll connect you, or read the <a class="link-inline" href="/preguntas-frecuentes.html">guide on how to reach out respectfully</a>.</p>
+        <div class="contact-card">
+          <div>
+            <p class="eyebrow" style="color:var(--ochre-soft);" data-lang="es">Encuéntrame</p>
+            <p class="eyebrow" style="color:var(--ochre-soft);" data-lang="en">Find me</p>
+            <h3 class="h3 mt-5" style="color:var(--paper);">${escapeHTML(a.name)}</h3>
+            ${placeLine ? `<p class="muted mt-5" style="font-family:var(--font-mono);font-size:var(--fs-xs);letter-spacing:0.16em;text-transform:uppercase;color:var(--ochre-soft);">📍 ${escapeHTML(placeLine)}</p>` : ""}
+          </div>
+          <ul class="contact-card__rows">
+            ${phone ? `<li>
+              <span class="contact-card__lbl" data-lang="es">Teléfono</span>
+              <span class="contact-card__lbl" data-lang="en">Phone</span>
+              <a class="contact-card__val link-inline" href="tel:+1${phoneClean}" style="color:var(--paper);">${escapeHTML(phone)}</a>
+            </li>` : ""}
+            ${timeline ? `<li>
+              <span class="contact-card__lbl" data-lang="es">Tiempo por pieza</span>
+              <span class="contact-card__lbl" data-lang="en">Time per piece</span>
+              <span class="contact-card__val">${escapeHTML(timeline)}</span>
+            </li>` : ""}
+            <li>
+              <span class="contact-card__lbl" data-lang="es">Vía Obras del País</span>
+              <span class="contact-card__lbl" data-lang="en">Through Obras del País</span>
+              <a class="contact-card__val link-inline" href="mailto:hola@obrasdelpais.com" style="color:var(--paper);">hola@obrasdelpais.com</a>
+            </li>
+          </ul>
+        </div>
+        <p class="muted mt-6" style="font-size:var(--fs-sm);max-width:60ch;" data-lang="es">${a.name.split(" ")[0]} no vende a través de nuestro sitio. Para comisiones, talleres o visitas al taller, comunícate directamente — o consulta nuestra <a class="link-inline" href="/preguntas-frecuentes.html" style="color:inherit;">guía para contactar adecuadamente</a>.</p>
+        <p class="muted mt-6" style="font-size:var(--fs-sm);max-width:60ch;" data-lang="en">${a.name.split(" ")[0]} doesn't sell through our site. For commissions, workshops, or studio visits, reach out directly — or read our <a class="link-inline" href="/preguntas-frecuentes.html" style="color:inherit;">guide on respectful outreach</a>.</p>
       </div>
-    </section>`;
+    </section>
+
+    ${galleryHTML}`;
   }
 })();

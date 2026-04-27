@@ -13,7 +13,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2021/04/DSC_5996edit-5.jpg",
     "municipio": "Caguas",
     "municipio_slug": "caguas",
-    "place_es": "Caguas"
+    "place_es": "Caguas",
+    "enriched": true
   },
   {
     "n": 2,
@@ -29,7 +30,8 @@
     "videoId": "L3hIAcP64VY",
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2021/07/DSC_6128ObrasdelPaiseditedlgo.jpg",
     "municipio": "Lajas",
-    "municipio_slug": "lajas"
+    "municipio_slug": "lajas",
+    "enriched": true
   },
   {
     "n": 3,
@@ -45,7 +47,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2021/08/DSC_6525ObrasdelPaiseditedlgo.jpg",
     "municipio": "Camuy",
     "municipio_slug": "camuy",
-    "place_es": "Camuy"
+    "place_es": "Camuy",
+    "enriched": true
   },
   {
     "n": 4,
@@ -61,7 +64,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2021/04/DSC_7022edt.jpg",
     "municipio": "Bayamón",
     "municipio_slug": "bayamon",
-    "place_es": "Bayamón"
+    "place_es": "Bayamón",
+    "enriched": true
   },
   {
     "n": 5,
@@ -77,7 +81,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2021/04/DSC_6371--B-Wedited-.jpg",
     "municipio": "Carolina",
     "municipio_slug": "carolina",
-    "place_es": "Carolina"
+    "place_es": "Carolina",
+    "enriched": true
   },
   {
     "n": 6,
@@ -93,7 +98,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2021/04/DSC_7642edit.jpg",
     "municipio": "Lajas",
     "municipio_slug": "lajas",
-    "place_es": "Lajas"
+    "place_es": "Lajas",
+    "enriched": true
   },
   {
     "n": 7,
@@ -109,7 +115,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2021/04/DSC_7306edit.jpg",
     "municipio": "Cabo Rojo",
     "municipio_slug": "cabo-rojo",
-    "place_es": "Cabo Rojo"
+    "place_es": "Cabo Rojo",
+    "enriched": true
   },
   {
     "n": 8,
@@ -125,7 +132,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2021/04/DSC_7470edt.jpg",
     "municipio": "Canóvanas",
     "municipio_slug": "canovanas",
-    "place_es": "Canóvanas"
+    "place_es": "Canóvanas",
+    "enriched": true
   },
   {
     "n": 9,
@@ -141,7 +149,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2021/04/DSC_7511edt.jpg",
     "municipio": "Sábana Grande",
     "municipio_slug": "sabana-grande",
-    "place_es": "Sábana Grande"
+    "place_es": "Sábana Grande",
+    "enriched": true
   },
   {
     "n": 10,
@@ -157,7 +166,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2021/05/DSC_7915edit.jpg",
     "municipio": "Ponce",
     "municipio_slug": "ponce",
-    "place_es": "Ponce"
+    "place_es": "Ponce",
+    "enriched": true
   },
   {
     "n": 11,
@@ -173,7 +183,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2021/06/Nic-screenshot-7-1.jpg",
     "municipio": "San Juan",
     "municipio_slug": "san-juan",
-    "place_es": "San Juan"
+    "place_es": "San Juan",
+    "enriched": true
   },
   {
     "n": 12,
@@ -189,7 +200,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2021/11/DSC_8352editlogo.jpg",
     "municipio": "Moca",
     "municipio_slug": "moca",
-    "place_es": "Moca"
+    "place_es": "Moca",
+    "enriched": true
   },
   {
     "n": 13,
@@ -205,7 +217,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2021/12/DSC_8421edit.jpg",
     "municipio": "Adjuntas",
     "municipio_slug": "adjuntas",
-    "place_es": "Adjuntas"
+    "place_es": "Adjuntas",
+    "enriched": true
   },
   {
     "n": 14,
@@ -221,7 +234,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2022/01/DSC_8500editlogo-1.jpg",
     "municipio": "Salinas",
     "municipio_slug": "salinas",
-    "place_es": "Salinas"
+    "place_es": "Salinas",
+    "enriched": true
   },
   {
     "n": 15,
@@ -237,7 +251,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2022/01/DSC_8635editlogo.jpg",
     "municipio": "Bayamón",
     "municipio_slug": "bayamon",
-    "place_es": "Bayamón"
+    "place_es": "Bayamón",
+    "enriched": true
   },
   {
     "n": 16,
@@ -253,7 +268,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2022/02/DSC_8747_Moment-3--1.jpg",
     "municipio": "Ponce",
     "municipio_slug": "ponce",
-    "place_es": "Ponce"
+    "place_es": "Ponce",
+    "enriched": true
   },
   {
     "n": 17,
@@ -269,7 +285,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2022/02/1B8E5880-2091-4BE5-9BA6-73099C5A3D58.jpeg",
     "municipio": "Aguas Buenas",
     "municipio_slug": "aguas-buenas",
-    "place_es": "Aguas Buenas"
+    "place_es": "Aguas Buenas",
+    "enriched": true
   },
   {
     "n": 18,
@@ -285,7 +302,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2022/03/DSC_9043edit3.jpg",
     "municipio": "Isabela",
     "municipio_slug": "isabela",
-    "place_es": "Isabela"
+    "place_es": "Isabela",
+    "enriched": true
   },
   {
     "n": 19,
@@ -301,7 +319,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2022/04/DSC_9716editcrpp-1.jpg",
     "municipio": "San Juan",
     "municipio_slug": "san-juan",
-    "place_es": "San Juan"
+    "place_es": "San Juan",
+    "enriched": true
   },
   {
     "n": 20,
@@ -317,7 +336,8 @@
     "videoId": "gj_jmdIAp9M",
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2022/05/Copy-of-DSC_9417edit.jpg",
     "municipio": "Loíza",
-    "municipio_slug": "loiza"
+    "municipio_slug": "loiza",
+    "enriched": true
   },
   {
     "n": 21,
@@ -333,7 +353,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2022/06/DSC_9889edit2logo.jpg",
     "municipio": "San Juan",
     "municipio_slug": "san-juan",
-    "place_es": "San Juan"
+    "place_es": "San Juan",
+    "enriched": true
   },
   {
     "n": 22,
@@ -349,7 +370,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2022/07/DSC_0133edit.jpg",
     "municipio": "Guánica",
     "municipio_slug": "guanica",
-    "place_es": "Guánica"
+    "place_es": "Guánica",
+    "enriched": true
   },
   {
     "n": 23,
@@ -365,7 +387,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2022/07/DSC_0387edit-1.jpg",
     "municipio": "Guaynabo",
     "municipio_slug": "guaynabo",
-    "place_es": "Guaynabo"
+    "place_es": "Guaynabo",
+    "enriched": true
   },
   {
     "n": 24,
@@ -381,7 +404,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2022/09/DSC_0653_Moment.jpg",
     "municipio": "Ciales",
     "municipio_slug": "ciales",
-    "place_es": "Ciales"
+    "place_es": "Ciales",
+    "enriched": true
   },
   {
     "n": 25,
@@ -397,7 +421,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2022/10/DSC_0821edit.jpg",
     "municipio": "San Sebastián",
     "municipio_slug": "san-sebastian",
-    "place_es": "San Sebastián"
+    "place_es": "San Sebastián",
+    "enriched": true
   },
   {
     "n": 26,
@@ -413,7 +438,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2022/10/DSC_2026edit-1.jpg",
     "municipio": "Orocovis",
     "municipio_slug": "orocovis",
-    "place_es": "Orocovis"
+    "place_es": "Orocovis",
+    "enriched": true
   },
   {
     "n": 27,
@@ -429,7 +455,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2022/11/DSC_2194edit-1.jpg",
     "municipio": "Carolina",
     "municipio_slug": "carolina",
-    "place_es": "Carolina"
+    "place_es": "Carolina",
+    "enriched": true
   },
   {
     "n": 28,
@@ -445,7 +472,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2023/01/DSC_2458editcroppedlogo.jpg",
     "municipio": "Canóvanas",
     "municipio_slug": "canovanas",
-    "place_es": "Canóvanas"
+    "place_es": "Canóvanas",
+    "enriched": true
   },
   {
     "n": 29,
@@ -461,7 +489,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2023/04/odp-29-cover-pic.jpg",
     "municipio": "Lares",
     "municipio_slug": "lares",
-    "place_es": "Lares"
+    "place_es": "Lares",
+    "enriched": true
   },
   {
     "n": 30,
@@ -477,7 +506,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2023/04/DSC_3097editlogo1.jpg",
     "municipio": "Bayamón",
     "municipio_slug": "bayamon",
-    "place_es": "Bayamón"
+    "place_es": "Bayamón",
+    "enriched": true
   },
   {
     "n": 31,
@@ -493,7 +523,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2023/09/DSC_4208edit-2.jpg",
     "municipio": "Aguada",
     "municipio_slug": "aguada",
-    "place_es": "Aguada"
+    "place_es": "Aguada",
+    "enriched": true
   },
   {
     "n": 32,
@@ -509,7 +540,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2025/01/DSC_4929edit2-1.jpg",
     "municipio": "Naranjito",
     "municipio_slug": "naranjito",
-    "place_es": "Naranjito"
+    "place_es": "Naranjito",
+    "enriched": true
   },
   {
     "n": 33,
@@ -525,7 +557,8 @@
     "videoId": "Dj-qtMQsvl0",
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2025/02/DSC_4929edit2-fitted-to-blog-cover-1.jpg",
     "municipio": "Ponce",
-    "municipio_slug": "ponce"
+    "municipio_slug": "ponce",
+    "enriched": true
   },
   {
     "n": 34,
@@ -541,7 +574,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/2025/03/portada-perfil.jpg",
     "municipio": "Morovis",
     "municipio_slug": "morovis",
-    "place_es": "Morovis"
+    "place_es": "Morovis",
+    "enriched": true
   },
   {
     "n": 35,
@@ -557,7 +591,8 @@
     "videoId": "nnlm7QLrFB8",
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2025/04/DSC_5711.00_02_57_13.Still001-2.jpg",
     "municipio": "Aguada",
-    "municipio_slug": "aguada"
+    "municipio_slug": "aguada",
+    "enriched": true
   },
   {
     "n": 36,
@@ -573,7 +608,8 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2025/05/DSC_5403.00_00_43_06.Still002.jpg",
     "municipio": "Toa Alta",
     "municipio_slug": "toa-alta",
-    "place_es": "Toa Alta"
+    "place_es": "Toa Alta",
+    "enriched": true
   },
   {
     "n": 37,
@@ -590,7 +626,8 @@
     "videoId": "scv4u95PNlQ",
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2025/10/odp-36-alternate-cover-pic.jpg",
     "municipio": "Peñuelas",
-    "municipio_slug": "penuelas"
+    "municipio_slug": "penuelas",
+    "enriched": true
   },
   {
     "n": 38,
@@ -607,6 +644,7 @@
     "image_cdn": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2026/01/cover-pic-odp-38-juguetes-1.jpg",
     "municipio": "Bayamón",
     "municipio_slug": "bayamon",
-    "place_es": "Bayamón"
+    "place_es": "Bayamón",
+    "enriched": true
   }
 ]
