@@ -1,1 +1,2 @@
 timestamp,page,lang,message,email,user_agent,country
+2026-04-27T12:39:40.806Z,/,en,Test from claude-code: end-to-end feedback wiring (delete this row if you see it),,curl/8.7.1,DE
