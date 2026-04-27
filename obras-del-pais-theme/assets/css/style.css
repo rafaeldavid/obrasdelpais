@@ -1122,6 +1122,17 @@ h5, .h5 { font-family: var(--font-body); font-size: var(--fs-md); font-weight: 6
   line-height: 1;
   letter-spacing: -0.015em;
   color: var(--ochre-deep);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.15rem;
+}
+.map-stats__num strong { font-weight: 500; }
+.map-stats__num small {
+  font-size: 0.5em;
+  color: var(--ink);
+  opacity: 0.45;
+  font-family: var(--font-mono);
+  letter-spacing: 0.05em;
 }
 .map-stats__lbl {
   font-family: var(--font-mono);
