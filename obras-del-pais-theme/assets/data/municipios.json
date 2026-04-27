@@ -17,7 +17,9 @@
           "videoId": "CnkfOPU_Iig",
           "asl": false
         }
-      ]
+      ],
+      "flag": "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Adjuntas%2C%20Puerto%20Rico.svg?width=200",
+      "flag_attribution": "Wikimedia Commons · Flag of Adjuntas, Puerto Rico.svg"
     },
     "aguada": {
       "name": "Aguada",
@@ -43,7 +45,9 @@
           "videoId": "nnlm7QLrFB8",
           "asl": false
         }
-      ]
+      ],
+      "flag": "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Aguada%20%28PR%29.svg?width=200",
+      "flag_attribution": "Wikimedia Commons · Flag of Aguada (PR).svg"
     },
     "aguas-buenas": {
       "name": "Aguas Buenas",
@@ -59,7 +63,9 @@
           "videoId": "Mv39c-cGi5Q",
           "asl": false
         }
-      ]
+      ],
+      "flag": "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Aguas%20Buenas.svg?width=200",
+      "flag_attribution": "Wikimedia Commons · Flag of Aguas Buenas.svg"
     },
     "bayamon": {
       "name": "Bayamón",
@@ -105,7 +111,9 @@
           "videoId": "W-v0TnnVdcQ",
           "asl": true
         }
-      ]
+      ],
+      "flag": "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Bayamon.svg?width=200",
+      "flag_attribution": "Wikimedia Commons · Flag of Bayamon.svg"
     },
     "cabo-rojo": {
       "name": "Cabo Rojo",
@@ -121,7 +129,9 @@
           "videoId": "Flnx_sd8Cjc",
           "asl": false
         }
-      ]
+      ],
+      "flag": "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Cabo%20Rojo.svg?width=200",
+      "flag_attribution": "Wikimedia Commons · Flag of Cabo Rojo.svg"
     },
     "caguas": {
       "name": "Caguas",
@@ -137,7 +147,9 @@
           "videoId": "Brlx3dEJZnc",
           "asl": false
         }
-      ]
+      ],
+      "flag": "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Caguas.svg?width=200",
+      "flag_attribution": "Wikimedia Commons · Flag of Caguas.svg"
     },
     "camuy": {
       "name": "Camuy",
@@ -153,7 +165,9 @@
           "videoId": "Tp3GPjOmS6I",
           "asl": false
         }
-      ]
+      ],
+      "flag": "https://commons.wikimedia.org/wiki/Special:FilePath/CamuyFlag.svg?width=200",
+      "flag_attribution": "Wikimedia Commons · CamuyFlag.svg"
     },
     "canovanas": {
       "name": "Canóvanas",
@@ -179,7 +193,9 @@
           "videoId": "BY62btaKF6I",
           "asl": false
         }
-      ]
+      ],
+      "flag": "https://commons.wikimedia.org/wiki/Special:FilePath/Bandera%20de%20Can%C3%B3vanas%2C%20Puerto%20Rico.svg?width=200",
+      "flag_attribution": "Wikimedia Commons · Bandera de Canóvanas, Puerto Rico.svg"
     },
     "carolina": {
       "name": "Carolina",
@@ -205,7 +221,9 @@
           "videoId": "AgloFGPRkVI",
           "asl": false
         }
-      ]
+      ],
+      "flag": "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Carolina%2C%20Puerto%20Rico.svg?width=200",
+      "flag_attribution": "Wikimedia Commons · Flag of Carolina, Puerto Rico.svg"
     },
     "ciales": {
       "name": "Ciales",
@@ -221,7 +239,9 @@
           "videoId": "3uPwGc5ZjC8",
           "asl": false
         }
-      ]
+      ],
+      "flag": "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Ciales.svg?width=200",
+      "flag_attribution": "Wikimedia Commons · Flag of Ciales.svg"
     },
     "guaynabo": {
       "name": "Guaynabo",
@@ -237,7 +257,9 @@
           "videoId": "Hd1B4DpqA7M",
           "asl": false
         }
-      ]
+      ],
+      "flag": "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Guaynabo.svg?width=200",
+      "flag_attribution": "Wikimedia Commons · Flag of Guaynabo.svg"
     },
     "guanica": {
       "name": "Guánica",
@@ -253,7 +275,9 @@
           "videoId": "5t4fBJ7xucM",
           "asl": false
         }
-      ]
+      ],
+      "flag": "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Guanica.svg?width=200",
+      "flag_attribution": "Wikimedia Commons · Flag of Guanica.svg"
     },
     "isabela": {
       "name": "Isabela",
@@ -269,7 +293,9 @@
           "videoId": "vhD-tDqUwNY",
           "asl": false
         }
-      ]
+      ],
+      "flag": "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Isabela.svg?width=200",
+      "flag_attribution": "Wikimedia Commons · Flag of Isabela.svg"
     },
     "lajas": {
       "name": "Lajas",
@@ -295,7 +321,9 @@
           "videoId": "Blm2aE0r8ak",
           "asl": false
         }
-      ]
+      ],
+      "flag": "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Lajas%20%28PR%29.svg?width=200",
+      "flag_attribution": "Wikimedia Commons · Flag of Lajas (PR).svg"
     },
     "lares": {
       "name": "Lares",
@@ -311,7 +339,9 @@
           "videoId": "wt_lU0OlqX8",
           "asl": false
         }
-      ]
+      ],
+      "flag": "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Lares%20%281956%29.svg?width=200",
+      "flag_attribution": "Wikimedia Commons · Flag of Lares (1956).svg"
     },
     "loiza": {
       "name": "Loíza",
@@ -327,7 +357,9 @@
           "videoId": "gj_jmdIAp9M",
           "asl": false
         }
-      ]
+      ],
+      "flag": "https://commons.wikimedia.org/wiki/Special:FilePath/Loiza%20Flag.svg?width=200",
+      "flag_attribution": "Wikimedia Commons · Loiza Flag.svg"
     },
     "moca": {
       "name": "Moca",
@@ -343,7 +375,9 @@
           "videoId": "VUuw41kfSio",
           "asl": false
         }
-      ]
+      ],
+      "flag": "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Moca.svg?width=200",
+      "flag_attribution": "Wikimedia Commons · Flag of Moca.svg"
     },
     "morovis": {
       "name": "Morovis",
@@ -359,7 +393,9 @@
           "videoId": "bGBXTHJ00Sc",
           "asl": false
         }
-      ]
+      ],
+      "flag": "https://commons.wikimedia.org/wiki/Special:FilePath/Bandera%20de%20Morovis%2C%20Puerto%20Rico.svg?width=200",
+      "flag_attribution": "Wikimedia Commons · Bandera de Morovis, Puerto Rico.svg"
     },
     "naranjito": {
       "name": "Naranjito",
@@ -375,7 +411,9 @@
           "videoId": "619Kz0-ako4",
           "asl": false
         }
-      ]
+      ],
+      "flag": "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Naranjito%2C%20Puerto%20Rico.svg?width=200",
+      "flag_attribution": "Wikimedia Commons · Flag of Naranjito, Puerto Rico.svg"
     },
     "orocovis": {
       "name": "Orocovis",
@@ -391,7 +429,9 @@
           "videoId": "-BaqC4zGrto",
           "asl": false
         }
-      ]
+      ],
+      "flag": "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Orocovis%2C%20Puerto%20Rico.svg?width=200",
+      "flag_attribution": "Wikimedia Commons · Flag of Orocovis, Puerto Rico.svg"
     },
     "penuelas": {
       "name": "Peñuelas",
@@ -407,7 +447,9 @@
           "videoId": "scv4u95PNlQ",
           "asl": true
         }
-      ]
+      ],
+      "flag": "https://commons.wikimedia.org/wiki/Special:FilePath/Bandera-pe%C3%B1uelas.svg?width=200",
+      "flag_attribution": "Wikimedia Commons · Bandera-peñuelas.svg"
     },
     "ponce": {
       "name": "Ponce",
@@ -443,7 +485,9 @@
           "videoId": "Dj-qtMQsvl0",
           "asl": false
         }
-      ]
+      ],
+      "flag": "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Ponce%2C%20Puerto%20Rico%20-%201877%20version.svg?width=200",
+      "flag_attribution": "Wikimedia Commons · Flag of Ponce, Puerto Rico - 1877 version.svg"
     },
     "salinas": {
       "name": "Salinas",
@@ -459,7 +503,9 @@
           "videoId": "5rcwh335Fm0",
           "asl": false
         }
-      ]
+      ],
+      "flag": "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Salinas%2C%20Puerto%20Rico.svg?width=200",
+      "flag_attribution": "Wikimedia Commons · Flag of Salinas, Puerto Rico.svg"
     },
     "san-juan": {
       "name": "San Juan",
@@ -495,7 +541,9 @@
           "videoId": "oqu3xuP_pVQ",
           "asl": false
         }
-      ]
+      ],
+      "flag": "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20San%20Juan%2C%20Puerto%20Rico.svg?width=200",
+      "flag_attribution": "Wikimedia Commons · Flag of San Juan, Puerto Rico.svg"
     },
     "san-sebastian": {
       "name": "San Sebastián",
@@ -511,7 +559,9 @@
           "videoId": "nocm9p0pyoc",
           "asl": false
         }
-      ]
+      ],
+      "flag": "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20San%20Sebasti%C3%A1n%2C%20Puerto%20Rico.svg?width=200",
+      "flag_attribution": "Wikimedia Commons · Flag of San Sebastián, Puerto Rico.svg"
     },
     "sabana-grande": {
       "name": "Sábana Grande",
@@ -527,7 +577,9 @@
           "videoId": "YHN0TeYVrsM",
           "asl": false
         }
-      ]
+      ],
+      "flag": "https://commons.wikimedia.org/wiki/Special:FilePath/Bandera%20de%20Sabana%20Grande%2C%20Puerto%20Rico.svg?width=200",
+      "flag_attribution": "Wikimedia Commons · Bandera de Sabana Grande, Puerto Rico.svg"
     },
     "toa-alta": {
       "name": "Toa Alta",
@@ -543,7 +595,9 @@
           "videoId": "hcJUv7goRB4",
           "asl": false
         }
-      ]
+      ],
+      "flag": "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Toa%20Alta.svg?width=200",
+      "flag_attribution": "Wikimedia Commons · Flag of Toa Alta.svg"
     }
   }
 }

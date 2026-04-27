@@ -69,33 +69,27 @@
   </div>
 </section>
 
-<!-- Interactive map -->
+<!-- Interactive map — full width, front and center -->
 <section class="section">
-  <div class="wrap map-wrap">
+  <div class="wrap">
+    <p class="muted" style="text-align:center;font-family:var(--font-mono);font-size:var(--fs-xs);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:var(--s-4);" data-lang="es">Pasa el cursor sobre un municipio en color · Toca en móvil</p>
+    <p class="muted" style="text-align:center;font-family:var(--font-mono);font-size:var(--fs-xs);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:var(--s-4);" data-lang="en">Hover a coloured municipio · Tap on mobile</p>
     <div class="map-stage">
       <div class="map-svg" data-map-svg aria-label="Mapa de Puerto Rico" role="img"></div>
       <div class="map-tooltip" data-map-tooltip hidden></div>
     </div>
-
-    <aside class="map-detail" data-map-detail>
-      <p class="eyebrow" data-lang="es">Pasa el cursor sobre un municipio</p>
-      <p class="eyebrow" data-lang="en">Hover over a municipio</p>
-      <h2 class="h3 mt-5" data-lang="es">o explora la lista completa abajo.</h2>
-      <h2 class="h3 mt-5" data-lang="en">or explore the full list below.</h2>
-      <p class="muted mt-5" data-lang="es">El mapa destaca los 27 municipios donde vive al menos un artesano del archivo. Los grises todavía esperan a su documental.</p>
-      <p class="muted mt-5" data-lang="en">The map highlights the 27 municipios where at least one archived artisan lives. The grey ones are still waiting for their documentary.</p>
-    </aside>
+    <aside class="map-detail" data-map-detail></aside>
   </div>
 </section>
 
-<!-- Accessible / no-JS list of all munis with artisans -->
-<section class="section section--paper-warm">
+<!-- Compact archive list -->
+<section class="section section--paper-warm section--tight">
   <div class="wrap">
-    <span class="eyebrow" data-lang="es">Lista completa por municipio</span>
-    <span class="eyebrow" data-lang="en">Full list by municipio</span>
-    <h2 class="h2 mt-5" data-lang="es">Todo el archivo, ordenado por pueblo</h2>
-    <h2 class="h2 mt-5" data-lang="en">The whole archive, by town</h2>
-    <div class="grid grid--3 mt-6" data-muni-list></div>
+    <span class="eyebrow" data-lang="es">El archivo por pueblo</span>
+    <span class="eyebrow" data-lang="en">The archive by town</span>
+    <h2 class="h3 mt-5" data-lang="es">Los 27 municipios documentados</h2>
+    <h2 class="h3 mt-5" data-lang="en">The 27 documented municipios</h2>
+    <div class="muni-grid mt-5" data-muni-list></div>
   </div>
 </section>
 
