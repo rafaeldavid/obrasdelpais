@@ -6,7 +6,7 @@ Editorial-style rebuild of [obrasdelpais.com](https://www.obrasdelpais.com/), a 
 
 | Where | What |
 |---|---|
-| **Live preview** | https://steady-glacier-drz3.here.now/  ·  custom domain `https://obrasdelpais.info/` (DNS pending — see HANDOVER §5b) |
+| **Live preview** | **https://obrasdelpais.info/** (canonical) · also at https://steady-glacier-drz3.here.now/ |
 | **Source** | https://github.com/rafaeldavid/obrasdelpais (this repo) |
 | **Production target** | Existing Ghost(Pro) at obrasdelpais.com (theme upload, no DNS change yet) |
 | **Brand reference** | `Obras del Pais. The Beauty of Puerto Rican Folklore.pdf` (2026 brochure, in repo root) |
@@ -36,7 +36,7 @@ Both deliverables share the same `assets/css/style.css`, `assets/js/app.js`, and
 
 ### See it live
 ```
-open https://steady-glacier-drz3.here.now/
+open https://obrasdelpais.info/
 ```
 
 ### Run locally

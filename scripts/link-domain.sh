@@ -39,7 +39,7 @@ for r in d.get('dns_instructions', []):
   exit 2
 fi
 
-echo "→ Linking $DOMAIN root → $SLUG…"
+echo "→ Linking $DOMAIN root → ${SLUG}…"
 curl -sS -X POST https://here.now/api/v1/links \
   -H "Authorization: Bearer $API_KEY" \
   -H "Content-Type: application/json" \

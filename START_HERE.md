@@ -235,7 +235,7 @@ Pídele a Claude:
 
 | Qué | Dónde |
 |---|---|
-| **Sitio en vivo (preview)** | https://steady-glacier-drz3.here.now/ |
+| **Sitio en vivo (preview)** | https://obrasdelpais.info/ |
 | **Repositorio en GitHub** | https://github.com/rafaeldavid/obrasdelpais |
 | **Manual técnico** (en este repo) | `HANDOVER.md` |
 | **README** (en este repo) | `README.md` |
