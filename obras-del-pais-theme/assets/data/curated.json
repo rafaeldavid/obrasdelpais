@@ -1,0 +1,238 @@
+{
+  "hero_rotation": [
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2021/04/DSC_5996edit-5.jpg",
+      "name": "Antonio Nieves",
+      "slug": "antonio-nieves"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2021/07/DSC_6128ObrasdelPaiseditedlgo.jpg",
+      "name": "Jorge Rivera",
+      "slug": "jorge-rivera-tornero-de-lajas"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2021/08/DSC_6525ObrasdelPaiseditedlgo.jpg",
+      "name": "Gloria López Estrella",
+      "slug": "gloria-lopez-estrella-talladora-de-santos"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2021/04/DSC_7022edt.jpg",
+      "name": "Alex Ríos",
+      "slug": "alex-rios-tallador-de-aves"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2021/04/DSC_6371--B-Wedited-.jpg",
+      "name": "Rafael Avilés Vázquez",
+      "slug": "rafael-aviles-vazquez-lutier"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2021/04/DSC_7642edit.jpg",
+      "name": "Kenneth Meléndez",
+      "slug": "kenneth-melendez"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2021/04/DSC_7306edit.jpg",
+      "name": "Wanda Ramírez",
+      "slug": "wanda-ramirez-flora-en-cuero"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2021/04/DSC_7470edt.jpg",
+      "name": "Eliseo \"Elo\" Molina",
+      "slug": "eliseo-elo-molina"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2021/04/DSC_7511edt.jpg",
+      "name": "Norma Gómez",
+      "slug": "norma-gomez-petate"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2021/05/DSC_7915edit.jpg",
+      "name": "Carlos Teissonniere",
+      "slug": "teissonniere-tallador-de-gallos"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2021/06/Nic-screenshot-7-1.jpg",
+      "name": "Anna Nicholson",
+      "slug": "anna-nicholson-grabados"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2021/11/DSC_8352editlogo.jpg",
+      "name": "Nellie y Sandra",
+      "slug": "nellie-y-sandra-tejedoras-de-mundillo"
+    }
+  ],
+  "team": [
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1200/2021/05/Screen-Shot-2021-04-30-at-2.25.32-PM-1.png",
+      "alt": null,
+      "position": "cover"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/2021/05/ObrasDelPaisband.jpg",
+      "alt": null,
+      "position": "content_2"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w2400/2025/08/obras-del-pais-bannerB.jpg",
+      "alt": null,
+      "position": "content_3"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w2400/2025/01/obras-del-pais-junta-directores.jpg",
+      "alt": null,
+      "position": "content_4"
+    }
+  ],
+  "events": [
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/2026/01/Antonio-Nieves.jpg",
+      "alt": null,
+      "page_slug": "antes-de-la-sanse-un-secretito-artesanal"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/2026/01/Jorge-Rivera.jpg",
+      "alt": null,
+      "page_slug": "antes-de-la-sanse-un-secretito-artesanal"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/2026/01/Anna.jpg",
+      "alt": null,
+      "page_slug": "antes-de-la-sanse-un-secretito-artesanal"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/2026/01/Nicholas-Damiani.jpg",
+      "alt": null,
+      "page_slug": "antes-de-la-sanse-un-secretito-artesanal"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/2026/01/masaro.jpg",
+      "alt": null,
+      "page_slug": "antes-de-la-sanse-un-secretito-artesanal"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/2026/01/Deborah-Feliciano.jpg",
+      "alt": null,
+      "page_slug": "antes-de-la-sanse-un-secretito-artesanal"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/2026/01/Teddy-Wilda.jpg",
+      "alt": null,
+      "page_slug": "antes-de-la-sanse-un-secretito-artesanal"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/2026/01/Glads.jpg",
+      "alt": null,
+      "page_slug": "antes-de-la-sanse-un-secretito-artesanal"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/2026/01/iris.jpg",
+      "alt": null,
+      "page_slug": "antes-de-la-sanse-un-secretito-artesanal"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/2026/01/Rafael-y-Rosa.jpg",
+      "alt": null,
+      "page_slug": "antes-de-la-sanse-un-secretito-artesanal"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w2400/2026/01/IMG_6018.jpeg",
+      "alt": null,
+      "page_slug": "antes-de-la-sanse-un-secretito-artesanal"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/2025/10/NY-film-selecion-art.jpg",
+      "alt": null,
+      "page_slug": "del-barrio-espinar-en-aguada-a-la-pantalla-gigante-en-la-ciudad-de-nueva-york"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/2025/10/regal-11-concessions.jpg",
+      "alt": null,
+      "page_slug": "del-barrio-espinar-en-aguada-a-la-pantalla-gigante-en-la-ciudad-de-nueva-york"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/2025/10/large.jpeg",
+      "alt": null,
+      "page_slug": "del-barrio-espinar-en-aguada-a-la-pantalla-gigante-en-la-ciudad-de-nueva-york"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/2025/10/557727703_18522913093028703_7246737003616780023_n.jpg",
+      "alt": null,
+      "page_slug": "del-barrio-espinar-en-aguada-a-la-pantalla-gigante-en-la-ciudad-de-nueva-york"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/2025/09/t-shirt.jpg",
+      "alt": null,
+      "page_slug": "del-barrio-espinar-en-aguada-a-la-pantalla-gigante-en-la-ciudad-de-nueva-york"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/2025/09/t-shirt.jpg",
+      "alt": null,
+      "page_slug": "tras-las-camaras-del-nuevo-documental"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w2400/2025/10/composite-edit.jpg",
+      "alt": null,
+      "page_slug": "tras-las-camaras-del-nuevo-documental"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w2400/2025/09/behind-the-scenes-Milly-odp-37.jpg",
+      "alt": null,
+      "page_slug": "tras-las-camaras-del-nuevo-documental"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w2400/2025/09/behind-the-scenes-2-Milly-odp-37.jpg",
+      "alt": null,
+      "page_slug": "tras-las-camaras-del-nuevo-documental"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/2025/09/ODP-patrions.jpg",
+      "alt": null,
+      "page_slug": "tras-las-camaras-del-nuevo-documental"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/2026/01/ODP-patrions-23-7-2025.jpg",
+      "alt": null,
+      "page_slug": "cuando-una-historia-se-convierte-en-menu"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/2026/01/DSC_5711.00_18_21_00edit-2.jpg",
+      "alt": null,
+      "page_slug": "cuando-una-historia-se-convierte-en-menu"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/2026/01/WhatsApp-Image-2026-01-19-at-3.15.44-f.jpeg",
+      "alt": null,
+      "page_slug": "cuando-una-historia-se-convierte-en-menu"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/2026/01/WhatsApp-Image-2026-01-19-at-3.15.44-PM.jpeg",
+      "alt": null,
+      "page_slug": "cuando-una-historia-se-convierte-en-menu"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/2026/01/chef-1.jpg",
+      "alt": null,
+      "page_slug": "cuando-una-historia-se-convierte-en-menu"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w2400/2021/07/28AA7017-BBD7-4655-9C78-AA89E34B6173.jpeg",
+      "alt": null,
+      "page_slug": "60ma-feria-de-artesanias-de-barranquitas"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w2400/2021/07/49AEF626-75BF-485A-A44E-3C932707A062.jpeg",
+      "alt": null,
+      "page_slug": "60ma-feria-de-artesanias-de-barranquitas"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w2400/2021/07/C5BCBAD5-B2DA-48B8-8035-46A31827C8B5.jpeg",
+      "alt": null,
+      "page_slug": "60ma-feria-de-artesanias-de-barranquitas"
+    },
+    {
+      "url": "https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w2400/2021/07/04906D6A-BFAD-4BA5-96EC-4AAF0303C052.jpeg",
+      "alt": null,
+      "page_slug": "60ma-feria-de-artesanias-de-barranquitas"
+    }
+  ]
+}

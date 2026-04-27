@@ -128,7 +128,7 @@
     const place = v.place_es || a.place_es || a.region_es || "";
     const vid = v.videoId || a.videoId;
     const youtubeUrl = vid ? `https://www.youtube.com/watch?v=${vid}` : `https://www.youtube.com/@obrasdelpais/search?query=${encodeURIComponent(a.name || title)}`;
-    const thumb = a.image || (vid ? `https://i.ytimg.com/vi/${vid}/maxresdefault.jpg` : null);
+    const thumb = a.image_cdn || a.image || (vid ? `https://i.ytimg.com/vi/${vid}/maxresdefault.jpg` : null);
     return `
     <article class="doc-band reveal" data-region="${(a.region_es||'').toLowerCase()}" data-craft="${slugCraft(a.craft_es||'')}">
       <a class="doc-band__media" href="${youtubeUrl}" target="_blank" rel="noopener" aria-label="Ver en YouTube">
@@ -190,8 +190,12 @@
   /* ---------- Directory page ---------- */
   const dirGrid = document.querySelector("[data-dir-grid]");
   if (dirGrid) {
+    dirGrid.innerHTML = `<div class="muted" style="grid-column:1/-1;padding:2rem 0;font-family:var(--font-mono);font-size:var(--fs-xs);letter-spacing:0.18em;text-transform:uppercase;opacity:0.6;">Cargando · loading…</div>`;
     loadJSON("/assets/data/artisans.json").then((artisans) => {
-      if (!artisans) return;
+      if (!artisans || !artisans.length) {
+        dirGrid.innerHTML = `<div class="muted" style="grid-column:1/-1;padding:2rem 0;"><strong>No pudimos cargar el directorio.</strong> <a class="link-inline" href="/">Volver al inicio</a></div>`;
+        return;
+      }
       // counts for filter rail
       const byCraft = {};
       const byRegion = {};
@@ -259,8 +263,9 @@
     return "Otros";
   }
   function artisanCardHTML(a) {
-    const photo = a.image
-      ? `<img src="${a.image}" alt="${escapeHTML(a.name)}" loading="lazy">`
+    const src = a.image_cdn || a.image;
+    const photo = src
+      ? `<img src="${src}" alt="${escapeHTML(a.name)}" loading="lazy">`
       : `<div class="ph"></div>`;
     return `
     <a class="artisan-card reveal" href="/artesano.html?slug=${encodeURIComponent(a.slug)}" data-craft="${simpleCraft(a.craft_es)}" data-region="${(a.region_es||'').toLowerCase()}">
@@ -282,10 +287,18 @@
   if (detail) {
     const params = new URL(location.href).searchParams;
     const slug = params.get("slug");
+    detail.innerHTML = `<section class="page-intro"><div class="page-intro__wrap"><span class="page-intro__crumb">Cargando · loading…</span></div></section>`;
     Promise.all([loadJSON("/assets/data/artisans.json"), loadJSON("/assets/data/videos.json")]).then(([artisans, videos]) => {
-      const a = (artisans || []).find(x => x.slug === slug) || (artisans || [])[0];
-      if (!a) return;
-      const v = (videos?.videos || []).find(x => x.slug === slug);
+      if (!artisans || !artisans.length) {
+        detail.innerHTML = `<section class="page-intro"><div class="page-intro__wrap"><h1 class="page-intro__title">No pudimos cargar la ficha</h1><p class="page-intro__lede"><a class="link-inline" href="/directorio.html" style="color:inherit;">Volver al directorio</a> · <a class="link-inline" href="/" style="color:inherit;">Inicio</a></p></div></section>`;
+        return;
+      }
+      const a = (slug && artisans.find(x => x.slug === slug)) || artisans[0];
+      if (!a) {
+        detail.innerHTML = `<section class="page-intro"><div class="page-intro__wrap"><h1 class="page-intro__title">Artesano no encontrado</h1><p class="page-intro__lede">No tenemos una ficha con ese nombre. <a class="link-inline" href="/directorio.html" style="color:inherit;">Ver el directorio completo</a>.</p></div></section>`;
+        return;
+      }
+      const v = (videos?.videos || []).find(x => x.slug === a.slug);
       detail.innerHTML = artisanDetailHTML(a, v);
       applyLang(detectLang());
     });
@@ -295,7 +308,8 @@
     const youtubeUrl = vid
       ? `https://www.youtube.com/watch?v=${vid}`
       : `https://www.youtube.com/@obrasdelpais/search?query=${encodeURIComponent(a.name)}`;
-    const heroImg = a.image ? `<img src="${a.image}" alt="${escapeHTML(a.name)}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.55;mix-blend-mode:luminosity;">` : "";
+    const heroSrc = a.image_cdn || a.image;
+    const heroImg = heroSrc ? `<img src="${heroSrc}" alt="${escapeHTML(a.name)}" class="page-intro__bg-img">` : "";
     return `
     <section class="page-intro" style="position:relative;overflow:hidden;">
       ${heroImg}
@@ -323,7 +337,7 @@
           </div>
           <div>
             <a class="doc-band__media" href="${youtubeUrl}" target="_blank" rel="noopener" style="display:block;border-radius:8px;overflow:hidden;position:relative;">
-              ${vid ? `<img src="https://i.ytimg.com/vi/${vid}/maxresdefault.jpg" alt="" style="width:100%;display:block;">` : (a.image ? `<img src="${a.image}" alt="" style="width:100%;display:block;">` : `<div class="ph" style="aspect-ratio:16/10;"></div>`)}
+              ${vid ? `<img src="https://i.ytimg.com/vi/${vid}/maxresdefault.jpg" alt="" style="width:100%;display:block;">` : (heroSrc ? `<img src="${heroSrc}" alt="" style="width:100%;display:block;">` : `<div class="ph" style="aspect-ratio:16/10;"></div>`)}
               <span class="play-pill" style="position:absolute;left:12px;bottom:12px;">Ver en YouTube ↗</span>
             </a>
             <div class="mt-5">
