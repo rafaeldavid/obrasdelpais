@@ -100,11 +100,17 @@ a, button, [role="button"] { touch-action: manipulation; }
 /* Selection respects palette */
 ::selection { background: var(--ochre); color: var(--paper); }
 
-/* Focus */
+/* Focus — high contrast on both paper and dark, stays visible against the ochre brand */
 :focus-visible {
-  outline: 2px solid var(--ochre);
+  outline: 2px solid var(--ink);
   outline-offset: 3px;
+  box-shadow: 0 0 0 4px var(--paper);
   border-radius: var(--radius);
+}
+.section--dark :focus-visible,
+.hero :focus-visible {
+  outline-color: var(--paper);
+  box-shadow: 0 0 0 4px var(--ink);
 }
 
 /* ---------- Layout primitives ---------- */
@@ -212,13 +218,13 @@ h5, .h5 { font-family: var(--font-body); font-size: var(--fs-md); font-weight: 6
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.25rem var(--gutter);
+  padding: calc(1.25rem + env(safe-area-inset-top)) calc(var(--gutter) + env(safe-area-inset-right)) 1.25rem calc(var(--gutter) + env(safe-area-inset-left));
   color: var(--paper);
-  mix-blend-mode: difference;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0) 100%);
   transition: background var(--t-med) var(--ease);
 }
-.site-header.is-paper { color: var(--ink); mix-blend-mode: normal; }
-.site-header.is-condensed { background: rgba(0, 0, 0, 0.78); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); mix-blend-mode: normal; color: var(--paper); }
+.site-header.is-paper { color: var(--ink); background: var(--paper); }
+.site-header.is-condensed { background: rgba(0, 0, 0, 0.78); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: var(--paper); }
 
 .brand {
   display: inline-flex;
@@ -275,10 +281,14 @@ h5, .h5 { font-family: var(--font-body); font-size: var(--fs-md); font-weight: 6
   transition: opacity var(--t-fast) var(--ease);
 }
 .lang-toggle__opt {
-  /* widen the per-letter hit target so each language is tappable */
-  padding: 0.25rem 0.4rem;
-  min-width: 28px;
+  /* WCAG 2.5.5 — every language switch needs a real 44×44 hit target */
+  padding: 0.6rem 0.8rem;
+  min-width: 44px;
+  min-height: 44px;
   text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 .lang-toggle:hover { opacity: 1; }
 .lang-toggle__sep { opacity: 0.4; }
@@ -317,10 +327,19 @@ h5, .h5 { font-family: var(--font-body); font-size: var(--fs-md); font-weight: 6
     inset: 0;
     background: var(--black);
     color: var(--paper);
-    padding: 6rem var(--gutter) 2rem;
+    padding: calc(6rem + env(safe-area-inset-top)) var(--gutter) calc(2rem + env(safe-area-inset-bottom));
     flex-direction: column;
     gap: 2rem;
-    z-index: 40;
+    z-index: 60;  /* above the header (50) so the X stays tappable */
+    overflow-y: auto;
+  }
+  /* Hide the floating feedback button while the nav drawer is open */
+  [data-nav-open="true"] .feedback-btn { display: none; }
+  /* The hamburger sits inside the header; raise it above the panel */
+  [data-nav-open="true"] .nav-toggle {
+    position: relative;
+    z-index: 70;
+    color: var(--paper);
   }
   [data-nav-open="true"] .nav__list {
     display: flex;
@@ -720,7 +739,7 @@ h5, .h5 { font-family: var(--font-body); font-size: var(--fs-md); font-weight: 6
   overflow: hidden;
   transition: border-color var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
 }
-.artisan-card:hover { border-color: var(--ochre); transform: translateY(-2px); }
+.artisan-card:hover, .artisan-card:active { border-color: var(--ochre); transform: translateY(-2px); }
 .artisan-card__photo {
   aspect-ratio: 4 / 5;
   background: var(--ink);
@@ -801,7 +820,8 @@ h5, .h5 { font-family: var(--font-body); font-size: var(--fs-md); font-weight: 6
 .filter-list a {
   text-align: left;
   font-size: var(--fs-sm);
-  padding: 0.4rem 0.6rem;
+  padding: 0.7rem 0.85rem;
+  min-height: 44px;
   border-radius: var(--radius);
   transition: background var(--t-fast) var(--ease);
   color: var(--ink);
@@ -866,7 +886,7 @@ h5, .h5 { font-family: var(--font-body); font-size: var(--fs-md); font-weight: 6
   background: var(--paper);
   transition: border-color var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
 }
-.rail:hover { border-color: var(--clay); transform: translateY(-1px); }
+.rail:hover, .rail:active { border-color: var(--clay); transform: translateY(-1px); }
 .rail__name { font-family: var(--font-display); font-size: var(--fs-md); }
 .rail__sub { font-size: var(--fs-xs); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ochre); display: block; }
 .rail__arrow { font-family: var(--font-mono); }
@@ -1031,7 +1051,7 @@ h5, .h5 { font-family: var(--font-body); font-size: var(--fs-md); font-weight: 6
 .site-footer {
   background: var(--ink);
   color: var(--paper);
-  padding: var(--s-9) var(--gutter) var(--s-6);
+  padding: var(--s-9) calc(var(--gutter) + env(safe-area-inset-right)) calc(var(--s-6) + env(safe-area-inset-bottom)) calc(var(--gutter) + env(safe-area-inset-left));
 }
 .site-footer__grid {
   display: grid;
@@ -1277,7 +1297,7 @@ h5, .h5 { font-family: var(--font-body); font-size: var(--fs-md); font-weight: 6
   transition: border-color var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
   align-items: center;
 }
-.muni-card:hover { border-color: var(--ochre); transform: translateY(-1px); }
+.muni-card:hover, .muni-card:active { border-color: var(--ochre); transform: translateY(-1px); }
 .muni-card__flag {
   grid-row: span 2;
   width: 44px;
@@ -1336,10 +1356,11 @@ h5, .h5 { font-family: var(--font-body); font-size: var(--fs-md); font-weight: 6
 }
 .region-pill {
   font-family: var(--font-mono);
-  font-size: var(--fs-xs);
-  letter-spacing: 0.16em;
+  font-size: var(--fs-sm);
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  padding: 0.5rem 0.6rem;
+  padding: 0.7rem 1rem;
+  min-height: 44px;
   border: 1px solid var(--line-on-paper);
   background: var(--paper);
   cursor: pointer;

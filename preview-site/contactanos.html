@@ -84,10 +84,10 @@
       <h2 class="h3 mt-6" data-lang="es">Forma rápida</h2>
       <h2 class="h3 mt-6" data-lang="en">Quick form</h2>
       <form action="#" method="post" onsubmit="event.preventDefault();this.querySelector('button').textContent='✓';" style="display:grid;gap:0.6rem;margin-top:1rem;">
-        <input class="newsletter__input" type="text" required placeholder="Nombre · Name" aria-label="Name">
-        <input class="newsletter__input" type="email" required placeholder="email@ejemplo.com" aria-label="Email">
-        <input class="newsletter__input" type="text" placeholder="Asunto · Subject" aria-label="Subject">
-        <textarea class="newsletter__input" rows="5" required placeholder="Mensaje · Message" aria-label="Message"></textarea>
+        <input class="newsletter__input" type="text" autocomplete="name" enterkeyhint="next" required placeholder="Nombre · Name" aria-label="Name">
+        <input class="newsletter__input" type="email" inputmode="email" autocomplete="email" enterkeyhint="next" required placeholder="email@ejemplo.com" aria-label="Email">
+        <input class="newsletter__input" type="text" autocomplete="off" enterkeyhint="next" placeholder="Asunto · Subject" aria-label="Subject">
+        <textarea class="newsletter__input" rows="5" required enterkeyhint="send" placeholder="Mensaje · Message" aria-label="Message"></textarea>
         <button class="btn btn--solid" type="submit" style="justify-self:start;"><span data-lang="es">Enviar</span><span data-lang="en">Send</span></button>
       </form>
       <p class="muted" style="margin-top:0.6rem;font-size:var(--fs-xs);" data-lang="es">Respondemos en 1–2 días hábiles.</p>

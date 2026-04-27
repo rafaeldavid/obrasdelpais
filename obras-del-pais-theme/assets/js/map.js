@@ -152,12 +152,20 @@
     const stageRect = stage.getBoundingClientRect();
     const elRect = el.getBoundingClientRect();
     const x = elRect.left + elRect.width / 2 - stageRect.left;
-    const y = elRect.top - stageRect.top;
+    const yAbove = elRect.top - stageRect.top;
     const ttRect = tooltip.getBoundingClientRect();
     const minX = ttRect.width / 2 + 8;
     const maxX = stageRect.width - ttRect.width / 2 - 8;
     tooltip.style.left = Math.max(minX, Math.min(maxX, x)) + "px";
-    tooltip.style.top = y + "px";
+    // If the tooltip would extend above the page-intro section (negative space),
+    // flip it below the polygon instead.
+    if (yAbove - ttRect.height - 14 < 0) {
+      tooltip.style.transform = "translate(-50%, 14px)";
+      tooltip.style.top = (elRect.bottom - stageRect.top) + "px";
+    } else {
+      tooltip.style.transform = "translate(-50%, calc(-100% - 14px))";
+      tooltip.style.top = yAbove + "px";
+    }
   }
 
   function hideTooltip() {
@@ -200,6 +208,7 @@
   }
 
   // Wire hover/click on each highlighted polygon
+  const isTouch = matchMedia("(hover: none)").matches;
   svg.querySelectorAll(".municipio.has-artisans").forEach((el) => {
     const slug = el.dataset.muniSlug;
     const info = munis[slug];
@@ -207,7 +216,15 @@
     el.addEventListener("mouseleave", hideTooltip);
     el.addEventListener("focus", () => showTooltip(el, info));
     el.addEventListener("blur", hideTooltip);
-    el.addEventListener("click", () => renderDetail(info));
+    el.addEventListener("click", () => {
+      // On touch devices the user never gets a hover preview — show the
+      // tooltip briefly while we open the detail panel.
+      if (isTouch) {
+        showTooltip(el, info);
+        setTimeout(hideTooltip, 2400);
+      }
+      renderDetail(info);
+    });
     el.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") { e.preventDefault(); renderDetail(info); }
     });

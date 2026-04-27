@@ -43,18 +43,36 @@
 
   /* ---------- Mobile nav ---------- */
   const navToggle = document.querySelector(".nav-toggle");
+  let savedScrollY = 0;
+  function setNavOpen(open) {
+    root.dataset.navOpen = open ? "true" : "false";
+    if (navToggle) navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    if (open) {
+      savedScrollY = window.scrollY;
+      // iOS-safe scroll lock — overflow:hidden alone doesn't stop rubber-band on iOS Safari
+      document.body.style.cssText =
+        `position:fixed;top:-${savedScrollY}px;left:0;right:0;width:100%;`;
+    } else {
+      document.body.style.cssText = "";
+      window.scrollTo(0, savedScrollY);
+    }
+  }
   if (navToggle) {
     navToggle.addEventListener("click", () => {
-      const open = root.dataset.navOpen === "true";
-      root.dataset.navOpen = open ? "false" : "true";
-      document.body.style.overflow = open ? "" : "hidden";
+      setNavOpen(root.dataset.navOpen !== "true");
     });
     document.querySelectorAll(".nav__list a").forEach((a) =>
-      a.addEventListener("click", () => {
-        root.dataset.navOpen = "false";
-        document.body.style.overflow = "";
-      })
+      a.addEventListener("click", () => setNavOpen(false))
     );
+    // Tap on the panel background (outside the list/toggle) closes
+    document.querySelector(".nav__panel")?.addEventListener("click", (e) => {
+      if (e.target.closest(".nav__list, .lang-toggle, .nav-toggle")) return;
+      setNavOpen(false);
+    });
+    // Esc closes
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && root.dataset.navOpen === "true") setNavOpen(false);
+    });
   }
 
   /* ---------- Header condense ---------- */
