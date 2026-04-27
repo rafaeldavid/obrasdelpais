@@ -84,9 +84,13 @@
         { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
       )
     : null;
-  document.querySelectorAll(".reveal").forEach((el) => {
-    if (io) io.observe(el); else el.classList.add("is-in");
-  });
+  function observeReveal(scope) {
+    (scope || document).querySelectorAll(".reveal").forEach((el) => {
+      if (el.classList.contains("is-in")) return;
+      if (io) io.observe(el); else el.classList.add("is-in");
+    });
+  }
+  observeReveal();
 
   /* ---------- Data loaders ---------- */
   async function loadJSON(path) {
@@ -118,6 +122,7 @@
               region_es: a.region_es
             }));
         docList.innerHTML = items.map((v) => bandHTML(v, idx[v.slug] || {})).join("");
+        observeReveal(docList);
         // Hook filter pills
         wireFilters(items);
       });
@@ -219,6 +224,7 @@
           .join("");
       }
       dirGrid.innerHTML = artisans.map((a) => artisanCardHTML(a)).join("");
+      observeReveal(dirGrid);
       let active = { craft: null, region: null };
       function applyFilter() {
         dirGrid.querySelectorAll(".artisan-card").forEach((card) => {
@@ -300,6 +306,7 @@
       }
       const v = (videos?.videos || []).find(x => x.slug === a.slug);
       detail.innerHTML = artisanDetailHTML(a, v);
+      observeReveal(detail);
       applyLang(detectLang());
     });
   }
