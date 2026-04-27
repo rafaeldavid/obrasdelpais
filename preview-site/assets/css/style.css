@@ -357,16 +357,87 @@ h5, .h5 { font-family: var(--font-body); font-size: var(--fs-md); font-weight: 6
 .hero__content {
   position: relative;
   z-index: 1;
-  padding: var(--s-10) var(--gutter) var(--s-7);
+  padding: var(--s-10) var(--gutter) var(--s-9);
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: flex-start;
   max-width: var(--max-w);
   margin-inline: auto;
   width: 100%;
   min-height: 100svh;
 }
+.hero__content--split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-7);
+  align-items: center;
+  align-content: center;
+  padding-top: 7rem;
+  padding-bottom: 9rem;
+}
+@media (min-width: 880px) {
+  .hero__content--split {
+    grid-template-columns: 1.4fr 0.9fr;
+    gap: var(--s-8);
+  }
+}
+.hero__lead {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.hero__eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ochre-soft);
+  opacity: 0.92;
+}
+.hero__valueprop {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.1rem, 1rem + 0.6vw, 1.4rem);
+  line-height: 1.45;
+  max-width: 38ch;
+  color: var(--paper);
+  opacity: 0.9;
+  margin-top: 0.5rem;
+}
+.hero__cta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: var(--s-5);
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(245, 241, 234, 0.15);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  max-width: 360px;
+}
+@media (min-width: 880px) {
+  .hero__cta { justify-self: end; align-self: center; }
+}
+.hero__count {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 1.8rem + 2.5vw, 3.6rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--ochre-soft);
+}
+.hero__count-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+.hero__btn { margin-top: 0.6rem; align-self: stretch; justify-content: center; }
+.hero__link { font-size: var(--fs-sm); opacity: 0.85; margin-top: 0.4rem; }
 .hero__title {
   font-family: var(--font-display);
   font-weight: 500;
