@@ -123,6 +123,16 @@
     btn.querySelectorAll("[data-lang]").forEach(el => el.classList.toggle("is-active", el.dataset.lang === currentLang));
 
     btn.addEventListener("click", () => openFeedbackModal(endpoint));
+
+    // Expose programmatic openers so other pages (e.g. /mapa.html) can
+    // trigger the lead modal from any link with [data-open-lead].
+    window.openLeadModal = () => openLeadModal(endpoint);
+    document.addEventListener("click", (e) => {
+      const a = e.target.closest("[data-open-lead]");
+      if (a) { e.preventDefault(); openLeadModal(endpoint); }
+      const b = e.target.closest("[data-open-feedback]");
+      if (b) { e.preventDefault(); openFeedbackModal(endpoint); }
+    });
   })();
 
   function openFeedbackModal(endpoint) {
@@ -215,6 +225,134 @@
         status.textContent = t("Error — intenta de nuevo","Error — try again");
         submitBtn.disabled = false;
         console.error("feedback submit:", err);
+      }
+    });
+  }
+
+  /* ---------- Lead modal (artisan tip from a community member) ---------- */
+  function openLeadModal(endpoint) {
+    if (!endpoint) {
+      console.warn("Lead endpoint not configured");
+      return;
+    }
+    const lang = document.documentElement.dataset.lang || "es";
+    const t = (es, en) => (lang === "en" ? en : es);
+
+    const modal = document.createElement("div");
+    modal.className = "feedback-modal";
+    modal.setAttribute("role", "dialog");
+    modal.setAttribute("aria-modal", "true");
+    modal.innerHTML = `
+      <div class="feedback-modal__panel">
+        <button class="feedback-modal__close" aria-label="${t("Cerrar","Close")}">×</button>
+        <h2>${t("¿Conoces un artesano que debamos documentar?","Know an artisan we should document?")}</h2>
+        <p class="muted">${t("Cuéntanos quién es, dónde trabaja, y qué oficio domina. Cada referencia es un próximo documental posible.","Tell us who they are, where they work, and what craft they master. Every tip is a possible next documentary.")}</p>
+        <form class="feedback-modal__form" novalidate>
+          <label>
+            ${t("Nombre del artesano","Artisan's name")}
+            <input type="text" name="artisan_name" required maxlength="120" placeholder="${t("Don/Doña…","Don/Doña…")}">
+          </label>
+          <label>
+            ${t("Municipio","Municipio")}
+            <input type="text" name="municipio" required maxlength="60" placeholder="${t("Pueblo de Puerto Rico","Town in Puerto Rico")}">
+          </label>
+          <label>
+            ${t("Oficio · materiales","Craft · materials")}
+            <input type="text" name="craft" required maxlength="200" placeholder="${t("Talla en madera, mundillo, vejigantes…","Wood carving, mundillo lace, vejigantes…")}">
+          </label>
+          <label>
+            ${t("Cómo contactarles","How to reach them")}
+            <input type="text" name="contact" maxlength="200" placeholder="${t("Teléfono, Instagram, email…","Phone, Instagram, email…")}">
+          </label>
+          <label>
+            ${t("Notas (opcional)","Notes (optional)")}
+            <textarea name="notes" rows="3" maxlength="2000" placeholder="${t("Por qué crees que su historia debe contarse","Why their story should be told")}"></textarea>
+          </label>
+          <label>
+            ${t("Tu email (opcional)","Your email (optional)")}
+            <input type="email" name="email" maxlength="200" placeholder="${t("Si quieres seguimiento","If you'd like a follow-up")}">
+          </label>
+          <input class="feedback-modal__hp" type="text" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="feedback-modal__actions">
+            <button type="submit" class="btn btn--clay">${t("Enviar referencia","Send tip")}</button>
+            <button type="button" class="btn btn--ghost feedback-modal__cancel">${t("Cancelar","Cancel")}</button>
+            <span class="feedback-modal__status" aria-live="polite"></span>
+          </div>
+        </form>
+        <p class="feedback-modal__disclosure">${t(
+          "Tu referencia se guarda en nuestro repositorio de GitHub para que el equipo la revise. No es un compromiso — investigamos cada lead respetuosamente.",
+          "Your tip is saved to our GitHub repository so the team can review it. It's not a commitment — we investigate each lead respectfully."
+        )}</p>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    document.body.style.overflow = "hidden";
+
+    function close() {
+      modal.remove();
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKey);
+    }
+    function onKey(e) { if (e.key === "Escape") close(); }
+    document.addEventListener("keydown", onKey);
+
+    modal.querySelector(".feedback-modal__close").addEventListener("click", close);
+    modal.querySelector(".feedback-modal__cancel").addEventListener("click", close);
+    modal.addEventListener("click", (e) => { if (e.target === modal) close(); });
+
+    setTimeout(() => modal.querySelector("input[name=artisan_name]").focus(), 50);
+
+    const form = modal.querySelector("form");
+    const status = modal.querySelector(".feedback-modal__status");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const fd = new FormData(form);
+      const artisan = (fd.get("artisan_name") || "").toString().trim();
+      const muni = (fd.get("municipio") || "").toString().trim();
+      const craft = (fd.get("craft") || "").toString().trim();
+      const contact = (fd.get("contact") || "").toString().trim();
+      const notes = (fd.get("notes") || "").toString().trim();
+      if (!artisan || !muni || !craft) {
+        status.className = "feedback-modal__status is-error";
+        status.textContent = t("Falta información requerida","Missing required info");
+        return;
+      }
+      // Compose a single message string preserving the structure
+      const parts = [
+        `Artesano: ${artisan}`,
+        `Municipio: ${muni}`,
+        `Oficio: ${craft}`,
+      ];
+      if (contact) parts.push(`Contacto: ${contact}`);
+      if (notes) parts.push(`Notas: ${notes}`);
+      const message = parts.join(" · ");
+
+      const submitBtn = form.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      status.className = "feedback-modal__status";
+      status.textContent = t("Enviando…","Sending…");
+      try {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            type: "lead",
+            message,
+            email: (fd.get("email") || "").toString().trim(),
+            hp: (fd.get("hp") || "").toString(),
+            page: location.pathname + location.search,
+            lang,
+          }),
+        });
+        if (!res.ok) throw new Error(`${res.status}`);
+        status.className = "feedback-modal__status is-ok";
+        status.textContent = t("Gracias","Thank you");
+        setTimeout(close, 1400);
+      } catch (err) {
+        status.className = "feedback-modal__status is-error";
+        status.textContent = t("Error — intenta de nuevo","Error — try again");
+        submitBtn.disabled = false;
+        console.error("lead submit:", err);
       }
     });
   }
