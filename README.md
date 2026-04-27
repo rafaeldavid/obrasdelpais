@@ -1,5 +1,7 @@
 # Obras del País — Website Rebuild
 
+> 👋 **¿Eres Isaak (o cualquier persona nueva en el proyecto)?** Empieza por **[`START_HERE.md`](START_HERE.md)** — guía paso a paso para Mac y Windows, instalar Claude Code, conectarte a GitHub, y terminar el sitio.
+
 Editorial-style rebuild of [obrasdelpais.com](https://www.obrasdelpais.com/), a Puerto Rican 501(c)(3) that documents artisans through micro-documentaries.
 
 | Where | What |
