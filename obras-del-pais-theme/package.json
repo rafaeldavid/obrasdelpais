@@ -47,7 +47,7 @@
       },
       "paypal_donate_url": {
         "type": "text",
-        "default": "https://www.paypal.com/donate/?hosted_button_id=97XWVQV6YQT6C&source=qr",
+        "default": "https://www.paypal.com/donate/?hosted_button_id=97XWVQV6YQT6C&amount=15&currency_code=USD&source=qr",
         "description": "Hosted PayPal button URL."
       },
       "ein_visible": {
