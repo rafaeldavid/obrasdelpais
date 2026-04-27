@@ -41,37 +41,34 @@
   });
   applyLang(detectLang());
 
-  /* ---------- Mobile nav ---------- */
+  /* ---------- Mobile nav (compact dropdown) ---------- */
   const navToggle = document.querySelector(".nav-toggle");
-  let savedScrollY = 0;
   function setNavOpen(open) {
     root.dataset.navOpen = open ? "true" : "false";
     if (navToggle) navToggle.setAttribute("aria-expanded", open ? "true" : "false");
-    if (open) {
-      savedScrollY = window.scrollY;
-      // iOS-safe scroll lock — overflow:hidden alone doesn't stop rubber-band on iOS Safari
-      document.body.style.cssText =
-        `position:fixed;top:-${savedScrollY}px;left:0;right:0;width:100%;`;
-    } else {
-      document.body.style.cssText = "";
-      window.scrollTo(0, savedScrollY);
-    }
   }
   if (navToggle) {
-    navToggle.addEventListener("click", () => {
+    navToggle.addEventListener("click", (e) => {
+      e.stopPropagation();
       setNavOpen(root.dataset.navOpen !== "true");
     });
+    // Close on link tap (within the panel)
     document.querySelectorAll(".nav__list a").forEach((a) =>
       a.addEventListener("click", () => setNavOpen(false))
     );
-    // Tap on the panel background (outside the list/toggle) closes
-    document.querySelector(".nav__panel")?.addEventListener("click", (e) => {
-      if (e.target.closest(".nav__list, .lang-toggle, .nav-toggle")) return;
+    // Tap anywhere outside the panel closes it
+    document.addEventListener("click", (e) => {
+      if (root.dataset.navOpen !== "true") return;
+      if (e.target.closest(".nav__panel, .nav-toggle")) return;
       setNavOpen(false);
     });
     // Esc closes
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && root.dataset.navOpen === "true") setNavOpen(false);
+    });
+    // Re-orient if window resizes past breakpoint
+    matchMedia("(min-width: 881px)").addEventListener("change", (e) => {
+      if (e.matches) setNavOpen(false);
     });
   }
 
