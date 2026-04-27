@@ -70,16 +70,21 @@
 /* ---------- Reset ---------- */
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-body { margin: 0; min-height: 100vh; }
+body { margin: 0; min-height: 100svh; -webkit-tap-highlight-color: transparent; }
 img, picture, video, canvas, svg { display: block; max-width: 100%; height: auto; }
 input, button, textarea, select { font: inherit; color: inherit; }
+/* iOS zooms on focus when input font-size < 16px. Lock body inputs to 16px. */
+input[type="text"], input[type="email"], input[type="search"], input[type="tel"], textarea, select {
+  font-size: 16px;
+}
 button { background: none; border: 0; cursor: pointer; padding: 0; }
 a { color: inherit; text-decoration: none; }
 ul, ol { list-style: none; padding: 0; margin: 0; }
 h1, h2, h3, h4, h5, h6, p { margin: 0; }
 
 /* ---------- Base ---------- */
-html { background: var(--paper); }
+html { background: var(--paper); scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 body {
   font-family: var(--font-body);
   font-size: var(--fs-base);
@@ -89,6 +94,8 @@ body {
   font-feature-settings: "ss01", "cv11";
   text-rendering: optimizeLegibility;
 }
+/* Disable the 300ms tap delay on every interactive element. */
+a, button, [role="button"] { touch-action: manipulation; }
 
 /* Selection respects palette */
 ::selection { background: var(--ochre); color: var(--paper); }
@@ -261,10 +268,17 @@ h5, .h5 { font-family: var(--font-body); font-size: var(--fs-md); font-weight: 6
   font-size: var(--fs-xs);
   letter-spacing: 0.18em;
   border: 1px solid currentColor;
-  padding: 0.45rem 0.7rem;
+  padding: 0.5rem 0.85rem;
+  min-height: 36px;
   border-radius: 999px;
   opacity: 0.85;
   transition: opacity var(--t-fast) var(--ease);
+}
+.lang-toggle__opt {
+  /* widen the per-letter hit target so each language is tappable */
+  padding: 0.25rem 0.4rem;
+  min-width: 28px;
+  text-align: center;
 }
 .lang-toggle:hover { opacity: 1; }
 .lang-toggle__sep { opacity: 0.4; }
@@ -273,24 +287,26 @@ h5, .h5 { font-family: var(--font-body); font-size: var(--fs-md); font-weight: 6
 
 .nav-toggle {
   display: none;
-  width: 28px;
-  height: 22px;
+  width: 44px;
+  height: 44px;
   position: relative;
+  flex: none;
 }
 .nav-toggle span {
   position: absolute;
-  left: 0;
-  width: 100%;
-  height: 1px;
+  left: 50%;
+  width: 24px;
+  height: 1.5px;
+  margin-left: -12px;
   background: currentColor;
   transition: transform var(--t-fast) var(--ease), opacity var(--t-fast) var(--ease), top var(--t-fast) var(--ease);
 }
-.nav-toggle span:nth-child(1) { top: 4px; }
-.nav-toggle span:nth-child(2) { top: 11px; }
-.nav-toggle span:nth-child(3) { top: 18px; }
-[data-nav-open="true"] .nav-toggle span:nth-child(1) { top: 11px; transform: rotate(45deg); }
+.nav-toggle span:nth-child(1) { top: 16px; }
+.nav-toggle span:nth-child(2) { top: 22px; }
+.nav-toggle span:nth-child(3) { top: 28px; }
+[data-nav-open="true"] .nav-toggle span:nth-child(1) { top: 22px; transform: rotate(45deg); }
 [data-nav-open="true"] .nav-toggle span:nth-child(2) { opacity: 0; }
-[data-nav-open="true"] .nav-toggle span:nth-child(3) { top: 11px; transform: rotate(-45deg); }
+[data-nav-open="true"] .nav-toggle span:nth-child(3) { top: 22px; transform: rotate(-45deg); }
 
 @media (max-width: 880px) {
   .nav-toggle { display: block; }
@@ -1363,8 +1379,9 @@ h5, .h5 { font-family: var(--font-body); font-size: var(--fs-md); font-weight: 6
 /* Feedback button — discreet floating icon at bottom-right */
 .feedback-btn {
   position: fixed;
-  bottom: 1.25rem;
-  right: 1.25rem;
+  /* Honor the iPhone home-indicator safe area so the pill never sits under the bar */
+  bottom: max(1.25rem, env(safe-area-inset-bottom));
+  right: max(1.25rem, env(safe-area-inset-right));
   z-index: 30;
   width: 44px;
   height: 44px;
