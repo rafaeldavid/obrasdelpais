@@ -1,0 +1,20 @@
+<article class="doc-band reveal">
+  <a class="doc-band__media" href="{{#if custom_excerpt}}{{custom_excerpt}}{{else}}{{url}}{{/if}}" {{#if custom_excerpt}}target="_blank" rel="noopener"{{/if}}>
+    {{#if feature_image}}
+      <img src="{{img_url feature_image size="lg"}}" alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}" loading="lazy">
+    {{else}}
+      <div class="ph"></div>
+    {{/if}}
+    <span class="play-pill">{{#if custom_excerpt}}Ver en YouTube ↗{{else}}Leer ↗{{/if}}</span>
+  </a>
+  <div class="doc-band__meta">
+    <span class="doc-band__no">{{date published_at format="MMM YYYY"}}</span>
+    <h3 class="doc-band__title">{{title}}</h3>
+    {{#if primary_author}}<span class="doc-band__byline">{{primary_author.name}}</span>{{/if}}
+    {{#if primary_tag}}<span class="doc-band__where">{{primary_tag.name}}</span>{{/if}}
+    <p class="doc-band__logline">{{excerpt words="32"}}</p>
+    <a class="link-inline doc-band__cta" href="{{url}}">
+      <span data-lang="es">Leer la historia</span><span data-lang="en">Read the story</span> →
+    </a>
+  </div>
+</article>

@@ -1,0 +1,63 @@
+{{!< default}}
+
+<article class="post">
+  <section class="page-intro">
+    <div class="page-intro__wrap">
+      <span class="page-intro__crumb">
+        {{#if primary_tag}}{{primary_tag.name}} · {{/if}}{{date published_at format="DD MMM YYYY"}}
+      </span>
+      <h1 class="page-intro__title">{{title}}</h1>
+      {{#if custom_excerpt}}<p class="page-intro__lede">{{custom_excerpt}}</p>{{/if}}
+    </div>
+  </section>
+
+  {{#if feature_image}}
+  <figure class="wrap" style="margin-block:var(--s-7)0;">
+    <img src="{{img_url feature_image size="xl"}}" alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}" style="width:100%;border-radius:var(--radius-lg);">
+    {{#if feature_image_caption}}<figcaption class="muted" style="margin-top:0.6rem;font-size:var(--fs-sm);">{{feature_image_caption}}</figcaption>{{/if}}
+  </figure>
+  {{/if}}
+
+  <section class="section">
+    <div class="wrap wrap--text prose">
+      {{content}}
+    </div>
+  </section>
+
+  {{#if primary_author}}
+  <section class="section section--paper-warm">
+    <div class="wrap two-col">
+      <div>
+        <span class="eyebrow" data-lang="es">Autoría</span>
+        <span class="eyebrow" data-lang="en">Author</span>
+        <h3 class="h3 mt-5">{{primary_author.name}}</h3>
+      </div>
+      <div class="prose">
+        {{#if primary_author.bio}}<p>{{primary_author.bio}}</p>{{/if}}
+      </div>
+    </div>
+  </section>
+  {{/if}}
+</article>
+
+{{!-- Related --}}
+{{#get "posts" filter="id:-{{id}}+tags:[{{#foreach tags}}{{slug}}{{#unless @last}},{{/unless}}{{/foreach}}]" limit="3" as |related|}}
+  {{#if related}}
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow" data-lang="es">Sigue leyendo</p>
+      <p class="eyebrow" data-lang="en">Keep reading</p>
+      <div class="grid grid--3 mt-5">
+        {{#foreach related}}
+          <a class="artisan-card" href="{{url}}">
+            <div class="artisan-card__photo">{{#if feature_image}}<img src="{{img_url feature_image size="md"}}" alt="" loading="lazy">{{else}}<div class="ph"></div>{{/if}}</div>
+            <div class="artisan-card__body"><h3 class="artisan-card__name">{{title}}</h3><p class="muted">{{excerpt words="20"}}</p></div>
+          </a>
+        {{/foreach}}
+      </div>
+    </div>
+  </section>
+  {{/if}}
+{{/get}}
+
+{{> "donate-cta"}}

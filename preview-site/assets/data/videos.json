@@ -1,0 +1,7 @@
+{
+  "_comment": "Populate this file by running: node scripts/sync-videos.js. The theme reads videoId for each entry to link out to https://www.youtube.com/watch?v=<videoId>. Until refreshed, the site will gracefully render placeholder bands using the artisans.json data.",
+  "channelId": "",
+  "uploadsPlaylistId": "",
+  "lastSyncedISO": null,
+  "videos": []
+}

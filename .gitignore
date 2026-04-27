@@ -1,0 +1,26 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Build artifacts (regeneratable)
+*.zip
+
+# here.now local cache (claim tokens, slugs)
+.herenow/
+
+# Legacy original Ghost theme (kept locally for reference, not in repo)
+Obras del País - Website/
+
+# Editor / OS
+.vscode/
+.idea/
+*.swp
+
+# Node (in case sync script ever pulls deps)
+node_modules/
+npm-debug.log*
+
+# Env (sync-videos.js reads YOUTUBE_API_KEY from process env — never commit it)
+.env
+.env.local
+.env.*.local

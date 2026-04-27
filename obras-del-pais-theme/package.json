@@ -1,0 +1,64 @@
+{
+  "name": "obras-del-pais",
+  "description": "Editorial Ghost theme for Obras del País — a printed monograph that scrolls.",
+  "version": "1.0.0",
+  "engines": {
+    "ghost": ">=5.0.0",
+    "ghost-api": "v5"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Obras del País",
+    "email": "hola@obrasdelpais.com",
+    "url": "https://obrasdelpais.com"
+  },
+  "keywords": ["ghost-theme", "obras-del-pais", "editorial", "nonprofit", "puerto-rico"],
+  "config": {
+    "posts_per_page": 9,
+    "image_sizes": {
+      "xs": { "width": 320 },
+      "sm": { "width": 640 },
+      "md": { "width": 960 },
+      "lg": { "width": 1280 },
+      "xl": { "width": 1920 }
+    },
+    "card_assets": {
+      "exclude": ["bookmark"]
+    },
+    "custom": {
+      "show_chat_widget": {
+        "type": "boolean",
+        "default": false,
+        "description": "Master artisan said no chat widgets. Default off."
+      },
+      "homepage_hero_image": {
+        "type": "image",
+        "description": "Black-background hero portrait. Best results: full-bleed, hands holding craft, true black."
+      },
+      "youtube_channel_handle": {
+        "type": "text",
+        "default": "@obrasdelpais",
+        "description": "Used for fallback YouTube search links."
+      },
+      "ath_movil_business": {
+        "type": "text",
+        "default": "Obras del País",
+        "description": "Business name shown for ATH Móvil donations."
+      },
+      "paypal_donate_url": {
+        "type": "text",
+        "default": "https://www.paypal.com/donate/?hosted_button_id=97XWVQV6YQT6C&source=qr",
+        "description": "Hosted PayPal button URL."
+      },
+      "ein_visible": {
+        "type": "boolean",
+        "default": false,
+        "description": "Show the 501(c)(3) EIN publicly on the donate page."
+      },
+      "ein_value": {
+        "type": "text",
+        "description": "EIN to display when ein_visible is true."
+      }
+    }
+  }
+}

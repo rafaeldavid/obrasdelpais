@@ -1,0 +1,19 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/contacto", "destination": "/contactanos", "permanent": true },
+    { "source": "/contacto/", "destination": "/contactanos", "permanent": true },
+    { "source": "/quienes-somos/", "destination": "/quienes-somos", "permanent": true },
+    { "source": "/donar/", "destination": "/donar", "permanent": true },
+    { "source": "/documentales/", "destination": "/documentales", "permanent": true },
+    { "source": "/directorio-de-artesanos", "destination": "/directorio", "permanent": true },
+    { "source": "/directorio-de-artesanos/", "destination": "/directorio", "permanent": true },
+    { "source": "/preguntas-frecuentes/", "destination": "/preguntas-frecuentes", "permanent": true },
+    { "source": "/lengua-de-senas", "destination": "/lengua-de-senas", "permanent": true },
+    { "source": "/accesibilidad-en-lengua-de-senas", "destination": "/lengua-de-senas", "permanent": true },
+    { "source": "/accesibilidad-en-lengua-de-senas/", "destination": "/lengua-de-senas", "permanent": true },
+    { "source": "/noticias-y-eventos", "destination": "/noticias", "permanent": true },
+    { "source": "/noticias-y-eventos/", "destination": "/noticias", "permanent": true }
+  ]
+}

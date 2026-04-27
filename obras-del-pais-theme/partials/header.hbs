@@ -1,0 +1,23 @@
+<header class="site-header">
+  <a class="brand" href="{{@site.url}}/">
+    <span class="brand__mark"><img src="{{asset "img/logo.svg"}}" alt="" width="36" height="36" style="filter:invert(1);"></span>
+    <span class="brand__name">{{@site.title}}</span>
+  </a>
+  <nav class="nav nav__panel" aria-label="Primary">
+    <ul class="nav__list">
+      {{#get "pages" filter="visibility:public" limit="all" order="published_at asc" as |pages|}}{{/get}}
+      {{!-- Static nav per design (no dynamic order). Adjust if Ghost admin needs to reorder. --}}
+      <li><a href="/documentales/"><span data-lang="es">Documentales</span><span data-lang="en">Documentaries</span></a></li>
+      <li><a href="/directorio/"><span data-lang="es">Directorio</span><span data-lang="en">Directory</span></a></li>
+      <li><a href="/quienes-somos/"><span data-lang="es">Quiénes somos</span><span data-lang="en">About</span></a></li>
+      <li><a href="/noticias/"><span data-lang="es">Noticias</span><span data-lang="en">Stories</span></a></li>
+      <li><a href="/donar/"><span data-lang="es">Donar</span><span data-lang="en">Donate</span></a></li>
+    </ul>
+    <div class="lang-toggle" role="group" aria-label="Language">
+      <button class="lang-toggle__opt" data-lang-toggle="es" aria-pressed="true">ES</button>
+      <span class="lang-toggle__sep">·</span>
+      <button class="lang-toggle__opt" data-lang-toggle="en" aria-pressed="false">EN</button>
+    </div>
+  </nav>
+  <button class="nav-toggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</header>

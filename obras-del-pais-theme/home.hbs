@@ -1,0 +1,116 @@
+{{!< default}}
+
+{{!-- HERO — held breath --}}
+<section class="hero">
+  <div class="hero__bg">
+    {{#if @custom.homepage_hero_image}}
+      <img src="{{img_url @custom.homepage_hero_image size="xl"}}" alt="">
+    {{else}}
+      <div class="ph"></div>
+    {{/if}}
+  </div>
+  <div class="hero__content">
+    <h1 class="hero__title">{{@site.title}}</h1>
+    <p class="hero__tagline" data-lang="es">El folklore puertorriqueño<br>en tus manos.</p>
+    <p class="hero__tagline" data-lang="en">Embrace the beauty<br>of Puerto Rican folklore.</p>
+  </div>
+  <div class="hero__meta">
+    <strong>2021 → {{date format="YYYY"}}</strong>
+    <span data-lang="es">38 oficios · 29 municipios</span>
+    <span data-lang="en">38 crafts · 29 municipalities</span>
+  </div>
+  <span class="scroll-cue" data-lang="es">Desliza para entrar</span>
+  <span class="scroll-cue" data-lang="en">Scroll to enter</span>
+</section>
+
+{{!-- INSIGHT --}}
+<section class="section section--loose center">
+  <div class="wrap wrap--text">
+    <p class="eyebrow reveal" data-lang="es">Quiénes somos</p>
+    <p class="eyebrow reveal" data-lang="en">Who we are</p>
+    <h2 class="h2 reveal" style="margin-top:1rem;" data-lang="es">38 documentales. 29 municipios.<br><em style="color:var(--ochre);font-style:italic;">Una isla que se cuenta a sí misma.</em></h2>
+    <h2 class="h2 reveal" style="margin-top:1rem;" data-lang="en">38 documentaries. 29 municipalities.<br><em style="color:var(--ochre);font-style:italic;">An island telling its own story.</em></h2>
+    <p class="lede reveal" style="margin-top:2rem;" data-lang="es">Obras del País es una organización sin fines de lucro que documenta, preserva y comparte el legado de los artesanos puertorriqueños. Filmamos en el taller, en la comunidad, en el ritmo de cada oficio. Cada documental es una memoria que, si no la contamos, se perdería.</p>
+    <p class="lede reveal" style="margin-top:2rem;" data-lang="en">Obras del País is a nonprofit that documents, preserves, and shares the legacy of Puerto Rican artisans. We film in the workshop, in the community, at the pace of the craft. Every documentary is a memory that, untold, would be lost.</p>
+  </div>
+</section>
+
+{{!-- PILLARS --}}
+<section class="section section--paper-warm">
+  <div class="wrap">
+    <p class="eyebrow reveal" data-lang="es">Cómo trabajamos</p>
+    <p class="eyebrow reveal" data-lang="en">How we work</p>
+
+    <div class="pillar reveal">
+      <div class="pillar__no">01</div>
+      <div>
+        <h3 class="h3 pillar__title" data-lang="es">Producción</h3>
+        <h3 class="h3 pillar__title" data-lang="en">Production</h3>
+        <p class="prose" data-lang="es">Filmamos en el taller del artesano y en los lugares clave de su comunidad. La cámara llega despacio: una conversación, una observación, una mano. Cada producción es una invitación a estar presente.</p>
+        <p class="prose" data-lang="en">We film at the artisan's workshop and in the key places of their community. The camera arrives slowly — a conversation, an observation, a hand at work.</p>
+        <p class="pillar__quote" data-lang="es">"La cámara llega despacio. Las manos cuentan lo demás."</p>
+        <p class="pillar__quote" data-lang="en">"The camera arrives slowly. The hands say the rest."</p>
+      </div>
+    </div>
+    <div class="pillar reveal">
+      <div class="pillar__no">02</div>
+      <div>
+        <h3 class="h3 pillar__title" data-lang="es">Publicación</h3>
+        <h3 class="h3 pillar__title" data-lang="en">Publishing</h3>
+        <p class="prose" data-lang="es">Cada documental se publica gratis y para siempre — en este sitio y en YouTube — junto a un perfil del artesano con fotografías y un canal directo de contacto.</p>
+        <p class="prose" data-lang="en">Every documentary publishes free and stays free — here and on YouTube — alongside an artisan profile with photographs and a direct contact path.</p>
+        <p class="pillar__quote" data-lang="es">"Más del 90% de los artesanos documentados reportan aumento medible en ventas y reconocimiento."</p>
+        <p class="pillar__quote" data-lang="en">"Over 90% of documented artisans report measurable gains in sales and recognition."</p>
+      </div>
+    </div>
+    <div class="pillar reveal">
+      <div class="pillar__no">03</div>
+      <div>
+        <h3 class="h3 pillar__title" data-lang="es">Comunidad</h3>
+        <h3 class="h3 pillar__title" data-lang="en">Community</h3>
+        <p class="prose" data-lang="es">Proyectamos los documentales en el barrio, los llevamos al salón de clases, los abrimos en lengua de señas. Colaboramos con educadores, museos e instituciones.</p>
+        <p class="prose" data-lang="en">We screen the films in the neighborhood, bring them into classrooms, open them in sign language. We partner with educators, museums and institutions.</p>
+        <p class="pillar__quote" data-lang="es">"Cuando ampliamos quiénes pueden acceder a nuestra cultura, la cultura misma se fortalece."</p>
+        <p class="pillar__quote" data-lang="en">"When we widen who has access to our culture, the culture itself grows stronger."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{{!-- IMPACT FIGURES --}}
+<section class="section section--dark">
+  <div class="wrap">
+    <p class="eyebrow reveal" data-lang="es">Impacto · 2025</p>
+    <p class="eyebrow reveal" data-lang="en">Impact · 2025</p>
+    <div class="figures reveal">
+      <div><span class="fig__num">2.1M</span><span class="fig__lbl" data-lang="es">Vistas en plataformas</span><span class="fig__lbl" data-lang="en">Platform views</span></div>
+      <div><span class="fig__num">38</span><span class="fig__lbl" data-lang="es">Documentales producidos</span><span class="fig__lbl" data-lang="en">Documentaries produced</span></div>
+      <div><span class="fig__num">29</span><span class="fig__lbl" data-lang="es">Municipios visitados</span><span class="fig__lbl" data-lang="en">Municipalities visited</span></div>
+      <div><span class="fig__num">11K+</span><span class="fig__lbl" data-lang="es">Comunidad en redes</span><span class="fig__lbl" data-lang="en">Community on social</span></div>
+      <div><span class="fig__num">1,400+</span><span class="fig__lbl" data-lang="es">Suscriptores al boletín</span><span class="fig__lbl" data-lang="en">Newsletter subscribers</span></div>
+      <div><span class="fig__num">90%+</span><span class="fig__lbl" data-lang="es">Artesanos con alza en ventas</span><span class="fig__lbl" data-lang="en">Artisans reporting sales lift</span></div>
+    </div>
+  </div>
+</section>
+
+{{!-- LATEST POSTS — pulled from Ghost --}}
+{{#get "posts" filter="featured:true" limit="3" as |featured|}}
+  {{#if featured}}
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow" data-lang="es">Selección reciente</p>
+      <p class="eyebrow" data-lang="en">Recent selection</p>
+      <h2 class="h2 mt-5" data-lang="es">Documentales</h2>
+      <h2 class="h2 mt-5" data-lang="en">Documentaries</h2>
+      {{#foreach featured}}
+        {{> "doc-band"}}
+      {{/foreach}}
+      <p class="mt-6"><a class="link-inline" href="/documentales/"><span data-lang="es">Ver todos los 38 documentales</span><span data-lang="en">See all 38 documentaries</span> →</a></p>
+    </div>
+  </section>
+  {{/if}}
+{{/get}}
+
+{{> "closing-line"}}
+{{> "donate-cta"}}
+{{> "newsletter"}}

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es" data-title-es="Documentales — Obras del País" data-title-en="Documentaries — Obras del País">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Documentales — Obras del País</title>
+  <meta name="description" content="38 micro-documentales de artesanos puertorriqueños. Una galería editorial que enlaza a YouTube.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&family=Caveat:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/logo.svg">
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/"><span class="brand__mark"><img src="/assets/img/logo.svg" alt="" width="36" height="36" style="filter:invert(1);"></span><span class="brand__name">Obras del País</span></a>
+  <nav class="nav nav__panel">
+    <ul class="nav__list">
+      <li><a href="/documentales.html" aria-current="page"><span data-lang="es">Documentales</span><span data-lang="en">Documentaries</span></a></li>
+      <li><a href="/directorio.html"><span data-lang="es">Directorio</span><span data-lang="en">Directory</span></a></li>
+      <li><a href="/quienes-somos.html"><span data-lang="es">Quiénes somos</span><span data-lang="en">About</span></a></li>
+      <li><a href="/noticias.html"><span data-lang="es">Noticias</span><span data-lang="en">Stories</span></a></li>
+      <li><a href="/donar.html"><span data-lang="es">Donar</span><span data-lang="en">Donate</span></a></li>
+    </ul>
+    <div class="lang-toggle"><button class="lang-toggle__opt" data-lang-toggle="es" aria-pressed="true">ES</button><span class="lang-toggle__sep">·</span><button class="lang-toggle__opt" data-lang-toggle="en" aria-pressed="false">EN</button></div>
+  </nav>
+  <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+</header>
+
+<section class="page-intro">
+  <div class="page-intro__wrap">
+    <span class="page-intro__crumb">Galería · 2021–2026</span>
+    <h1 class="page-intro__title" data-lang="es">Documentales</h1>
+    <h1 class="page-intro__title" data-lang="en">Documentaries</h1>
+    <p class="page-intro__lede" data-lang="es">38 micro-documentales filmados en 29 municipios. Cada uno gratuito, archivado para siempre, y enlazado directamente al canal de YouTube. Selección editorial mensual — no algoritmo.</p>
+    <p class="page-intro__lede" data-lang="en">38 micro-documentaries filmed across 29 municipalities. Each one free, archived forever, and linked directly to YouTube. Monthly editorial selection — no algorithm.</p>
+  </div>
+</section>
+
+<section class="section section--paper-warm section--tight">
+  <div class="wrap">
+    <div class="flex gap-3" style="flex-wrap:wrap;align-items:center;">
+      <span class="eyebrow" style="flex:1;min-width:120px;" data-lang="es">Filtrar por región</span>
+      <span class="eyebrow" style="flex:1;min-width:120px;" data-lang="en">Filter by region</span>
+    </div>
+    <div class="region-map mt-5">
+      <button class="region-pill" data-region-pill="">Toda la isla</button>
+      <button class="region-pill" data-region-pill="metro">Metro</button>
+      <button class="region-pill" data-region-pill="norte">Norte</button>
+      <button class="region-pill" data-region-pill="sur">Sur</button>
+      <button class="region-pill" data-region-pill="centro">Centro</button>
+      <button class="region-pill" data-region-pill="oeste">Oeste</button>
+      <button class="region-pill" data-region-pill="suroeste">Suroeste</button>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div data-docs-list></div>
+  </div>
+</section>
+
+<section class="closing">
+  <p class="closing__line">Hay historias que, si no las contamos, se perderán para siempre.</p>
+  <p class="closing__attr">Obras del País</p>
+</section>
+
+<section class="donate-cta">
+  <h2 class="donate-cta__title" data-lang="es">¿Cuál documental falta?</h2>
+  <h2 class="donate-cta__title" data-lang="en">Which film is missing?</h2>
+  <p class="donate-cta__subtitle" data-lang="es">62 historias y 49 municipios todavía sin documentar. Cada donación define cuáles llegan a tiempo.</p>
+  <p class="donate-cta__subtitle" data-lang="en">62 stories and 49 municipalities still undocumented. Every donation decides which ones get there in time.</p>
+  <div class="donate-cta__row">
+    <a class="btn btn--clay btn--lg" href="/donar.html"><span data-lang="es">Sostén el archivo</span><span data-lang="en">Sustain the archive</span></a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="site-footer__legal">
+    <span>© 2026 Obras del País, Inc. · 501(c)(3) · Acto 1101.01 PR</span>
+    <span><a href="mailto:hola@obrasdelpais.com">hola@obrasdelpais.com</a> · <a href="https://www.youtube.com/@obrasdelpais" target="_blank" rel="noopener">YouTube ↗</a></span>
+  </div>
+</footer>
+
+<script src="/assets/js/app.js" defer></script>
+</body>
+</html>

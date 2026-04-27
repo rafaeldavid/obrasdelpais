@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <!-- canopy (abstract tree) -->
+  <path d="M40 12 C30 18 26 30 30 40 M40 12 C50 18 54 30 50 40 M35 22 L35 48 M45 22 L45 48 M40 18 L40 50" />
+  <path d="M28 28 Q34 22 40 28 Q46 22 52 28 Q56 32 50 38 Q44 32 40 38 Q36 32 30 38 Q24 32 28 28 Z" fill="currentColor" stroke="none" opacity="0.95"/>
+  <!-- island silhouette -->
+  <path d="M14 60 C22 56 30 56 38 58 C46 60 56 60 66 58 L70 64 C58 68 44 68 30 66 C24 65 18 64 14 64 Z" fill="currentColor" stroke="none"/>
+  <!-- vieques/culebra dots -->
+  <circle cx="71" cy="62" r="0.9" fill="currentColor" stroke="none"/>
+  <circle cx="74" cy="63" r="0.7" fill="currentColor" stroke="none"/>
+</svg>

@@ -1,0 +1,23 @@
+{{!< default}}
+
+<section class="page-intro">
+  <div class="page-intro__wrap">
+    <span class="page-intro__crumb">{{tag.name}}</span>
+    <h1 class="page-intro__title">{{tag.name}}</h1>
+    {{#if tag.description}}<p class="page-intro__lede">{{tag.description}}</p>{{/if}}
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="grid grid--2">
+      {{#foreach posts}}
+        <a class="artisan-card" href="{{url}}">
+          <div class="artisan-card__photo"><span class="artisan-card__no">{{date published_at format="MMM YYYY"}}</span>{{#if feature_image}}<img src="{{img_url feature_image size="md"}}" alt="">{{else}}<div class="ph"></div>{{/if}}</div>
+          <div class="artisan-card__body"><h3 class="artisan-card__name">{{title}}</h3><p class="muted">{{excerpt words="22"}}</p></div>
+        </a>
+      {{/foreach}}
+    </div>
+    {{pagination}}
+  </div>
+</section>

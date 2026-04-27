@@ -1,0 +1,21 @@
+# Obras del País — Ghost routes
+# Spanish is canonical. English content gets a "#en" tag and lives at /en/{slug}/.
+# Pages with slugs (donar, documentales, directorio, quienes-somos, contactanos,
+# lengua-de-senas, preguntas-frecuentes) auto-resolve to page-{slug}.hbs.
+
+routes:
+  /: home
+
+collections:
+  /noticias/:
+    permalink: /noticias/{slug}/
+    template: index
+    filter: 'tag:-hash-en+tag:-page-fragment'
+  /en/news/:
+    permalink: /en/news/{slug}/
+    template: index
+    filter: 'tag:hash-en+tag:-page-fragment'
+
+taxonomies:
+  tag: /tag/{slug}/
+  author: /equipo/{slug}/

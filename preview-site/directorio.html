@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="es" data-title-es="Directorio de artesanos — Obras del País" data-title-en="Artisan Directory — Obras del País">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Directorio de artesanos — Obras del País</title>
+  <meta name="description" content="38 artesanos puertorriqueños documentados — busca por oficio o región.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&family=Caveat:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/logo.svg">
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/"><span class="brand__mark"><img src="/assets/img/logo.svg" alt="" width="36" height="36" style="filter:invert(1);"></span><span class="brand__name">Obras del País</span></a>
+  <nav class="nav nav__panel">
+    <ul class="nav__list">
+      <li><a href="/documentales.html"><span data-lang="es">Documentales</span><span data-lang="en">Documentaries</span></a></li>
+      <li><a href="/directorio.html" aria-current="page"><span data-lang="es">Directorio</span><span data-lang="en">Directory</span></a></li>
+      <li><a href="/quienes-somos.html"><span data-lang="es">Quiénes somos</span><span data-lang="en">About</span></a></li>
+      <li><a href="/noticias.html"><span data-lang="es">Noticias</span><span data-lang="en">Stories</span></a></li>
+      <li><a href="/donar.html"><span data-lang="es">Donar</span><span data-lang="en">Donate</span></a></li>
+    </ul>
+    <div class="lang-toggle"><button class="lang-toggle__opt" data-lang-toggle="es" aria-pressed="true">ES</button><span class="lang-toggle__sep">·</span><button class="lang-toggle__opt" data-lang-toggle="en" aria-pressed="false">EN</button></div>
+  </nav>
+  <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+</header>
+
+<section class="page-intro">
+  <div class="page-intro__wrap">
+    <span class="page-intro__crumb">38 · Artesanos · Puerto Rico</span>
+    <h1 class="page-intro__title" data-lang="es">Directorio</h1>
+    <h1 class="page-intro__title" data-lang="en">Directory</h1>
+    <p class="page-intro__lede" data-lang="es">Cada artesano documentado se puede encontrar aquí: nombre, oficio, región. Para comisiones o visitas al taller, la guía para contactar adecuadamente está en <a class="link-inline" href="/preguntas-frecuentes.html" style="color:inherit;">preguntas frecuentes</a>.</p>
+    <p class="page-intro__lede" data-lang="en">Every documented artisan lives here: name, craft, region. For commissions or studio visits, the guide on respectful outreach lives in <a class="link-inline" href="/preguntas-frecuentes.html" style="color:inherit;">FAQs</a>.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div style="display:grid;grid-template-columns:1fr;gap:2rem;">
+      <aside style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+        <div>
+          <h4 style="font-size:var(--fs-xs);letter-spacing:0.18em;text-transform:uppercase;color:var(--ochre);margin-bottom:0.6rem;" data-lang="es">Oficio</h4>
+          <h4 style="font-size:var(--fs-xs);letter-spacing:0.18em;text-transform:uppercase;color:var(--ochre);margin-bottom:0.6rem;" data-lang="en">Craft</h4>
+          <div class="filter-list" data-craft-rail></div>
+        </div>
+        <div>
+          <h4 style="font-size:var(--fs-xs);letter-spacing:0.18em;text-transform:uppercase;color:var(--ochre);margin-bottom:0.6rem;" data-lang="es">Región</h4>
+          <h4 style="font-size:var(--fs-xs);letter-spacing:0.18em;text-transform:uppercase;color:var(--ochre);margin-bottom:0.6rem;" data-lang="en">Region</h4>
+          <div class="filter-list" data-region-rail></div>
+        </div>
+      </aside>
+      <button class="btn btn--ghost" data-clear-filters style="justify-self:start;"><span data-lang="es">Limpiar filtros</span><span data-lang="en">Clear filters</span></button>
+      <div class="grid grid--3" data-dir-grid></div>
+    </div>
+  </div>
+</section>
+
+<section class="closing">
+  <p class="closing__line">Hay historias que, si no las contamos, se perderán para siempre.</p>
+  <p class="closing__attr">Obras del País</p>
+</section>
+
+<footer class="site-footer">
+  <div class="site-footer__legal">
+    <span>© 2026 Obras del País, Inc. · 501(c)(3)</span>
+    <span><a href="mailto:hola@obrasdelpais.com">hola@obrasdelpais.com</a></span>
+  </div>
+</footer>
+
+<script src="/assets/js/app.js" defer></script>
+</body>
+</html>

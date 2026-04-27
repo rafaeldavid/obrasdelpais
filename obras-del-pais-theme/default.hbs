@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="{{@site.locale}}" data-title-es="{{@site.title}} — El folklore puertorriqueño en tus manos" data-title-en="{{@site.title}} — Embrace the beauty of Puerto Rican folklore">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>{{meta_title}}</title>
+  <meta name="HandheldFriendly" content="True">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#000000">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&family=Caveat:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{{asset "css/style.css"}}">
+  <link rel="icon" type="image/svg+xml" href="{{asset "img/logo.svg"}}">
+  {{ghost_head}}
+</head>
+<body class="{{body_class}}">
+
+  {{> "header"}}
+
+  <main>
+    {{{body}}}
+  </main>
+
+  {{> "footer"}}
+
+  <script src="{{asset "js/app.js"}}" defer></script>
+  {{ghost_foot}}
+</body>
+</html>

@@ -1,0 +1,34 @@
+{{!< default}}
+
+<section class="page-intro">
+  <div class="page-intro__wrap">
+    <span class="page-intro__crumb">38 · Artesanos · Puerto Rico</span>
+    <h1 class="page-intro__title" data-lang="es">Directorio</h1>
+    <h1 class="page-intro__title" data-lang="en">Directory</h1>
+    <p class="page-intro__lede" data-lang="es">Cada artesano documentado se puede encontrar aquí: nombre, oficio, región. Para comisiones o visitas al taller, la guía para contactar adecuadamente está en <a class="link-inline" href="/preguntas-frecuentes/" style="color:inherit;">preguntas frecuentes</a>.</p>
+    <p class="page-intro__lede" data-lang="en">Every documented artisan lives here: name, craft, region. For commissions or studio visits, the guide on respectful outreach lives in <a class="link-inline" href="/preguntas-frecuentes/" style="color:inherit;">FAQs</a>.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div style="display:grid;grid-template-columns:1fr;gap:2rem;">
+      <aside style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+        <div>
+          <h4 style="font-size:var(--fs-xs);letter-spacing:0.18em;text-transform:uppercase;color:var(--ochre);margin-bottom:0.6rem;" data-lang="es">Oficio</h4>
+          <h4 style="font-size:var(--fs-xs);letter-spacing:0.18em;text-transform:uppercase;color:var(--ochre);margin-bottom:0.6rem;" data-lang="en">Craft</h4>
+          <div class="filter-list" data-craft-rail></div>
+        </div>
+        <div>
+          <h4 style="font-size:var(--fs-xs);letter-spacing:0.18em;text-transform:uppercase;color:var(--ochre);margin-bottom:0.6rem;" data-lang="es">Región</h4>
+          <h4 style="font-size:var(--fs-xs);letter-spacing:0.18em;text-transform:uppercase;color:var(--ochre);margin-bottom:0.6rem;" data-lang="en">Region</h4>
+          <div class="filter-list" data-region-rail></div>
+        </div>
+      </aside>
+      <button class="btn btn--ghost" data-clear-filters style="justify-self:start;"><span data-lang="es">Limpiar filtros</span><span data-lang="en">Clear filters</span></button>
+      <div class="grid grid--3" data-dir-grid></div>
+    </div>
+  </div>
+</section>
+
+{{> "closing-line"}}

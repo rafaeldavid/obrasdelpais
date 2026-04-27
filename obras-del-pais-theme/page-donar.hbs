@@ -1,0 +1,127 @@
+{{!< default}}
+
+<section class="page-intro" style="padding-bottom:var(--s-7);">
+  <div class="page-intro__wrap">
+    <span class="page-intro__crumb" data-lang="es">501(c)(3) · Acto 1101.01 PR · Deducible de impuestos{{#if @custom.ein_visible}}{{#if @custom.ein_value}} · EIN {{@custom.ein_value}}{{/if}}{{/if}}</span>
+    <span class="page-intro__crumb" data-lang="en">501(c)(3) · Section 1101.01 PR · Tax-deductible{{#if @custom.ein_visible}}{{#if @custom.ein_value}} · EIN {{@custom.ein_value}}{{/if}}{{/if}}</span>
+    <h1 class="page-intro__title" data-lang="es">38 oficios documentados.<br><em style="font-style:italic;color:var(--ochre-soft);">Ayúdanos a llegar a 78.</em></h1>
+    <h1 class="page-intro__title" data-lang="en">38 crafts documented.<br><em style="font-style:italic;color:var(--ochre-soft);">Help us reach 78.</em></h1>
+    <p class="page-intro__lede" data-lang="es">Cada documental se publica gratis y se queda gratis. Eso es posible porque personas como tú lo sostienen.</p>
+    <p class="page-intro__lede" data-lang="en">Every documentary publishes free and stays free. That's only possible because people like you sustain it.</p>
+  </div>
+</section>
+
+<section class="section section--tight" style="padding-top:0;background:var(--black);color:var(--paper);">
+  <div class="wrap">
+    <div class="donate-rails">
+      <a class="rail" href="{{@custom.paypal_donate_url}}" target="_blank" rel="noopener" style="background:var(--paper);color:var(--ink);">
+        <div>
+          <span class="rail__sub">PayPal</span>
+          <span class="rail__name" data-lang="es">Tarjeta o cuenta PayPal</span>
+          <span class="rail__name" data-lang="en">Card or PayPal account</span>
+        </div>
+        <span class="rail__arrow">↗</span>
+      </a>
+      <a class="rail" href="#sponsor" style="background:var(--clay);color:var(--paper);border-color:var(--clay);">
+        <div>
+          <span class="rail__sub" style="color:var(--paper);opacity:0.85;" data-lang="es">Recurrente</span>
+          <span class="rail__sub" style="color:var(--paper);opacity:0.85;" data-lang="en">Recurring</span>
+          <span class="rail__name">Padrino del Oficio · $15/mo</span>
+        </div>
+        <span class="rail__arrow">→</span>
+      </a>
+      <a class="rail" href="#ath" style="background:var(--paper);color:var(--ink);">
+        <div>
+          <span class="rail__sub">ATH Móvil</span>
+          <span class="rail__name" data-lang="es">Pago instantáneo en PR</span>
+          <span class="rail__name" data-lang="en">Instant pay in PR</span>
+        </div>
+        <span class="rail__arrow">↓</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow" data-lang="es">A dónde va tu apoyo</p>
+    <p class="eyebrow" data-lang="en">Where your support goes</p>
+    <h2 class="h2 mt-5" data-lang="es">Cada dólar tiene un trabajo.</h2>
+    <h2 class="h2 mt-5" data-lang="en">Every dollar has a job.</h2>
+    <div class="unit-econ mt-6">
+      <div class="unit"><span class="unit__price">$10</span><span class="unit__what" data-lang="es">Una hora de edición de video</span><span class="unit__what" data-lang="en">One hour of video editing</span></div>
+      <div class="unit"><span class="unit__price">$25</span><span class="unit__what" data-lang="es">Una visita de campo a un taller</span><span class="unit__what" data-lang="en">One field visit to a workshop</span></div>
+      <div class="unit"><span class="unit__price">$50</span><span class="unit__what" data-lang="es">Un documental completado</span><span class="unit__what" data-lang="en">One completed documentary</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--paper-warm" id="sponsor">
+  <div class="wrap two-col">
+    <div>
+      <span class="eyebrow" data-lang="es">Membresía</span>
+      <span class="eyebrow" data-lang="en">Membership</span>
+      <h2 class="h2 mt-5" data-lang="es">Padrino · Madrina del oficio</h2>
+      <h2 class="h2 mt-5" data-lang="en">Padrino · Madrina del Oficio</h2>
+      <p class="prose mt-5" data-lang="es">Una comunidad que sostiene el archivo cada mes. Tu nombre aparece en los créditos de los nuevos documentales y recibes acceso temprano antes del estreno público.</p>
+      <p class="prose mt-5" data-lang="en">A community that sustains the archive every month. Your name appears in the credits of new documentaries, and you get early access 48 hours before the public release.</p>
+    </div>
+    <div class="tier">
+      <span class="tier__name">Padrino · Madrina</span>
+      <span class="tier__price">$15<small data-lang="es">/mes</small><small data-lang="en">/mo</small></span>
+      <ul class="tier__benefits">
+        <li data-lang="es">Acceso temprano a cada documental (48h antes del público).</li>
+        <li data-lang="en">Early access to each documentary, 48h before public release.</li>
+        <li data-lang="es">Tu nombre en los créditos de los próximos estrenos.</li>
+        <li data-lang="en">Your name in the credits of upcoming releases.</li>
+        <li data-lang="es">Camiseta oficial representativa.</li>
+        <li data-lang="en">Official Obras del País community t-shirt.</li>
+        <li data-lang="es">Boletín mensual con notas detrás de cámara.</li>
+        <li data-lang="en">Monthly newsletter with behind-the-scenes notes.</li>
+      </ul>
+      <a class="btn btn--clay btn--lg" href="{{@custom.paypal_donate_url}}" target="_blank" rel="noopener" style="justify-self:start;"><span data-lang="es">Hacerme padrino · madrina</span><span data-lang="en">Become a Padrino · Madrina</span> ↗</a>
+    </div>
+  </div>
+</section>
+
+<section class="section section--dark">
+  <div class="wrap">
+    <p class="eyebrow" data-lang="es">No estás solo</p>
+    <p class="eyebrow" data-lang="en">You're not alone</p>
+    <div class="figures">
+      <div><span class="fig__num">40+</span><span class="fig__lbl" data-lang="es">Padrinos · Madrinas</span><span class="fig__lbl" data-lang="en">Sponsoring members</span></div>
+      <div><span class="fig__num">1,400+</span><span class="fig__lbl" data-lang="es">Suscriptores</span><span class="fig__lbl" data-lang="en">Subscribers</span></div>
+      <div><span class="fig__num">11K+</span><span class="fig__lbl" data-lang="es">Comunidad en redes</span><span class="fig__lbl" data-lang="en">Community on social</span></div>
+      <div><span class="fig__num">2.1M</span><span class="fig__lbl" data-lang="es">Vistas en plataformas</span><span class="fig__lbl" data-lang="en">Platform views</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="ath">
+  <div class="wrap two-col">
+    <div>
+      <span class="eyebrow">ATH Móvil</span>
+      <h2 class="h3 mt-5" data-lang="es">Donar desde Puerto Rico, en segundos.</h2>
+      <h2 class="h3 mt-5" data-lang="en">Give from Puerto Rico, in seconds.</h2>
+      <p class="prose mt-5" data-lang="es">Abre tu app de ATH Móvil, busca <strong>{{@custom.ath_movil_business}}</strong> en pagos comerciales y envía el monto que prefieras. Para coordinar otra forma de pago, escríbenos a <a class="link-inline" href="mailto:hola@obrasdelpais.com">hola@obrasdelpais.com</a>.</p>
+      <p class="prose mt-5" data-lang="en">Open your ATH Móvil app, search for <strong>{{@custom.ath_movil_business}}</strong> in business payments, and send any amount. To arrange another method, email <a class="link-inline" href="mailto:hola@obrasdelpais.com">hola@obrasdelpais.com</a>.</p>
+    </div>
+    <div id="corporate">
+      <span class="eyebrow" data-lang="es">Empresas e instituciones</span>
+      <span class="eyebrow" data-lang="en">Corporate &amp; institutional</span>
+      <h2 class="h3 mt-5" data-lang="es">Auspicio corporativo</h2>
+      <h2 class="h3 mt-5" data-lang="en">Corporate sponsorship</h2>
+      <p class="prose mt-5" data-lang="es">Buscamos alianzas con marcas e instituciones comprometidas con el patrimonio cultural — auspicios de documentales, iniciativas educativas, exhibiciones comunitarias.</p>
+      <p class="prose mt-5" data-lang="en">We partner with brands and institutions committed to cultural heritage — sponsoring documentaries, educational initiatives, and community exhibitions.</p>
+      <a class="btn btn--solid mt-5" href="mailto:isaak@obrasdelpais.com?subject=Auspicio%20Obras%20del%20Pa%C3%ADs"><span data-lang="es">Conversar con dirección</span><span data-lang="en">Talk to leadership</span></a>
+    </div>
+  </div>
+</section>
+
+{{#if content}}
+<section class="section section--paper-warm">
+  <div class="wrap wrap--text prose">{{content}}</div>
+</section>
+{{/if}}
+
+{{> "donate-cta"}}

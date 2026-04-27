@@ -1,0 +1,73 @@
+{{!< default}}
+
+<section class="page-intro">
+  <div class="page-intro__wrap">
+    <span class="page-intro__crumb">Misión · Equipo · Historia</span>
+    <h1 class="page-intro__title" data-lang="es">Quiénes somos</h1>
+    <h1 class="page-intro__title" data-lang="en">Who we are</h1>
+    <p class="page-intro__lede" data-lang="es">Documentar, preservar y difundir las historias, técnicas y legado de los artesanos puertorriqueños — de manera moderna, creativa y accesible.</p>
+    <p class="page-intro__lede" data-lang="en">To document, preserve, and share the stories, techniques, and legacy of Puerto Rican artisans — in a modern, creative, and accessible way.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap two-col">
+    <div>
+      <span class="eyebrow" data-lang="es">Misión</span>
+      <span class="eyebrow" data-lang="en">Mission</span>
+      <h2 class="h2 mt-5" data-lang="es">Posicionar la herencia artesanal de Puerto Rico como catalizador de desarrollo cultural, social y económico.</h2>
+      <h2 class="h2 mt-5" data-lang="en">To position Puerto Rico's artisanal heritage as a catalyst for cultural, social, and economic development.</h2>
+    </div>
+    <div class="prose">
+      {{#if content}}
+        {{content}}
+      {{else}}
+        <p data-lang="es"><strong>Obras del País</strong> es una organización sin fines de lucro reconocida como 501(c)(3) en Estados Unidos y bajo la Sección 1101.01 en Puerto Rico. Fundada en febrero de 2021.</p>
+        <p data-lang="en"><strong>Obras del País</strong> is a nonprofit recognized as a 501(c)(3) in the U.S. and under Section 1101.01 in Puerto Rico. Founded in February 2021.</p>
+      {{/if}}
+    </div>
+  </div>
+</section>
+
+<section class="section section--paper-warm">
+  <div class="wrap">
+    <span class="eyebrow" data-lang="es">Modelo</span>
+    <span class="eyebrow" data-lang="en">Model</span>
+    <h2 class="h2 mt-5" data-lang="es">Tres pilares</h2>
+    <h2 class="h2 mt-5" data-lang="en">Three pillars</h2>
+    <div class="pillar"><div class="pillar__no">01</div><div><h3 class="h3" data-lang="es">Producción</h3><h3 class="h3" data-lang="en">Production</h3><p class="prose mt-5" data-lang="es">Filmamos en el taller del artesano y en lugares clave de su comunidad — una oportunidad íntima para observar el proceso y aprender la trayectoria.</p><p class="prose mt-5" data-lang="en">We film at the artisan's workshop and in key community locations — an intimate opportunity to observe the process and learn the journey.</p></div></div>
+    <div class="pillar"><div class="pillar__no">02</div><div><h3 class="h3" data-lang="es">Publicación</h3><h3 class="h3" data-lang="en">Publishing</h3><p class="prose mt-5" data-lang="es">Cada producción es de acceso público y gratuito. Cada documental incluye un perfil digital del artesano con fotos e información de contacto.</p><p class="prose mt-5" data-lang="en">Every production is freely accessible. Each documentary is paired with a digital artisan profile including photographs and contact information.</p></div></div>
+    <div class="pillar"><div class="pillar__no">03</div><div><h3 class="h3" data-lang="es">Comunidad</h3><h3 class="h3" data-lang="en">Community</h3><p class="prose mt-5" data-lang="es">Colaboramos con educadores, líderes comunitarios e instituciones culturales — proyecciones, talleres, exhibiciones, conferencias, currículos. Desde el episodio 37, todos los nuevos documentales incluyen interpretación en lengua de señas puertorriqueña.</p><p class="prose mt-5" data-lang="en">We collaborate with educators, community leaders, and cultural institutions — screenings, workshops, exhibitions, lectures, classroom curricula. From episode 37, all new documentaries include Puerto Rican Sign Language interpretation.</p></div></div>
+  </div>
+</section>
+
+<section class="section section--dark">
+  <div class="wrap">
+    <p class="eyebrow">Equipo</p>
+    <h2 class="h2 mt-5" data-lang="es">Quienes hacen el trabajo</h2>
+    <h2 class="h2 mt-5" data-lang="en">Who does the work</h2>
+    <div class="grid grid--3 mt-6">
+      {{#get "authors" filter="visibility:public" limit="all" as |team|}}
+        {{#foreach team}}
+        <div>
+          <h3 class="h4">{{name}}</h3>
+          {{#if bio}}<p class="muted mt-5">{{bio}}</p>{{/if}}
+        </div>
+        {{else}}
+        <div>
+          <h3 class="h4">Isaak Gonzalo</h3>
+          <p class="script" style="font-size:1.6rem;color:var(--ochre-soft);line-height:1;margin-block:0.4rem;" data-lang="es">Director ejecutivo · cineasta</p>
+          <p class="script" style="font-size:1.6rem;color:var(--ochre-soft);line-height:1;margin-block:0.4rem;" data-lang="en">Executive director · filmmaker</p>
+          <p class="muted mt-5" data-lang="es">Co-fundador. Más de diez años en la intersección de las industrias creativas y la educación.</p>
+          <p class="muted mt-5" data-lang="en">Co-founder. Over ten years at the intersection of creative industries and education.</p>
+        </div>
+        <div><h3 class="h4">Lourdes Cortés</h3><p class="script" style="font-size:1.6rem;color:var(--ochre-soft);line-height:1;margin-block:0.4rem;" data-lang="es">Productora · editora · diseñadora</p><p class="script" style="font-size:1.6rem;color:var(--ochre-soft);line-height:1;margin-block:0.4rem;" data-lang="en">Producer · editor · designer</p><p class="muted mt-5" data-lang="es">B.B.A. en Bellas Artes con concentración en Artes Visuales. Se unió en 2021.</p><p class="muted mt-5" data-lang="en">B.F.A. Visual Arts. Joined the project in 2021.</p></div>
+        <div><h3 class="h4">Anisabel Torruella</h3><p class="script" style="font-size:1.6rem;color:var(--ochre-soft);line-height:1;margin-block:0.4rem;" data-lang="es">Co-fundadora</p><p class="script" style="font-size:1.6rem;color:var(--ochre-soft);line-height:1;margin-block:0.4rem;" data-lang="en">Co-founder</p></div>
+        {{/foreach}}
+      {{/get}}
+    </div>
+  </div>
+</section>
+
+{{> "closing-line"}}
+{{> "donate-cta"}}
