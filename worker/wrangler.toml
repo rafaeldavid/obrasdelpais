@@ -1,0 +1,23 @@
+name = "obras-del-pais-feedback"
+main = "feedback.js"
+compatibility_date = "2026-01-15"
+
+# Make the Worker available at https://feedback.obrasdelpais.workers.dev
+# (rename via the Cloudflare dashboard if you want a different subdomain)
+workers_dev = true
+
+[vars]
+GITHUB_REPO   = "rafaeldavid/obrasdelpais"
+CSV_PATH      = "data/feedback.csv"
+BRANCH        = "main"
+ALLOWED_ORIGINS = "https://obrasdelpais.info,https://steady-glacier-drz3.here.now,http://127.0.0.1:4747,http://localhost:4747"
+
+# Optional: bind a KV namespace for per-IP rate limiting.
+# Create with:  npx wrangler kv namespace create RATE_KV
+# Then uncomment + paste the id from the wrangler output:
+# [[kv_namespaces]]
+# binding = "RATE_KV"
+# id      = "..."
+
+# GITHUB_TOKEN is set as a secret (NOT in this file):
+#   npx wrangler secret put GITHUB_TOKEN

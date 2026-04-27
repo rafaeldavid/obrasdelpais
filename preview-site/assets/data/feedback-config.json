@@ -1,0 +1,4 @@
+{
+  "endpoint": "",
+  "_comment": "Set 'endpoint' to your deployed Cloudflare Worker URL (e.g. https://obras-del-pais-feedback.<subdomain>.workers.dev/feedback). Leave empty to disable the feedback button. See worker/README.md for deploy steps."
+}

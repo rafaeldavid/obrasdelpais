@@ -54,6 +54,25 @@ These are the items where I genuinely need a real-world value or a stakeholder c
 | 7 | **Curator tagging of the 711-image library** | The audit panel laid out 5 content categories (`hands-on-black`, `workshop-process`, `portrait-environmental`, `community-and-screenings`, `finished-piece-still-life`) but tagging is manual. | Walk through `archive-library/library/`, sort into folders by category. Then `images.json` can be enriched with a `category` field per file and the front-end can pick category-appropriate imagery automatically. |
 | 8 | **Real photography in dark sections** | Closing line and the homepage donate CTA still have very low-opacity backgrounds. The creative panel said the closing should stay near-black ("held breath"); user has hinted they want more imagery. | Decision: do we keep the creative panel's "held breath" rule or override it with full imagery? If override, swap the `mix-blend-mode:luminosity; opacity:0.18` to `opacity: 0.4` (still atmospheric, more visible). |
 
+### 🛠 Feedback button & Worker — frontend ready, Worker pending deploy
+
+A "Comentarios / Feedback" button is wired into every page (top-right pill, bottom-right on mobile). It opens a modal, posts the message + optional email + page + lang to a Cloudflare Worker. The Worker appends a row to `data/feedback.csv` in this repo via the GitHub Contents API.
+
+**Status**: front-end is shipped and live — but the button hides itself until `preview-site/assets/data/feedback-config.json` has a real `endpoint`. Currently empty, so the button is invisible. To enable:
+
+1. Deploy the Worker — see `worker/README.md` for the full runbook (3 commands once `wrangler` is installed).
+2. Paste the Worker URL into `preview-site/assets/data/feedback-config.json`:
+   ```json
+   { "endpoint": "https://obras-del-pais-feedback.YOUR-SUBDOMAIN.workers.dev/feedback" }
+   ```
+3. Re-publish: `~/.claude/skills/here-now/scripts/publish.sh . --slug steady-glacier-drz3 --client claude-code`.
+
+**Cost**: $0. Cloudflare Workers free tier (100k requests/day) is generous; one feedback per request.
+
+**Triage workflow**: each submission is a real commit with message `feedback: <first 60 chars>`. Watch with `git log --grep "^feedback:" --oneline`. Or open `data/feedback.csv` in any spreadsheet.
+
+**Privacy**: the modal discloses that messages are saved to a public GitHub repo. If feedback volume picks up and people start including PII, swap `GITHUB_REPO` in `worker/wrangler.toml` to a private companion repo (front-end stays unchanged), or migrate to GitHub Issues (~10 lines of Worker code).
+
 ### 🔮 Stretch — nice-to-haves the panel called out, not required
 
 - Hero rotation (12 candidates already in `curated.json`) — currently a single static image

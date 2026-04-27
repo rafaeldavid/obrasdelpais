@@ -92,6 +92,126 @@
   }
   observeReveal();
 
+  /* ---------- Feedback button + modal ---------- */
+  (async function initFeedback() {
+    let cfg;
+    try {
+      const r = await fetch("/assets/data/feedback-config.json", { cache: "no-cache" });
+      if (r.ok) cfg = await r.json();
+    } catch {}
+    const endpoint = (cfg && cfg.endpoint) || "";
+    if (!endpoint) {
+      // Worker not deployed yet — leave the button hidden so the page doesn't lie about working.
+      return;
+    }
+
+    const btn = document.createElement("button");
+    btn.className = "feedback-btn";
+    btn.type = "button";
+    btn.setAttribute("aria-label", "Send feedback");
+    btn.innerHTML = `<span data-lang="es">Comentarios</span><span data-lang="en">Feedback</span>`;
+    document.body.appendChild(btn);
+    // observe lang state on the new button
+    const currentLang = document.documentElement.dataset.lang || "es";
+    btn.querySelectorAll("[data-lang]").forEach(el => el.classList.toggle("is-active", el.dataset.lang === currentLang));
+
+    btn.addEventListener("click", () => openFeedbackModal(endpoint));
+  })();
+
+  function openFeedbackModal(endpoint) {
+    const lang = document.documentElement.dataset.lang || "es";
+    const t = (es, en) => (lang === "en" ? en : es);
+
+    const modal = document.createElement("div");
+    modal.className = "feedback-modal";
+    modal.setAttribute("role", "dialog");
+    modal.setAttribute("aria-modal", "true");
+    modal.innerHTML = `
+      <div class="feedback-modal__panel">
+        <button class="feedback-modal__close" aria-label="${t("Cerrar","Close")}">×</button>
+        <h2>${t("Comentarios","Feedback")}</h2>
+        <p class="muted">${t("Cuéntanos qué podemos mejorar — qué te gusta, qué no funciona, qué historia falta. Lo leemos todo.","Tell us what we can improve — what works, what doesn't, what's missing. We read every message.")}</p>
+        <form class="feedback-modal__form" novalidate>
+          <label>
+            ${t("Mensaje","Message")}
+            <textarea name="message" rows="5" required maxlength="4000" placeholder="${t("Escribe en español o inglés.","Write in Spanish or English.")}"></textarea>
+          </label>
+          <label>
+            ${t("Email (opcional)","Email (optional)")}
+            <input type="email" name="email" maxlength="200" placeholder="${t("Si quieres respuesta","If you'd like a reply")}">
+          </label>
+          <input class="feedback-modal__hp" type="text" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="feedback-modal__actions">
+            <button type="submit" class="btn btn--clay">${t("Enviar","Send")}</button>
+            <button type="button" class="btn btn--ghost feedback-modal__cancel">${t("Cancelar","Cancel")}</button>
+            <span class="feedback-modal__status" aria-live="polite"></span>
+          </div>
+        </form>
+        <p class="feedback-modal__disclosure">${t(
+          "Tu mensaje se guarda en nuestro repositorio público de GitHub para transparencia. No incluyas datos sensibles.",
+          "Your message is saved to our public GitHub repository for transparency. Please don't include sensitive personal info."
+        )}</p>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    document.body.style.overflow = "hidden";
+
+    function close() {
+      modal.remove();
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKey);
+    }
+    function onKey(e) { if (e.key === "Escape") close(); }
+    document.addEventListener("keydown", onKey);
+
+    modal.querySelector(".feedback-modal__close").addEventListener("click", close);
+    modal.querySelector(".feedback-modal__cancel").addEventListener("click", close);
+    modal.addEventListener("click", (e) => { if (e.target === modal) close(); });
+
+    setTimeout(() => modal.querySelector("textarea").focus(), 50);
+
+    const form = modal.querySelector("form");
+    const status = modal.querySelector(".feedback-modal__status");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const fd = new FormData(form);
+      const message = (fd.get("message") || "").toString().trim();
+      if (message.length < 2) {
+        status.className = "feedback-modal__status is-error";
+        status.textContent = t("Escribe un mensaje","Write a message");
+        return;
+      }
+      const submitBtn = form.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      status.className = "feedback-modal__status";
+      status.textContent = t("Enviando…","Sending…");
+      try {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            message,
+            email: (fd.get("email") || "").toString().trim(),
+            hp: (fd.get("hp") || "").toString(),
+            page: location.pathname + location.search,
+            lang,
+          }),
+        });
+        if (!res.ok) throw new Error(`${res.status}`);
+        status.className = "feedback-modal__status is-ok";
+        status.textContent = t("✓ Enviado, gracias","✓ Sent, thank you");
+        form.querySelector("textarea").value = "";
+        form.querySelector("input[type=email]").value = "";
+        setTimeout(close, 1400);
+      } catch (err) {
+        status.className = "feedback-modal__status is-error";
+        status.textContent = t("Error — intenta de nuevo","Error — try again");
+        submitBtn.disabled = false;
+        console.error("feedback submit:", err);
+      }
+    });
+  }
+
   /* ---------- Data loaders ---------- */
   async function loadJSON(path) {
     try {
