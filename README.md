@@ -1,195 +1,169 @@
 # Obras del País — Website Rebuild
 
-A complete redesign of obrasdelpais.com, delivered as **two parallel deliverables**:
+Editorial-style rebuild of [obrasdelpais.com](https://www.obrasdelpais.com/), a Puerto Rican 501(c)(3) that documents artisans through micro-documentaries.
 
-1. **`/preview-site/`** — a static HTML/CSS/JS preview that you can deploy to any static host (Vercel, Netlify, GitHub Pages, S3) to share the design before promoting it live.
-2. **`/obras-del-pais-theme/`** — the production Ghost(Pro) theme (`.zip`-ready). Same design, ported to Handlebars, ready to upload via **Settings → Design → Themes**.
+| Where | What |
+|---|---|
+| **Live preview** | https://steady-glacier-drz3.here.now/ |
+| **Source** | https://github.com/rafaeldavid/obrasdelpais (this repo) |
+| **Production target** | Existing Ghost(Pro) at obrasdelpais.com (theme upload, no DNS change yet) |
+| **Brand reference** | `Obras del Pais. The Beauty of Puerto Rican Folklore.pdf` (2026 brochure, in repo root) |
 
-Both share the same CSS, JS, JSON data, and design system — so changes propagate cleanly.
+The overarching goal is a redesign that **continues to support email newsletter signups and donations through the existing linked services** (PayPal hosted button, ATH Móvil, recurring "Padrino · Madrina" via PayPal, plus Ghost Members for newsletter). Nothing about that stack changes — we're rebuilding the surface, not the plumbing.
 
 ---
 
-## What was built
+## What's in this repo
 
-### Pages (parity with the current site)
+```
+preview-site/                 → static HTML/CSS/JS, deployed to here.now
+obras-del-pais-theme/         → production Ghost(Pro) theme (.zip-ready)
+archive-library/              → 711 raw images scraped from the live site
+                                (not published, kept for offline curation)
+scripts/                      → Python scrapers + sync utilities
+HANDOVER.md                   → detailed project state + pending work
+README.md                     → this file
+Obras del Pais...pdf          → brand brochure (visual + voice reference)
+```
 
-| URL | Static file | Ghost template | Notes |
+Both deliverables share the same `assets/css/style.css`, `assets/js/app.js`, and content JSON. Editing one and copying to the other keeps them aligned.
+
+---
+
+## Quick start
+
+### See it live
+```
+open https://steady-glacier-drz3.here.now/
+```
+
+### Run locally
+```bash
+cd preview-site && python3 -m http.server 4747
+# → http://127.0.0.1:4747/
+```
+
+### Re-publish the live preview after changes
+```bash
+cd preview-site
+~/.claude/skills/here-now/scripts/publish.sh . \
+  --slug steady-glacier-drz3 \
+  --client claude-code \
+  --title "Obras del País" \
+  --description "El folklore puertorriqueño en tus manos"
+```
+
+### Package the Ghost theme for upload
+```bash
+cd obras-del-pais-theme
+zip -rq ../obras-del-pais-theme.zip . -x ".DS_Store" -x "scripts/*"
+# upload obras-del-pais-theme.zip in Ghost admin → Settings → Design → Themes
+```
+
+### Refresh content from the live site (artisans + videos + images)
+```bash
+python3 scripts/extract-content.py     # 38 artisans + 38 video IDs + cover images
+python3 scripts/scrape-all-images.py   # 711 images + tagged manifest
+python3 scripts/use-cdn-urls.py        # Ghost CDN URLs into artisans.json + curated.json
+```
+
+---
+
+## Architecture
+
+### Pages (parity with the original site)
+
+| Path | Static file | Ghost template | Source of truth |
 |---|---|---|---|
-| `/` | `index.html` | `home.hbs` | Hero, three pillars, impact figures, latest docs, donate CTA |
-| `/documentales/` | `documentales.html` | `page-documentales.hbs` | Editorial bands, region filter, links out to YouTube |
-| `/directorio/` | `directorio.html` | `page-directorio.hbs` | All 38 artisans, filterable by craft + region |
-| `/artesano.html?slug=...` | `artesano.html` | (see Ghost notes) | Single artisan profile rendered from `artisans.json` |
-| `/quienes-somos/` | `quienes-somos.html` | `page-quienes-somos.hbs` | Mission, three-pillar model, team, board |
-| `/donar/` | `donar.html` | `page-donar.hbs` | Form-first, unit economics, Padrino tier, ATH Móvil, FAQ, repeat ask |
-| `/noticias/` | `noticias.html` | `index.hbs` | News & events listing |
-| `/lengua-de-senas/` | `lengua-de-senas.html` | `page-lengua-de-senas.hbs` | ASL accessibility manifesto + accessible documentaries |
-| `/preguntas-frecuentes/` | `preguntas-frecuentes.html` | `page-preguntas-frecuentes.hbs` | 13 PDF guides |
-| `/contactanos/` | `contactanos.html` | `page-contactanos.hbs` | Email, phone, social, quick form |
+| `/` | `index.html` | `home.hbs` | hardcoded copy + JS-rendered featured cards |
+| `/documentales/` | `documentales.html` | `page-documentales.hbs` | `videos.json` enriched live via YouTube oembed |
+| `/directorio/` | `directorio.html` | `page-directorio.hbs` | `artisans.json` (38 entries) |
+| `/artesano/` | `artesano.html?slug=...` | (Ghost: per-post pages) | `artisans.json` + `videos.json` |
+| `/quienes-somos/` | `quienes-somos.html` | `page-quienes-somos.hbs` | hardcoded copy |
+| `/donar/` | `donar.html` | `page-donar.hbs` | hardcoded copy + theme custom fields |
+| `/noticias/` | `noticias.html` | `index.hbs` | hardcoded cards (static) / Ghost posts (theme) |
+| `/lengua-de-senas/` | `lengua-de-senas.html` | `page-lengua-de-senas.hbs` | hardcoded |
+| `/preguntas-frecuentes/` | `preguntas-frecuentes.html` | `page-preguntas-frecuentes.hbs` | hardcoded grid + Ghost posts tagged `guia` |
+| `/contactanos/` | `contactanos.html` | `page-contactanos.hbs` | hardcoded |
 | `/404` | `404.html` | `error.hbs` | "Esta historia aún no se ha contado." |
+
+### Linked services (configured, not changed)
+
+| Service | What it powers | How it's wired |
+|---|---|---|
+| **PayPal hosted button** | One-time donations + Padrino monthly recurring | Hardcoded URL `https://www.paypal.com/donate/?hosted_button_id=97XWVQV6YQT6C&source=qr` in `donar.html`. Surfaces three rails (PayPal · Padrino · ATH Móvil) above the fold. In the Ghost theme the URL is a custom theme setting `paypal_donate_url`. |
+| **ATH Móvil** | Instant pay from Puerto Rico | Donate page tells the user to search "Obras del País" in the ATH Móvil business directory. Theme custom setting `ath_movil_business`. The exact handle/merchant ID is **TODO** (see HANDOVER §Pending). |
+| **Ghost Members (newsletter)** | Email signups + member-only access | Forms use `data-members-form="subscribe"` which Ghost's bundled JS wires automatically when the theme is uploaded. On the static preview the same forms render but no-op (see HANDOVER §Pending). |
+| **YouTube** | Documentary playback | Documentaries page calls `youtube.com/oembed` at runtime to pull live titles + thumbnails (no API key, CORS-allowed, cached 24h in localStorage). Each card links out to `youtube.com/watch?v=...`. |
+| **Ghost CMS image CDN** | All photography | `storage.ghost.io/c/0b/21/0b211f14-.../content/images/...` — already public. The static preview references these URLs directly so we don't ship 211MB to here.now. |
 
 ### Design system
 
-- **Colors**: true black `#000`, paper `#f5f1ea`, ochre `#8b7c54`, slate `#4a6d75`, clay `#a8442a`, gold `#c9a55c`.
-- **Type**: Cormorant Garamond (display serif), Inter (body), Caveat (handwritten script), IBM Plex Mono (UI labels).
-- **Restraint as brand**: single hero (no carousel), Spanish-first, editorial documentary bands (no YouTube grid clone), donate CTA earns its place after the closing line.
-
-### Interactivity (`assets/js/app.js`)
-
-- Language toggle (ES default / EN secondary) — persists to localStorage, no flash on navigation
-- Mobile nav drawer
-- Header condense on scroll
-- Reveal-on-scroll
-- Documentaries page renders bands from `videos.json` + `artisans.json` (with placeholders if videos haven't been synced yet)
-- Directory page renders cards + craft/region filters from `artisans.json`
-- Single artisan page renders dynamically from a `?slug=` query
-
-### Data files (`assets/data/`)
-
-- **`artisans.json`** — pre-populated with all 38 documented artisans (name, craft ES/EN, slug, region, place, ASL flag).
-- **`videos.json`** — empty until you run the sync script (see below).
+- **Colors** — true black `#000`, paper `#f5f1ea`, ochre `#8b7c54`, slate `#4a6d75`, clay `#a8442a`, gold `#c9a55c`. All as CSS custom properties at the top of `assets/css/style.css`.
+- **Type** — Cormorant Garamond (display serif), Inter (body), Caveat (handwritten script for emotional accents), IBM Plex Mono (UI labels).
+- **Voice** — Spanish-canonical with EN toggle (top-right pill). Bilingual blocks via `data-lang="es|en"` attributes; JS toggles visibility.
+- **Behavior** — single hero (no carousel), editorial documentary index linked out to YouTube (no embeds), donate CTA earns its placement after the closing line.
 
 ---
 
-## Deployment
-
-### A) Static preview — Vercel
-
-```bash
-cd preview-site
-npx vercel --prod
-```
-
-The included `vercel.json` handles redirects from old Ghost URLs (`/donar/` → `/donar`, etc.), trailing slashes, and clean URLs.
-
-Alternatively: drag the `preview-site/` folder into the Netlify deploy UI, or any static host. There are no build steps — it's vanilla HTML/CSS/JS.
-
-### B) Production Ghost theme
-
-1. Sync the YouTube catalog (one-time, repeat when new docs publish):
-   ```bash
-   cd obras-del-pais-theme
-   YOUTUBE_API_KEY=AIza... node scripts/sync-videos.js
-   ```
-   This writes `assets/data/videos.json` with all uploads, matched against `artisans.json` by slug/name. (See `scripts/sync-videos.js` header for how to get a free API key.)
-2. Zip the theme:
-   ```bash
-   cd obras-del-pais-theme && zip -r ../obras-del-pais-theme.zip . -x ".DS_Store" -x "scripts/*"
-   ```
-3. In Ghost admin → **Settings → Design → Themes → Upload theme** → select the `.zip` → activate.
-4. In Ghost admin → **Pages**, create pages with the following slugs (the theme auto-applies the matching template):
-   - `donar`, `documentales`, `directorio`, `quienes-somos`, `contactanos`, `lengua-de-senas`, `preguntas-frecuentes`
-5. Set the homepage: in Ghost admin → **Settings → Design → Brand**, upload a hero image (true black background, hands-on-craft preferred). The theme custom field `homepage_hero_image` accepts it.
-
-### Theme customization (Ghost admin → Design → Customize)
-
-| Setting | Default | Purpose |
-|---|---|---|
-| `homepage_hero_image` | _(empty)_ | Full-bleed hero portrait. If empty, a generative placeholder renders. |
-| `youtube_channel_handle` | `@obrasdelpais` | Used for fallback "watch on YouTube" links. |
-| `ath_movil_business` | `Obras del País` | Business name shown for ATH Móvil instructions. |
-| `paypal_donate_url` | `https://www.paypal.com/donate/?hosted_button_id=97XWVQV6YQT6C&source=qr` | Hosted PayPal button URL. |
-| `ein_visible` | `false` | Toggle public display of the 501(c)(3) EIN. |
-| `ein_value` | _(empty)_ | EIN to display when `ein_visible` is on. |
-
-### URL redirects from the old Ghost site
-
-The Ghost admin has a built-in **Redirects** editor (Labs → Redirects). Upload this minimal `redirects.json` after going live:
-
-```json
-[
-  { "from": "/contacto", "to": "/contactanos" },
-  { "from": "/accesibilidad-en-lengua-de-senas", "to": "/lengua-de-senas" },
-  { "from": "/noticias-y-eventos", "to": "/noticias" },
-  { "from": "/directorio-de-artesanos", "to": "/directorio" }
-]
-```
-
----
-
-## How to navigate this codebase as a future agent / dev
+## File conventions
 
 ```
-preview-site/                       # static HTML/CSS preview (Vercel-ready)
-├── index.html                      # homepage
-├── documentales.html               # YouTube preview gallery
-├── directorio.html                 # artisan directory
-├── artesano.html                   # single artisan (rendered from JSON)
-├── quienes-somos.html              # about
-├── donar.html                      # donate
-├── contactanos.html                # contact
-├── noticias.html                   # news listing
-├── lengua-de-senas.html            # accessibility
-├── preguntas-frecuentes.html       # FAQ + PDF guides
+preview-site/
+├── index.html                    # homepage (split hero with right-side donate CTA)
+├── documentales.html             # search + filter + live YouTube metadata
+├── directorio.html               # 38 artisans, filterable
+├── artesano.html                 # JS-rendered profile from artisans.json
+├── quienes-somos.html            # mission · pillars · impact · testimonials · artisan voices
+├── donar.html                    # form-first hero, three payment rails, Padrino tier, FAQ
+├── noticias.html                 # 9 cards from real obrasdelpais.com posts
+├── lengua-de-senas.html          # ASL accessibility manifesto
+├── preguntas-frecuentes.html     # 13 PDF guides
+├── contactanos.html              # email + phone + form
 ├── 404.html
-├── vercel.json                     # redirects, clean URLs
+├── vercel.json                   # legacy redirects (still useful)
 ├── sitemap.xml, robots.txt
-├── scripts/sync-videos.js          # YouTube catalog sync
+├── scripts/sync-videos.js        # YouTube Data API sync (alternative to oembed at runtime)
 └── assets/
-    ├── css/style.css               # ENTIRE design system (one file)
-    ├── js/app.js                   # ENTIRE runtime (i18n, nav, render)
-    ├── img/logo.svg
+    ├── css/style.css             # entire design system (one file)
+    ├── js/app.js                 # entire runtime (i18n, nav, render, YouTube oembed cache)
+    ├── img/
+    │   ├── logo-icon-512.png     # tree-and-island brand mark (PNG)
+    │   ├── logo-black.png        # full logotype
+    │   ├── favicon-256.png, favicon-64.png
+    │   └── artisans/             # 38 cover images (also referenced via Ghost CDN)
     └── data/
-        ├── artisans.json           # 38 artisans
-        └── videos.json             # populated by sync script
-
-obras-del-pais-theme/               # Ghost theme (.zip target)
-├── package.json                    # Ghost theme metadata + custom fields
-├── routes.yaml                     # Spanish-canonical routing
-├── default.hbs                     # base layout
-├── home.hbs                        # homepage
-├── index.hbs                       # collection (e.g. /noticias/)
-├── post.hbs                        # single post (news article)
-├── page.hbs                        # default page
-├── page-{slug}.hbs                 # one per curated page (auto-applied by slug)
-├── tag.hbs                         # tag archive
-├── author.hbs                      # author archive
-├── error.hbs                       # 404 / 500
-├── partials/
-│   ├── header.hbs, footer.hbs      # site chrome
-│   ├── doc-band.hbs                # editorial documentary band
-│   ├── closing-line.hbs            # the held-breath section
-│   ├── donate-cta.hbs              # CTA block
-│   └── newsletter.hbs              # signup
-├── locales/
-│   ├── es.json                     # Spanish (canonical)
-│   └── en.json                     # English
-└── assets/                         # mirror of preview-site/assets
+        ├── artisans.json         # 38 entries: name, craft (es/en), slug, region,
+        │                         #            videoId, image_cdn, description, asl flag
+        ├── videos.json           # 38 videos with title/description/place/region/videoId
+        ├── images.json           # 711-image manifest (filename → src + tags)
+        └── curated.json          # hero rotation, team picks, event candidates
 ```
 
 **Editing rules of thumb:**
-- Style tokens live at the top of `assets/css/style.css` under `:root`. Touch only those when adjusting brand color/type.
-- New page on the static site? Copy `quienes-somos.html` as a template; it has the standard header/footer/scripts wiring.
-- New page on Ghost? Create it in admin with a slug, then add `page-{slug}.hbs` to the theme.
-- New artisan? Append to `assets/data/artisans.json` — both sites pick it up immediately (after sync for the Ghost theme).
-- New documentary on YouTube? Re-run `scripts/sync-videos.js`; the matching is fuzzy on artisan name/slug.
+- Color or type tweak? Touch only the `:root` block at the top of `style.css`.
+- New page (static)? Copy `quienes-somos.html` as a template — it has the standard header/footer/script wiring.
+- New page (Ghost)? Create a page in admin with the slug, add `page-{slug}.hbs` to the theme.
+- New artisan? Append to `assets/data/artisans.json`. Both sites pick it up immediately.
+- New documentary on YouTube? Re-run `scripts/extract-content.py` (or rely on the runtime oembed if it's already in `videos.json`).
 
 ---
 
-## What the agent panel told us (synthesized)
+## Picking up where we left off
 
-> **Restraint is the brand.** Obras del País is not competing with content platforms — it's competing with forgetting. Every decision should slow the visitor down: single hero over carousel, Spanish-first over toggle parity, editorial index over thumbnail grid, curated rotation over algorithmic sort. Black is not a background — it's a held breath. Donate CTA earns its placement by arriving *after* the closing line, not before.
->
-> **Donate page conversion:** form-first above the fold, unit economics ($10/$25/$50), social proof bar, named "Padrino · Madrina del Oficio" tier ($15/mo, monthly preselected), one 60-second artisan story, FAQ with EIN visible, repeat form in footer. Three payment rails as equal tap-targets.
->
-> **Bilingual on Ghost:** Spanish canonical, English secondary. Theme strings auto-translate via locale files; long-form content (posts/pages) gets a `#en` tag and lives at `/en/{slug}/`.
->
-> **YouTube videos:** committed `videos.json` regenerated by a Node script via the YouTube Data API. Beats RSS (15-cap) and beats client-side API keys (rate-limit risk).
+Read **`HANDOVER.md`** for the full state of the project, including:
+- Decision log
+- Pending integrations (newsletter wiring, ATH Móvil handle, EIN, Ghost theme upload)
+- Open questions
+- Common operations (re-publish, refresh content, add a news post)
+- The agent-panel directives that drove the design
 
-Full panel transcripts available on request.
-
----
-
-## Known gaps / handover items
-
-- **YouTube channel ID + video catalog**: not retrievable from this environment (Google blocks the channel page behind a consent wall). Run `node scripts/sync-videos.js` locally with `YOUTUBE_API_KEY` to populate `videos.json`. Until then, the Documentales page renders a graceful placeholder grid driven from `artisans.json`.
-- **Real artisan photography**: I used CSS-only placeholder treatments on artisan card photos and the hero. Drop real images into `assets/img/artisans/{slug}.jpg` (or upload via Ghost) and the cards will pick them up. The brochure `Obras del Pais. The Beauty of Puerto Rican Folklore.pdf` shows the iconic "hands-on-black" portraiture style — keep that direction.
-- **EIN**: not in the public materials. Set `ein_value` + `ein_visible: true` in the Ghost custom theme settings once confirmed.
-- **ATH Móvil business handle**: confirm the exact searchable name on the donate page.
-- **Newsletter wiring**: the form posts to `#`. On Ghost, the `data-members-form="subscribe"` attribute connects it to Ghost Members automatically. On the static preview, wire to your existing newsletter provider.
-- **Sign Language Access**: the page is structured but lists only the two known ASL-interpreted documentaries (#37 Milly, #38 Rafael & Rosa). Update the catalog as more episodes get interpreted.
+This README is the on-ramp; HANDOVER is the field manual.
 
 ---
 
 ## Credits
 
-Design direction informed by the Obras del País 2026 brochure and a multi-persona panel (artisan, photographer, videographer, master artisan, storyteller, patron, engineer, fundraiser). Reference: [nationofartisans.com](https://www.nationofartisans.com/).
+Design direction informed by the [Obras del País 2026 brochure](Obras%20del%20Pais.%20The%20Beauty%20of%20Puerto%20Rican%20Folklore.pdf) and a multi-persona advisory panel (artisan, photographer, videographer, master artisan, storyteller, patron, engineer, fundraiser). Reference: [nationofartisans.com](https://www.nationofartisans.com/).
+
+Built collaboratively with Claude Code (Anthropic) over an extended session in April 2026 — see `git log` for the play-by-play.
