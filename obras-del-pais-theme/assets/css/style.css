@@ -629,10 +629,56 @@ h5, .h5 { font-family: var(--font-body); font-size: var(--fs-md); font-weight: 6
   letter-spacing: -0.01em;
 }
 .doc-band__byline {
-  font-family: var(--font-script);
-  font-size: 1.6rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--fs-md);
   color: var(--slate);
-  line-height: 1.1;
+  line-height: 1.25;
+  margin: 0;
+}
+.doc-band__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+}
+.doc-band__chip {
+  display: inline-block;
+  padding: 0.25rem 0.55rem;
+  background: var(--paper-warm);
+  border: 1px solid var(--line-on-paper);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ochre-deep);
+}
+.doc-band__chip--region { color: var(--slate-deep); }
+.doc-band__chip--asl {
+  color: var(--paper);
+  background: var(--clay);
+  border-color: var(--clay);
+}
+.doc-band__craft-line {
+  font-size: var(--fs-sm);
+  color: rgba(26, 24, 21, 0.78);
+  margin: 0.2rem 0 0;
+}
+.doc-band__craft-line strong {
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: var(--fs-xs);
+  color: var(--ochre);
+  margin-right: 0.4rem;
+}
+.doc-band__cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 0.4rem;
 }
 .doc-band__where {
   font-size: var(--fs-xs);
@@ -1060,6 +1106,31 @@ h5, .h5 { font-family: var(--font-body); font-size: var(--fs-md); font-weight: 6
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--ochre-soft);
+}
+
+/* Documentales filter panel */
+.doc-filters {
+  display: grid;
+  gap: var(--s-5);
+}
+.doc-filters__search input {
+  width: 100%;
+  margin-top: 0.6rem;
+  font-size: var(--fs-md);
+  background: var(--paper);
+}
+.doc-filters__search input::placeholder {
+  color: rgba(26, 24, 21, 0.45);
+  font-family: var(--font-display);
+  font-style: italic;
+}
+.doc-filters__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+  border-top: 1px solid var(--line-on-paper);
+  padding-top: var(--s-4);
 }
 
 /* Map silhouette button */

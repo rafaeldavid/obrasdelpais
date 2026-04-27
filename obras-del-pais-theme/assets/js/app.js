@@ -107,61 +107,114 @@
   /* ---------- Documentales page ---------- */
   const docList = document.querySelector("[data-docs-list]");
   if (docList) {
+    docList.innerHTML = `<div class="muted" style="padding:2rem 0;font-family:var(--font-mono);font-size:var(--fs-xs);letter-spacing:0.18em;text-transform:uppercase;opacity:0.6;">Cargando desde YouTube · loading from YouTube…</div>`;
     Promise.all([loadJSON("/assets/data/videos.json"), loadJSON("/assets/data/artisans.json")])
-      .then(([videos, artisans]) => {
+      .then(async ([videos, artisans]) => {
         const idx = (artisans || []).reduce((m, a) => (m[a.slug] = a, m), {});
         const items = (videos && videos.videos && videos.videos.length)
           ? videos.videos
           : (artisans || []).slice().reverse().map((a) => ({
-              n: a.n,
-              title_es: a.craft_es + " · " + a.name,
-              title_en: a.craft_en + " — " + a.name,
-              videoId: null,
-              slug: a.slug,
-              place_es: a.place_es,
-              region_es: a.region_es
+              n: a.n, title_es: a.craft_es + " · " + a.name, title_en: a.craft_en + " — " + a.name,
+              videoId: null, slug: a.slug, place_es: a.place_es, region_es: a.region_es,
             }));
-        docList.innerHTML = items.map((v) => bandHTML(v, idx[v.slug] || {})).join("");
+
+        // Enrich items with live YouTube metadata via oembed (no API key needed)
+        const enriched = await Promise.all(items.map(async (v) => {
+          if (!v.videoId) return v;
+          const meta = await fetchYouTubeMeta(v.videoId);
+          if (meta) {
+            // Spanish title comes live from YouTube (channel is Spanish-primary).
+            // Keep our English title from local data so the EN toggle still translates.
+            return { ...v, title_es: meta.title || v.title_es,
+                     yt_author: meta.author_name, yt_thumb: meta.thumbnail_url };
+          }
+          return v;
+        }));
+
+        docList.innerHTML = enriched.map((v) => bandHTML(v, idx[v.slug] || {})).join("");
         observeReveal(docList);
-        // Hook filter pills
-        wireFilters(items);
+        wireFilters(enriched, idx);
       });
+  }
+
+  /* YouTube oembed: returns { title, author_name, thumbnail_url } or null */
+  const YT_CACHE_KEY = "od:yt-meta:v1";
+  const YT_CACHE_TTL = 24 * 60 * 60 * 1000; // 24h
+  function readYtCache() {
+    try { return JSON.parse(localStorage.getItem(YT_CACHE_KEY) || "{}"); } catch { return {}; }
+  }
+  function writeYtCache(c) {
+    try { localStorage.setItem(YT_CACHE_KEY, JSON.stringify(c)); } catch {}
+  }
+  async function fetchYouTubeMeta(videoId) {
+    const cache = readYtCache();
+    const hit = cache[videoId];
+    if (hit && Date.now() - hit.ts < YT_CACHE_TTL) return hit.data;
+    try {
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 4000);
+      const r = await fetch(
+        `https://www.youtube.com/oembed?url=${encodeURIComponent("https://www.youtube.com/watch?v=" + videoId)}&format=json`,
+        { signal: ctrl.signal, mode: "cors" }
+      );
+      clearTimeout(timer);
+      if (!r.ok) throw new Error(r.status);
+      const data = await r.json();
+      cache[videoId] = { ts: Date.now(), data };
+      writeYtCache(cache);
+      return data;
+    } catch (err) {
+      console.warn("YouTube oembed failed for", videoId, err && err.message);
+      return null;
+    }
   }
   function bandHTML(v, a) {
     const title = v.title_es || (a.craft_es + " · " + a.name);
     const titleEn = v.title_en || (a.craft_en + " — " + a.name);
-    const place = v.place_es || a.place_es || a.region_es || "";
+    const place = v.place_es || a.place_es || "";
+    const region = v.region_es || a.region_es || "";
     const vid = v.videoId || a.videoId;
     const youtubeUrl = vid ? `https://www.youtube.com/watch?v=${vid}` : `https://www.youtube.com/@obrasdelpais/search?query=${encodeURIComponent(a.name || title)}`;
-    const thumb = a.image_cdn || a.image || (vid ? `https://i.ytimg.com/vi/${vid}/maxresdefault.jpg` : null);
+    const thumb = (vid ? `https://i.ytimg.com/vi/${vid}/maxresdefault.jpg` : null) || a.image_cdn || a.image;
+    const desc = v.description || a.description || "";
+    const hay = [a.name, a.craft_es, a.craft_en, place, region, title, titleEn, desc].filter(Boolean).join(" ").toLowerCase();
+    const ytLabel = vid ? "Ver en YouTube ↗" : "Buscar en YouTube ↗";
+    const where = [place, region].filter(Boolean).join(" · ");
     return `
-    <article class="doc-band reveal" data-region="${(a.region_es||'').toLowerCase()}" data-craft="${slugCraft(a.craft_es||'')}">
-      <a class="doc-band__media" href="${youtubeUrl}" target="_blank" rel="noopener" aria-label="Ver en YouTube">
-        ${thumb ? `<img src="${thumb}" alt="" loading="lazy">` : `<div class="ph"></div>`}
-        <span class="play-pill">Ver en YouTube ↗</span>
+    <article class="doc-band reveal"
+      data-region="${region.toLowerCase()}"
+      data-craft="${escapeHTML(simpleCraft(a.craft_es))}"
+      data-search="${escapeHTML(hay)}"
+      data-asl="${a.asl ? '1' : '0'}">
+      <a class="doc-band__media" href="${youtubeUrl}" target="_blank" rel="noopener" aria-label="${ytLabel}">
+        ${thumb ? `<img src="${thumb}" alt="" loading="lazy" onerror="this.onerror=null;this.src='${a.image_cdn || a.image || ''}';">` : `<div class="ph"></div>`}
+        <span class="play-pill">${ytLabel}</span>
+        ${a.asl ? `<span class="play-pill" style="left:auto;right:var(--s-3);background:var(--clay);">🤟 LSPR</span>` : ""}
       </a>
       <div class="doc-band__meta">
-        <span class="doc-band__no">Doc · ${String(v.n).padStart(2,"0")}</span>
+        <div class="doc-band__chips">
+          <span class="doc-band__no">Doc · ${String(v.n).padStart(2,"0")}</span>
+          <span class="doc-band__chip">${escapeHTML(simpleCraft(a.craft_es))}</span>
+          ${region ? `<span class="doc-band__chip doc-band__chip--region">${escapeHTML(region)}</span>` : ""}
+          ${a.asl ? `<span class="doc-band__chip doc-band__chip--asl">LSPR</span>` : ""}
+        </div>
         <h3 class="doc-band__title" data-lang="es">${escapeHTML(title)}</h3>
         <h3 class="doc-band__title" data-lang="en">${escapeHTML(titleEn)}</h3>
-        <span class="doc-band__byline">${escapeHTML(a.name || "")}</span>
-        ${place ? `<span class="doc-band__where">${escapeHTML(place)}</span>` : ""}
-        <p class="doc-band__logline" data-lang="es">${escapeHTML(loglineES(a))}</p>
-        <p class="doc-band__logline" data-lang="en">${escapeHTML(loglineEN(a))}</p>
-        <a class="link-inline doc-band__cta" href="${youtubeUrl}" target="_blank" rel="noopener">
-          <span data-lang="es">Ver el documental en YouTube ↗</span>
-          <span data-lang="en">Watch on YouTube ↗</span>
-        </a>
+        <p class="doc-band__byline">${escapeHTML(a.name || "")}${where ? ` · <span class="doc-band__where" style="display:inline;">${escapeHTML(where)}</span>` : ""}</p>
+        ${desc ? `<p class="doc-band__logline">${escapeHTML(desc)}</p>` : ""}
+        <p class="doc-band__craft-line" data-lang="es"><strong>Oficio:</strong> ${escapeHTML(a.craft_es || "—")}</p>
+        <p class="doc-band__craft-line" data-lang="en"><strong>Craft:</strong> ${escapeHTML(a.craft_en || "—")}</p>
+        <div class="doc-band__cta-row">
+          <a class="btn btn--clay" href="${youtubeUrl}" target="_blank" rel="noopener">
+            <span data-lang="es">${vid ? "Ver el documental" : "Buscar en YouTube"}</span>
+            <span data-lang="en">${vid ? "Watch the film" : "Search YouTube"}</span> ↗
+          </a>
+          <a class="link-inline" href="/artesano.html?slug=${encodeURIComponent(a.slug)}">
+            <span data-lang="es">Perfil del artesano</span><span data-lang="en">Artisan profile</span> →
+          </a>
+        </div>
       </div>
     </article>`;
-  }
-  function loglineES(a) {
-    if (!a || !a.craft_es) return "Una historia documentada por Obras del País.";
-    return `Un retrato íntimo del oficio: ${a.craft_es.toLowerCase()}.`;
-  }
-  function loglineEN(a) {
-    if (!a || !a.craft_en) return "A story documented by Obras del País.";
-    return `An intimate portrait of the craft: ${a.craft_en.toLowerCase()}.`;
   }
   function slugCraft(s) {
     return s.toLowerCase().replace(/[^a-z]/g, "").slice(0, 18);
@@ -169,27 +222,78 @@
   function escapeHTML(s) {
     return String(s).replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
   }
-  function wireFilters(items) {
-    const region = document.querySelector("[data-filter-region]");
-    const craft = document.querySelector("[data-filter-craft]");
+  function wireFilters(items, idx) {
+    idx = idx || {};
+    const search = document.querySelector("[data-doc-search]");
+    const counter = document.querySelector("[data-doc-counter]");
+    const state = { search: "", region: "", craft: "", asl: false };
+
     function apply() {
-      const r = (region?.value || "").toLowerCase();
-      const c = craft?.value || "";
+      let visible = 0;
       docList.querySelectorAll(".doc-band").forEach((band) => {
-        const okR = !r || band.dataset.region === r;
-        const okC = !c || band.dataset.craft === c;
-        band.style.display = (okR && okC) ? "" : "none";
+        const okR = !state.region || band.dataset.region === state.region;
+        const okC = !state.craft || band.dataset.craft === state.craft;
+        const okA = !state.asl || band.dataset.asl === "1";
+        const okS = !state.search || (band.dataset.search || "").includes(state.search);
+        const ok = okR && okC && okA && okS;
+        band.style.display = ok ? "" : "none";
+        if (ok) visible++;
+      });
+      if (counter) counter.textContent = visible === items.length ? `${items.length}` : `${visible} / ${items.length}`;
+    }
+
+    if (search) {
+      search.addEventListener("input", (e) => {
+        state.search = e.target.value.trim().toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+        apply();
       });
     }
-    region?.addEventListener("change", apply);
-    craft?.addEventListener("change", apply);
     document.querySelectorAll("[data-region-pill]").forEach((p) => {
       p.addEventListener("click", () => {
-        const v = p.dataset.regionPill;
+        state.region = p.dataset.regionPill || "";
         document.querySelectorAll("[data-region-pill]").forEach(x => x.setAttribute("aria-pressed", x === p ? "true" : "false"));
-        if (region) { region.value = v; apply(); }
+        apply();
       });
     });
+    document.querySelectorAll("[data-craft-pill]").forEach((p) => {
+      p.addEventListener("click", () => {
+        state.craft = state.craft === p.dataset.craftPill ? "" : p.dataset.craftPill;
+        document.querySelectorAll("[data-craft-pill]").forEach(x => x.setAttribute("aria-pressed", x.dataset.craftPill === state.craft ? "true" : "false"));
+        apply();
+      });
+    });
+    const aslBtn = document.querySelector("[data-asl-toggle]");
+    if (aslBtn) {
+      aslBtn.addEventListener("click", () => {
+        state.asl = !state.asl;
+        aslBtn.setAttribute("aria-pressed", state.asl ? "true" : "false");
+        apply();
+      });
+    }
+    const clearBtn = document.querySelector("[data-clear-doc-filters]");
+    if (clearBtn) {
+      clearBtn.addEventListener("click", () => {
+        state.search = ""; state.region = ""; state.craft = ""; state.asl = false;
+        if (search) search.value = "";
+        document.querySelectorAll("[data-region-pill],[data-craft-pill],[data-asl-toggle]").forEach(x => x.setAttribute("aria-pressed", x.dataset.regionPill === "" ? "true" : "false"));
+        apply();
+      });
+    }
+    // initial render: pre-build craft pill counts from real artisan crafts
+    const craftRail = document.querySelector("[data-craft-pill-rail]");
+    if (craftRail) {
+      const counts = {};
+      items.forEach(v => {
+        const a = idx[v.slug] || {};
+        const k = simpleCraft(a.craft_es);
+        counts[k] = (counts[k] || 0) + 1;
+      });
+      craftRail.innerHTML = `<button class="region-pill" data-craft-pill="" aria-pressed="true">Todos los oficios</button>` +
+        Object.entries(counts).sort((a,b) => b[1]-a[1]).map(([k,n]) =>
+          `<button class="region-pill" data-craft-pill="${escapeHTML(k)}" aria-pressed="false">${escapeHTML(k)} <span style="opacity:0.6;">· ${n}</span></button>`
+        ).join("");
+    }
+    apply();
   }
 
   /* ---------- Directory page ---------- */
