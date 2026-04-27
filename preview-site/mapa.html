@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="es" data-title-es="Mapa del archivo — Obras del País" data-title-en="Map of the archive — Obras del País">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mapa del archivo — Obras del País</title>
+  <meta name="description" content="Mapa interactivo de Puerto Rico. Pasa el cursor sobre un municipio para ver los artesanos documentados que viven y trabajan ahí.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&family=Caveat:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="icon" type="image/png" sizes="256x256" href="/assets/img/favicon-256.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="/assets/img/favicon-64.png">
+  <link rel="apple-touch-icon" sizes="256x256" href="/assets/img/favicon-256.png">
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/"><span class="brand__mark"><img src="/assets/img/logo-icon-512.png" alt="" width="36" height="36" style="filter:invert(1);"></span><span class="brand__name">Obras del País</span></a>
+  <nav class="nav nav__panel">
+    <ul class="nav__list">
+      <li><a href="/mapa.html" aria-current="page"><span data-lang="es">Mapa</span><span data-lang="en">Map</span></a></li>
+      <li><a href="/documentales.html"><span data-lang="es">Documentales</span><span data-lang="en">Documentaries</span></a></li>
+      <li><a href="/directorio.html"><span data-lang="es">Directorio</span><span data-lang="en">Directory</span></a></li>
+      <li><a href="/quienes-somos.html"><span data-lang="es">Quiénes somos</span><span data-lang="en">About</span></a></li>
+      <li><a href="/donar.html"><span data-lang="es">Donar</span><span data-lang="en">Donate</span></a></li>
+    </ul>
+    <div class="lang-toggle"><button class="lang-toggle__opt" data-lang-toggle="es" aria-pressed="true">ES</button><span class="lang-toggle__sep">·</span><button class="lang-toggle__opt" data-lang-toggle="en" aria-pressed="false">EN</button></div>
+  </nav>
+  <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+</header>
+
+<section class="page-intro"><img class="page-intro__bg-img" src="https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w2400/2025/04/DSC_5711.00_02_57_13.Still001-2.jpg" alt="" loading="lazy" style="object-position: center 40%;">
+  <div class="page-intro__wrap">
+    <span class="page-intro__crumb" data-lang="es">El archivo, mapeado</span>
+    <span class="page-intro__crumb" data-lang="en">The archive, mapped</span>
+    <h1 class="page-intro__title" data-lang="es">Una isla,<br><em style="font-style:italic;color:var(--ochre-soft);">cuarenta historias.</em></h1>
+    <h1 class="page-intro__title" data-lang="en">One island,<br><em style="font-style:italic;color:var(--ochre-soft);">forty stories.</em></h1>
+    <p class="page-intro__lede" data-lang="es">Cada municipio en color es uno donde hemos documentado al menos un artesano. Pasa el cursor para conocer quién trabaja ahí — o tócalos en el celular.</p>
+    <p class="page-intro__lede" data-lang="en">Every coloured municipio is one where we've documented at least one artisan. Hover to see who works there — or tap on mobile.</p>
+  </div>
+</section>
+
+<!-- Map summary -->
+<section class="section section--paper-warm section--tight">
+  <div class="wrap">
+    <div class="map-stats">
+      <div><span class="map-stats__num" data-stat-munis>27</span><span class="map-stats__lbl" data-lang="es">Municipios documentados</span><span class="map-stats__lbl" data-lang="en">Municipios documented</span></div>
+      <div><span class="map-stats__num">/ 78</span><span class="map-stats__lbl" data-lang="es">Total en Puerto Rico</span><span class="map-stats__lbl" data-lang="en">Total in Puerto Rico</span></div>
+      <div><span class="map-stats__num" data-stat-artisans>38</span><span class="map-stats__lbl" data-lang="es">Artesanos en el archivo</span><span class="map-stats__lbl" data-lang="en">Artisans in the archive</span></div>
+      <div><span class="map-stats__num">100</span><span class="map-stats__lbl" data-lang="es">La meta</span><span class="map-stats__lbl" data-lang="en">The goal</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- Interactive map -->
+<section class="section">
+  <div class="wrap map-wrap">
+    <div class="map-stage">
+      <div class="map-svg" data-map-svg aria-label="Mapa de Puerto Rico" role="img"></div>
+      <div class="map-tooltip" data-map-tooltip hidden></div>
+    </div>
+
+    <aside class="map-detail" data-map-detail>
+      <p class="eyebrow" data-lang="es">Pasa el cursor sobre un municipio</p>
+      <p class="eyebrow" data-lang="en">Hover over a municipio</p>
+      <h2 class="h3 mt-5" data-lang="es">o explora la lista completa abajo.</h2>
+      <h2 class="h3 mt-5" data-lang="en">or explore the full list below.</h2>
+      <p class="muted mt-5" data-lang="es">El mapa destaca los 27 municipios donde vive al menos un artesano del archivo. Los grises todavía esperan a su documental.</p>
+      <p class="muted mt-5" data-lang="en">The map highlights the 27 municipios where at least one archived artisan lives. The grey ones are still waiting for their documentary.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- Accessible / no-JS list of all munis with artisans -->
+<section class="section section--paper-warm">
+  <div class="wrap">
+    <span class="eyebrow" data-lang="es">Lista completa por municipio</span>
+    <span class="eyebrow" data-lang="en">Full list by municipio</span>
+    <h2 class="h2 mt-5" data-lang="es">Todo el archivo, ordenado por pueblo</h2>
+    <h2 class="h2 mt-5" data-lang="en">The whole archive, by town</h2>
+    <div class="grid grid--3 mt-6" data-muni-list></div>
+  </div>
+</section>
+
+<section class="closing">
+  <p class="closing__line">Hay historias que, si no las contamos, se perderán para siempre.</p>
+  <p class="closing__attr">Obras del País</p>
+</section>
+
+<section class="donate-cta" style="position:relative;overflow:hidden;">
+  <img src="https://storage.ghost.io/c/0b/21/0b211f14-b12e-4e21-b608-435a1df6692c/content/images/size/w1600/2022/06/DSC_9889edit2logo.jpg" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.22;mix-blend-mode:luminosity;pointer-events:none;">
+  <div style="position:relative;z-index:1;">
+    <h2 class="donate-cta__title" data-lang="es">62 oficios. 51 pueblos. Faltando.</h2>
+    <h2 class="donate-cta__title" data-lang="en">62 crafts. 51 towns. Still waiting.</h2>
+    <p class="donate-cta__subtitle" data-lang="es">Más del 90% de los artesanos documentados reportan más ventas, encargos y reconocimiento. Tu apoyo decide quiénes llegan a tiempo.</p>
+    <p class="donate-cta__subtitle" data-lang="en">More than 90% of documented artisans report increased sales, commissions, and recognition. Your support decides who gets there in time.</p>
+    <div class="donate-cta__row">
+      <a class="btn btn--clay btn--lg" href="https://www.paypal.com/donate/?hosted_button_id=97XWVQV6YQT6C&amount=15&currency_code=USD&source=qr" target="_blank" rel="noopener"><span data-lang="es">Apadrina un oficio · $15/mes</span><span data-lang="en">Sponsor a craft · $15/mo</span> ↗</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="site-footer__legal"><span>© 2026 Obras del País, Inc.</span><span><a href="mailto:hola@obrasdelpais.com">hola@obrasdelpais.com</a></span></div>
+</footer>
+
+<script src="/assets/js/app.js" defer></script>
+<script src="/assets/js/map.js" defer></script>
+</body>
+</html>

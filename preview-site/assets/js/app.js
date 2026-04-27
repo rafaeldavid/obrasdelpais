@@ -90,6 +90,7 @@
       if (io) io.observe(el); else el.classList.add("is-in");
     });
   }
+  window.observeReveal = observeReveal;
   observeReveal();
 
   /* ---------- Feedback button + modal ---------- */
