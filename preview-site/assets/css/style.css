@@ -541,30 +541,23 @@ h5, .h5 { font-family: var(--font-body); font-size: var(--fs-md); font-weight: 6
 
 .scroll-cue {
   position: absolute;
-  left: var(--gutter);
-  bottom: var(--s-6);
+  left: 50%;
+  bottom: var(--s-5);
+  transform: translateX(-50%);
   z-index: 2;
-  font-family: var(--font-mono);
-  font-size: var(--fs-xs);
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
+  justify-content: center;
   color: var(--paper);
-  opacity: 0.65;
+  pointer-events: none;
 }
-.scroll-cue::before {
-  content: "";
-  display: inline-block;
-  width: 32px;
-  height: 1px;
-  background: currentColor;
-  animation: pulse 2.4s var(--ease) infinite;
+.scroll-cue svg {
+  display: block;
+  animation: scroll-bob 2.4s var(--ease) infinite;
 }
-@keyframes pulse {
-  0%, 100% { transform: scaleX(0.3); transform-origin: left; opacity: 0.3; }
-  50% { transform: scaleX(1); opacity: 0.8; }
+@keyframes scroll-bob {
+  0%, 100% { transform: translateY(0); opacity: 0.35; }
+  50% { transform: translateY(6px); opacity: 0.9; }
 }
 
 /* Placeholder hero (no image) — paint with type and color */
